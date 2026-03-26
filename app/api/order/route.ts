@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
     if (orderType === "contact") {
       await resend.emails.send({
-        from: "orders@cookieandme.nz",
+       from: "onboarding@resend.dev",
         to: "cookieandme.nz@gmail.com",
         subject: `New Cookie & Me enquiry: ${subject}`,
         html: `
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 
     if (orderType === "giftbox") {
       await resend.emails.send({
-        from: "orders@cookieandme.nz",
+        from: "onboarding@resend.dev",
         to: "cookieandme.nz@gmail.com",
         subject: `New Gift Box Order from ${name}`,
         html: `
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 
     if (orderType === "custom") {
       await resend.emails.send({
-        from: "orders@cookieandme.nz",
+        from: "onboarding@resend.dev",
         to: "cookieandme.nz@gmail.com",
         subject: `New Custom Cookie Order from ${name}`,
         html: `
