@@ -3,6 +3,7 @@
 import GiftBoxSection from "@/components/GiftBoxSection";
 import CustomCookieSection from "@/components/CustomCookieSection";
 import ContactSection from "@/components/ContactSection";
+import GallerySection from "@/components/GallerySection";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
@@ -14,6 +15,7 @@ export default function Home() {
       <Hero />
       <GiftBoxSection />
       <CustomCookieSection />
+      <GallerySection />
       <ContactSection />
       <Footer />
     </main>

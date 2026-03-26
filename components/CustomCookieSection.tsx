@@ -1,7 +1,7 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 
-const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
+const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spice"];
 
 function getPriceEach(qty: number): number {
   if (qty < 12) return 0;
@@ -36,6 +36,13 @@ const labelStyle: React.CSSProperties = {
   marginBottom: 6,
 };
 
+function formatDateForInput(date: Date) {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export default function CustomCookieSection() {
   const [quantity, setQuantity] = useState<string>("50");
   const [flavour, setFlavour] = useState("");
@@ -43,6 +50,7 @@ export default function CustomCookieSection() {
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [designBrief, setDesignBrief] = useState("");
+  const [latestNeededDate, setLatestNeededDate] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -56,12 +64,19 @@ export default function CustomCookieSection() {
   const priceEach = validQty ? getPriceEach(validQty) : 0;
   const subtotal = validQty * priceEach;
 
+  const minDate = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 14);
+    return formatDateForInput(d);
+  }, []);
+
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
     if (file && ["image/png", "image/jpeg", "image/svg+xml"].includes(file.type)) {
       setLogoFile(file);
+      setError("");
     } else {
       setError("Please upload a PNG, JPG, or SVG file.");
     }
@@ -69,31 +84,38 @@ export default function CustomCookieSection() {
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setLogoFile(file);
+    if (file) {
+      setLogoFile(file);
+      setError("");
+    }
   };
 
   const handleSubmit = async () => {
     setError("");
-    if (!flavour || !name || !email || !phone) {
+
+    if (!flavour || !latestNeededDate || !name || !email || !phone) {
       setError("Please fill in all required fields.");
       return;
     }
+
     if (qty < 12) {
       setError("Minimum order is 12 cookies.");
       return;
     }
+
+    if (latestNeededDate < minDate) {
+      setError("Please choose a date at least 2 weeks from today.");
+      return;
+    }
+
     setLoading(true);
+
     try {
-      // Upload logo to a public URL if provided
-      // For now we send the file name; in production you'd upload to Vercel Blob / S3 first
       let logoUrl = "";
       if (logoFile) {
-        // Placeholder: in production, upload the file and get a URL
-        // e.g. using Vercel Blob: const { url } = await put(logoFile.name, logoFile, { access: 'public' });
-        logoUrl = `[Logo: ${logoFile.name} — upload to Vercel Blob or S3 in production]`;
+        logoUrl = `[Logo uploaded: ${logoFile.name} - replace with Blob upload URL later]`;
       }
 
-      // 1. Notification email
       await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -105,6 +127,7 @@ export default function CustomCookieSection() {
           colour,
           logoUrl,
           designBrief,
+          latestNeededDate,
           name,
           email,
           phone,
@@ -114,7 +137,6 @@ export default function CustomCookieSection() {
         }),
       });
 
-      // 2. Stripe checkout
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -126,7 +148,9 @@ export default function CustomCookieSection() {
           description: `Custom Logo Cookies × ${qty} (${flavour})`,
         }),
       });
+
       const data = await res.json();
+
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -147,8 +171,7 @@ export default function CustomCookieSection() {
         padding: "72px 24px",
       }}
     >
-      <div style={{ maxWidth: 860, margin: "0 auto" }}>
-        {/* Header */}
+      <div style={{ maxWidth: 980, margin: "0 auto" }}>
         <div style={{ marginBottom: 40, textAlign: "center" }}>
           <span
             style={{
@@ -174,8 +197,8 @@ export default function CustomCookieSection() {
           >
             Custom Logo Cookies
           </h2>
-          <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: 16 }}>
-            Your brand, your flavour, your moment. Minimum order: 12.
+          <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, fontSize: 16 }}>
+            Perfect for events, launches, weddings, gifting, and branded moments.
           </p>
         </div>
 
@@ -187,7 +210,6 @@ export default function CustomCookieSection() {
             boxShadow: "0 16px 64px rgba(0,0,0,0.25)",
           }}
         >
-          {/* Quantity + live price */}
           <div style={{ marginBottom: 32 }}>
             <label style={labelStyle}>Quantity</label>
             <input
@@ -205,13 +227,13 @@ export default function CustomCookieSection() {
                 color: "#00205B",
               }}
             />
+
             {qty > 0 && qty < 12 && (
               <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 13, marginTop: 6 }}>
                 Minimum order is 12 cookies.
               </p>
             )}
 
-            {/* Live price engine */}
             {validQty >= 12 && (
               <div
                 style={{
@@ -223,9 +245,7 @@ export default function CustomCookieSection() {
                   display: "inline-block",
                 }}
               >
-                <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>
-                  Quantity: {validQty}
-                </span>
+                <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>Quantity: {validQty}</span>
                 <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>
                 <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>
                   Price: ${priceEach.toFixed(2)} each
@@ -238,20 +258,31 @@ export default function CustomCookieSection() {
             )}
           </div>
 
-          {/* Customiser grid */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
             <div>
               <label style={labelStyle}>Flavour</label>
-              <select
-                value={flavour}
-                onChange={(e) => setFlavour(e.target.value)}
-                style={inputStyle}
-              >
+              <select value={flavour} onChange={(e) => setFlavour(e.target.value)} style={inputStyle}>
                 <option value="">Select a flavour…</option>
                 {FLAVOURS.map((f) => (
-                  <option key={f} value={f}>{f}</option>
+                  <option key={f} value={f}>
+                    {f}
+                  </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label style={labelStyle}>When do you need them by? *</label>
+              <input
+                type="date"
+                min={minDate}
+                value={latestNeededDate}
+                onChange={(e) => setLatestNeededDate(e.target.value)}
+                style={inputStyle}
+              />
+              <p style={{ fontSize: 12, color: "#777", fontWeight: 600, marginTop: 6 }}>
+                Orders must be placed at least 2 weeks in advance.
+              </p>
             </div>
 
             <div>
@@ -274,16 +305,29 @@ export default function CustomCookieSection() {
                 <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>{colour}</span>
               </div>
               <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 6, lineHeight: 1.4 }}>
-                <em>Fondant colours may vary slightly from screen. We will confirm the closest match when we contact you.</em>
+                <em>Fondant colours may vary slightly from screen. We’ll confirm the closest match with you.</em>
               </p>
             </div>
 
-            {/* File upload */}
+            <div>
+              <label style={labelStyle}>Company Name</label>
+              <input
+                type="text"
+                placeholder="Acme Co. (optional)"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Logo File (PNG, JPG, or SVG)</label>
               <div
                 onClick={() => fileInputRef.current?.click()}
-                onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDragging(true);
+                }}
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
                 style={{
@@ -312,6 +356,7 @@ export default function CustomCookieSection() {
                   </div>
                 )}
               </div>
+
               <input
                 ref={fileInputRef}
                 type="file"
@@ -321,36 +366,38 @@ export default function CustomCookieSection() {
               />
             </div>
 
-            {/* Design brief */}
             <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Design Brief</label>
               <textarea
                 value={designBrief}
                 onChange={(e) => setDesignBrief(e.target.value)}
-                placeholder="Describe your vision — colours, text, special requests…"
+                placeholder="Describe your vision — colours, text, event, special requests…"
                 rows={4}
                 style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
               />
             </div>
           </div>
 
-          {/* Personal info */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 8 }}>
             <div>
               <label style={labelStyle}>Your Name *</label>
-              <input type="text" placeholder="Jane Smith" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Smith" style={inputStyle} />
             </div>
+
             <div>
               <label style={labelStyle}>Email *</label>
-              <input type="email" placeholder="jane@example.com" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" style={inputStyle} />
             </div>
-            <div>
+
+            <div style={{ gridColumn: "1 / -1" }}>
               <label style={labelStyle}>Phone *</label>
-              <input type="tel" placeholder="+64 21 000 0000" value={phone} onChange={(e) => setPhone(e.target.value)} style={inputStyle} />
-            </div>
-            <div>
-              <label style={labelStyle}>Company Name</label>
-              <input type="text" placeholder="Acme Co. (optional)" value={companyName} onChange={(e) => setCompanyName(e.target.value)} style={inputStyle} />
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="+64 21 000 0000"
+                style={{ ...inputStyle, maxWidth: 320 }}
+              />
             </div>
           </div>
 
@@ -373,17 +420,6 @@ export default function CustomCookieSection() {
               borderRadius: 50,
               border: "none",
               cursor: loading ? "not-allowed" : "pointer",
-              transition: "background 0.2s, transform 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              if (!loading) {
-                e.currentTarget.style.backgroundColor = "#a03a20";
-                e.currentTarget.style.transform = "scale(1.01)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = loading ? "#aaa" : "#C04B2B";
-              e.currentTarget.style.transform = "scale(1)";
             }}
           >
             {loading
