@@ -59,9 +59,9 @@ export default function Hero() {
             lineHeight: 1.15,
           }}
         >
-          Baking Moments,
+          Designed With
           <br />
-          Stamping Memories.
+          Good Taste.
         </h1>
 
         <p
