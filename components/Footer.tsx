@@ -24,40 +24,21 @@ export default function Footer() {
         }}
       >
         <div>
-          <p
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontWeight: 900,
-              fontSize: 24,
-              marginBottom: 8,
-            }}
-          >
-            Cookie & Me
+          <p style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 24, marginBottom: 8 }}>
+            Cookie {"&"} Me
           </p>
           <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 14, maxWidth: 280, marginBottom: 20 }}>
             Handcrafted, custom-designed cookies delivered from Lower Hutt, New Zealand.
           </p>
-
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            
-              href="tel:0211757181"
-              style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}
-            >
-              📞 021 175 7181
+            <a href="tel:0211757181" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
+              {"📞"} 021 175 7181
             </a>
-            
-              href="mailto:cookieandme.nz@gmail.com"
-              style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}
-            >
-              ✉️ cookieandme.nz@gmail.com
+            <a href="mailto:cookieandme.nz@gmail.com" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
+              {"✉️"} cookieandme.nz@gmail.com
             </a>
-            
-              href="https://instagram.com/cookieandme_nz"
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}
-            >
-              📸 @cookieandme_nz
+            <a href="https://instagram.com/cookieandme_nz" target="_blank" rel="noreferrer" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
+              {"📸"} @cookieandme_nz
             </a>
           </div>
         </div>
@@ -69,16 +50,7 @@ export default function Footer() {
             { label: "Custom Cookies", href: "#custom" },
             { label: "Contact", href: "#footer" },
           ].map((item) => (
-            
-              key={item.label}
-              href={item.href}
-              style={{
-                color: "rgba(255,255,255,0.7)",
-                textDecoration: "none",
-                fontWeight: 700,
-                fontSize: 14,
-              }}
-            >
+            <a key={item.label} href={item.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
               {item.label}
             </a>
           ))}
@@ -99,7 +71,7 @@ export default function Footer() {
         }}
       >
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, fontWeight: 600 }}>
-          © {year} Cookie & Me. All rights reserved.
+          © {year} Cookie {"&"} Me. All rights reserved.
         </p>
         <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, fontWeight: 600 }}>
           Lower Hutt, New Zealand

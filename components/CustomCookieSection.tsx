@@ -55,7 +55,11 @@ export default function CustomCookieSection() {
   const pack = PACKS.find((p) => p.size === selectedPack)!;
   const total = pack.price;
 
-  const slides = useMemo(() => [`${selectedPack} pack of ${theme}`, `${selectedPack} pack gift box`, `${theme} cookie close-up`], [selectedPack, theme]);
+  const slides = useMemo(() => [
+    `${selectedPack} pack of ${theme}`,
+    `${selectedPack} pack gift box`,
+    `${theme} cookie close-up`,
+  ], [selectedPack, theme]);
 
   useEffect(() => { setActiveSlide(0); }, [selectedPack, theme]);
   useEffect(() => {
@@ -81,20 +85,50 @@ export default function CustomCookieSection() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderType: "giftbox", name, email, phone, packSize: selectedPack, theme, flavour, addCard, cardMessage: addCard ? cardMessage.trim() : "", latestNeededDate: neededDate, subtotal: total, description: `Cookie & Me ${selectedPack} Pack – ${theme} – ${flavour}` }),
+        body: JSON.stringify({
+          orderType: "giftbox",
+          name,
+          email,
+          phone,
+          packSize: selectedPack,
+          theme,
+          flavour,
+          addCard,
+          cardMessage: addCard ? cardMessage.trim() : "",
+          latestNeededDate: neededDate,
+          subtotal: total,
+          description: `Cookie & Me ${selectedPack} Pack - ${theme} - ${flavour}`,
+        }),
       });
       const data = await res.json();
-      if (data.url) { window.location.href = data.url; }
-      else { setError(data.error || "Something went wrong. Please try again."); }
-    } catch { setError("Something went wrong. Please try again."); }
-    finally { setLoading(false); }
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const arrowStyle = (side: "left" | "right"): React.CSSProperties => ({
-    position: "absolute", [side]: 12, top: "50%", transform: "translateY(-50%)",
-    opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none",
-    background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38,
-    borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900,
+    position: "absolute",
+    [side]: 12,
+    top: "50%",
+    transform: "translateY(-50%)",
+    opacity: hovered ? 1 : 0,
+    transition: "opacity 0.2s",
+    border: "none",
+    background: "rgba(255,255,255,0.9)",
+    color: "#00205B",
+    width: 38,
+    height: 38,
+    borderRadius: 999,
+    cursor: "pointer",
+    fontSize: 18,
+    fontWeight: 900,
   });
 
   return (
@@ -102,13 +136,19 @@ export default function CustomCookieSection() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
           <div>
-            <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>Your design, your brand, your moment</span>
-            <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>Custom Cookies</h2>
-            <p style={{ color: "#666", fontWeight: 600, marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>Choose a theme, pick your flavour, and add a handwritten card if you'd like. We'll deliver it ready to gift.</p>
+            <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
+              Your design, your brand, your moment
+            </span>
+            <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>
+              Custom Cookies
+            </h2>
+            <p style={{ color: "#666", fontWeight: 600, marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>
+              Choose a theme, pick your flavour, and add a handwritten card if you would like. We will deliver it ready to gift.
+            </p>
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
               <PlaceholderSlide text={slides[activeSlide]} />
-              <button type="button" onClick={prev} style={arrowStyle("left")}>‹</button>
-              <button type="button" onClick={next} style={arrowStyle("right")}>›</button>
+              <button type="button" onClick={prev} style={arrowStyle("left")}>{"‹"}</button>
+              <button type="button" onClick={next} style={arrowStyle("right")}>{"›"}</button>
             </div>
           </div>
 
@@ -118,7 +158,8 @@ export default function CustomCookieSection() {
                 {PACKS.map((p) => {
                   const isSelected = selectedPack === p.size;
                   return (
-                    <button key={p.size} type="button" onClick={() => setSelectedPack(p.size)} style={{ border: isSelected ? "2.5px solid #9B8EC4" : "2px solid #E0DCF0", borderRadius: 18, padding: "24px 16px", cursor: "pointer", backgroundColor: isSelected ? "#F3F0FC" : "#fff", textAlign: "center" }}>
+                    <button key={p.size} type="button" onClick={() => setSelectedPack(p.size)}
+                      style={{ border: isSelected ? "2.5px solid #9B8EC4" : "2px solid #E0DCF0", borderRadius: 18, padding: "24px 16px", cursor: "pointer", backgroundColor: isSelected ? "#F3F0FC" : "#fff", textAlign: "center" }}>
                       <div style={{ fontWeight: 900, fontSize: 22, color: "#00205B" }}>{p.label}</div>
                       <div style={{ fontWeight: 700, fontSize: 20, color: "#C04B2B", margin: "6px 0 4px" }}>${p.price.toFixed(2)}</div>
                       <div style={{ color: "#888", fontSize: 13, fontWeight: 600 }}>{p.sub}</div>
@@ -137,14 +178,23 @@ export default function CustomCookieSection() {
                 <div>
                   <label style={labelStyle}>Flavour</label>
                   <select value={flavour} onChange={(e) => setFlavour(e.target.value)} style={inputStyle}>
-                    <option value="">Select a flavour…</option>
+                    <option value="">Select a flavour...</option>
                     {FLAVOURS.map((f) => <option key={f} value={f}>{f}</option>)}
                   </select>
                 </div>
                 <div style={{ gridColumn: "1 / -1" }}>
                   <label style={labelStyle}>Date Needed By</label>
-                  <input type="date" value={neededDate} min={getMinDate()} onChange={(e) => setNeededDate(e.target.value)} onKeyDown={(e) => e.preventDefault()} style={inputStyle} />
-                  <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 6 }}>Orders must be placed at least 1 week in advance.</p>
+                  <input
+                    type="date"
+                    value={neededDate}
+                    min={getMinDate()}
+                    onChange={(e) => setNeededDate(e.target.value)}
+                    onKeyDown={(e) => e.preventDefault()}
+                    style={inputStyle}
+                  />
+                  <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 6 }}>
+                    Orders must be placed at least 1 week in advance.
+                  </p>
                 </div>
                 <div style={{ gridColumn: "1 / -1" }}>
                   <label style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, color: "#00205B", cursor: "pointer", marginBottom: 8 }}>
@@ -153,16 +203,50 @@ export default function CustomCookieSection() {
                   </label>
                   {addCard && (
                     <>
-                      <textarea value={cardMessage} onChange={(e) => setCardMessage(e.target.value.slice(0, 200))} rows={4} placeholder="Write your message here... we'll handwrite this and include it with your order." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }} />
+                      <textarea value={cardMessage} onChange={(e) => setCardMessage(e.target.value.slice(0, 200))} rows={4} placeholder="Write your message here... we will handwrite this and include it with your order." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }} />
                       <p style={{ fontSize: 12, color: "#777", fontWeight: 600, marginTop: 6 }}>Short messages work best. {cardMessage.length}/200</p>
                     </>
                   )}
                 </div>
-                <div><label style={labelStyle}>Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} /></div>
-                <div><label style={labelStyle}>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} /></div>
-                <div style={{ gridColumn: "1 / -1" }}><label style={labelStyle}>Phone</label><input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} /></div>
+                <div>
+                  <label style={labelStyle}>Your Name</label>
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} />
+                </div>
+                <div>
+                  <label style={labelStyle}>Email</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
+                </div>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={labelStyle}>Phone</label>
+                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} />
+                </div>
               </div>
             </div>
 
             {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14, marginTop: 12 }}>{error}</p>}
-            <button onClick={handleSubmit} disabled={loading} style={{ marginTop: 20, width: "100%", backgroundColor: loading ? "#aaa" : "#C04B2B", color: "
+
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              style={{
+                marginTop: 20,
+                width: "100%",
+                backgroundColor: loading ? "#aaa" : "#C04B2B",
+                color: "#fff",
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: 900,
+                fontSize: 18,
+                padding: "18px 0",
+                borderRadius: 50,
+                border: "none",
+                cursor: loading ? "not-allowed" : "pointer",
+              }}
+            >
+              {loading ? "Processing..." : `Pay $${total.toFixed(2)} NZD`}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
