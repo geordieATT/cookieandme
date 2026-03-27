@@ -42,6 +42,153 @@ const labelStyle: React.CSSProperties = {
   fontWeight: 700, fontSize: 14, color: "#00205B", display: "block", marginBottom: 6,
 };
 
+function CustomSelect({ value, onChange, options, placeholder }: {
+  value: string; onChange: (v: string) => void; options: string[]; placeholder: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
+
+  return (
+    <div ref={ref} style={{ position: "relative", width: "100%" }}>
+      <div
+        onClick={() => setOpen(!open)}
+        style={{
+          padding: "12px 16px", border: `2px solid ${open ? "#9B8EC4" : "#E0DCF0"}`,
+          borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600,
+          fontSize: 15, color: value ? "#00205B" : "#aaa", backgroundColor: "#fff",
+          cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center",
+          userSelect: "none",
+        }}
+      >
+        <span>{value || placeholder}</span>
+        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0 }}>
+          <path d="M1 1l5 5 5-5" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
+        </svg>
+      </div>
+      {open && (
+        <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, backgroundColor: "#fff", border: "2px solid #E0DCF0", borderRadius: 12, boxShadow: "0 8px 24px rgba(0,32,91,0.10)", zIndex: 50, overflow: "hidden" }}>
+          {options.map((opt) => (
+            <div
+              key={opt}
+              onClick={() => { onChange(opt); setOpen(false); }}
+              style={{ padding: "12px 16px", fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B", cursor: "pointer", backgroundColor: value === opt ? "#F3F0FC" : "#fff" }}
+              onMouseEnter={(e) => { if (value !== opt) (e.currentTarget as HTMLDivElement).style.backgroundColor = "#FAF8FF"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.backgroundColor = value === opt ? "#F3F0FC" : "#fff"; }}
+            >
+              {opt}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ColourPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  return (
+    <div
+      onClick={() => inputRef.current?.click()}
+      style={{
+        display: "flex", alignItems: "center", gap: 12, padding: "10px 16px",
+        border: "2px solid #E0DCF0", borderRadius: 12, backgroundColor: "#fff",
+        cursor: "pointer", width: "100%",
+      }}
+    >
+      <div style={{
+        width: 28, height: 28, borderRadius: 8, backgroundColor: value,
+        border: "2px solid #E0DCF0", flexShrink: 0,
+      }} />
+      <span style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B" }}>
+        {value.toUpperCase()}
+      </span>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ marginLeft: "auto", flexShrink: 0 }}>
+        <path d="M1 1l5 5 5-5" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
+      </svg>
+      <input
+        ref={inputRef}
+        type="color"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{ position: "absolute", opacity: 0, width: 0, height: 0, pointerEvents: "none" }}
+      />
+    </div>
+  );
+}
+
+function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: File | null) => void }) {
+  const [dragging, setDragging] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const dropped = e.dataTransfer.files[0];
+    if (dropped) onChange(dropped);
+  };
+
+  return (
+    <div
+      onClick={() => inputRef.current?.click()}
+      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={handleDrop}
+      style={{
+        border: `2px dashed ${dragging ? "#9B8EC4" : "#CFC8E7"}`,
+        borderRadius: 12, backgroundColor: dragging ? "#F3F0FC" : "#FAF9F7",
+        padding: "24px 16px", textAlign: "center", cursor: "pointer",
+        transition: "all 0.2s",
+      }}
+    >
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".png,.jpg,.jpeg,.svg"
+        onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+        style={{ display: "none" }}
+      />
+      {file ? (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+          <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#9B8EC4", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+              <path d="M14 2v6h6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </div>
+          <div style={{ textAlign: "left" }}>
+            <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14 }}>{file.name}</p>
+            <p style={{ fontWeight: 600, color: "#9B8EC4", fontSize: 12 }}>{(file.size / 1024).toFixed(0)} KB</p>
+          </div>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onChange(null); }}
+            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: 18, fontWeight: 700 }}
+          >
+            x
+          </button>
+        </div>
+      ) : (
+        <>
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style={{ margin: "0 auto 8px" }}>
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
+            <path d="M17 8l-5-5-5 5M12 3v12" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14, marginBottom: 4 }}>Drag and drop your logo here</p>
+          <p style={{ fontWeight: 600, color: "#aaa", fontSize: 12 }}>or click to browse — PNG, JPG, SVG</p>
+        </>
+      )}
+    </div>
+  );
+}
+
 const SLIDES = [
   "Custom logo cookies",
   "Wedding monogram set",
@@ -114,8 +261,7 @@ export default function CustomCookieSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           orderType: "custom", name, email, phone,
-          quantity: qty, priceEach,
-          subtotal: deposit,
+          quantity: qty, priceEach, subtotal: deposit,
           colour, companyName, logoUrl, designBrief,
           latestNeededDate: neededDate,
           description: `Custom Cookies x${qty} - 50% deposit (full order $${subtotal.toFixed(2)})`,
@@ -136,7 +282,6 @@ export default function CustomCookieSection() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
 
-          {/* Left */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <div>
               <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
@@ -156,7 +301,6 @@ export default function CustomCookieSection() {
               <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
             </div>
 
-            {/* Order steps */}
             <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
               <p style={{ fontWeight: 900, color: "#00205B", fontSize: 15, marginBottom: 16 }}>What to expect</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -175,18 +319,13 @@ export default function CustomCookieSection() {
             </div>
           </div>
 
-          {/* Right — form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-
             <div>
               <label style={labelStyle}>Quantity</label>
               <input
-                type="number"
-                min={12}
-                value={quantity}
+                type="number" min={12} value={quantity}
                 onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))}
-                placeholder="Min. 12 cookies"
-                style={inputStyle}
+                placeholder="Min. 12 cookies" style={inputStyle}
               />
               {qty > 0 && qty < 12 && (
                 <p style={{ fontSize: 12, color: "#C04B2B", fontWeight: 700, marginTop: 6 }}>Minimum order is 12 cookies.</p>
@@ -203,23 +342,34 @@ export default function CustomCookieSection() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div>
                 <label style={labelStyle}>Flavour</label>
-                <select value={flavour} onChange={(e) => setFlavour(e.target.value)} style={inputStyle}>
-                  <option value="">Select a flavour...</option>
-                  {FLAVOURS.map((f) => <option key={f} value={f}>{f}</option>)}
-                </select>
+                <CustomSelect value={flavour} onChange={setFlavour} options={FLAVOURS} placeholder="Select a flavour..." />
               </div>
               <div>
                 <label style={labelStyle}>Date Needed By</label>
-                <input
-                  ref={dateRef}
-                  type="date"
-                  value={neededDate}
-                  min={getMinDate()}
-                  onChange={(e) => setNeededDate(e.target.value)}
-                  onKeyDown={(e) => e.preventDefault()}
+                <div
                   onClick={() => dateRef.current?.showPicker?.()}
-                  style={{ ...inputStyle, cursor: "pointer" }}
-                />
+                  style={{ position: "relative", cursor: "pointer" }}
+                >
+                  <input
+                    ref={dateRef}
+                    type="date"
+                    value={neededDate}
+                    min={getMinDate()}
+                    onChange={(e) => setNeededDate(e.target.value)}
+                    onKeyDown={(e) => e.preventDefault()}
+                    style={{
+                      ...inputStyle,
+                      cursor: "pointer",
+                      color: neededDate ? "#00205B" : "#aaa",
+                      appearance: "none" as const,
+                      paddingRight: 40,
+                    }}
+                  />
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
+                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="#9B8EC4" strokeWidth="2" />
+                    <path d="M3 9h18M8 2v4M16 2v4" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                </div>
                 <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>Min. 1 week lead time.</p>
               </div>
             </div>
@@ -227,10 +377,7 @@ export default function CustomCookieSection() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div>
                 <label style={labelStyle}>Fondant Colour</label>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <input type="color" value={colour} onChange={(e) => setColour(e.target.value)} style={{ width: 44, height: 44, border: "2px solid #E0DCF0", borderRadius: 10, cursor: "pointer", padding: 2 }} />
-                  <span style={{ fontWeight: 600, color: "#555", fontSize: 14 }}>{colour.toUpperCase()}</span>
-                </div>
+                <ColourPicker value={colour} onChange={setColour} />
                 <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>Colours may vary. We will confirm the closest match.</p>
               </div>
               <div>
@@ -240,8 +387,8 @@ export default function CustomCookieSection() {
             </div>
 
             <div>
-              <label style={labelStyle}>Logo File (PNG, JPG, or SVG)</label>
-              <input type="file" accept=".png,.jpg,.jpeg,.svg" onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)} style={{ ...inputStyle, padding: "10px 14px", cursor: "pointer" }} />
+              <label style={labelStyle}>Logo File</label>
+              <FileDropZone file={logoFile} onChange={setLogoFile} />
               <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>No file yet? Describe your design in the brief below.</p>
             </div>
 
@@ -271,8 +418,7 @@ export default function CustomCookieSection() {
             )}
 
             <button
-              onClick={handleSubmit}
-              disabled={loading || !priceEach}
+              onClick={handleSubmit} disabled={loading || !priceEach}
               style={{ width: "100%", backgroundColor: loading || !priceEach ? "#aaa" : "#C04B2B", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach ? "not-allowed" : "pointer" }}
             >
               {loading ? "Processing..." : deposit > 0 ? `Pay 50% Deposit — $${deposit.toFixed(2)} NZD` : "Enter quantity to continue"}
