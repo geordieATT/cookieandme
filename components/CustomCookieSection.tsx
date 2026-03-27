@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spice"];
+const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
 
 const PRICE_TIERS = [
   { min: 500, price: 4.0 },
@@ -11,6 +11,14 @@ const PRICE_TIERS = [
   { min: 50, price: 5.5 },
   { min: 24, price: 5.8 },
   { min: 12, price: 6.25 },
+];
+
+const ORDER_STEPS = [
+  { n: "1", title: "Submit your order", body: "Fill in your design, colour, flavour, quantity, and date needed." },
+  { n: "2", title: "Pay your 50% deposit", body: "Secure your order with a 50% deposit via Stripe." },
+  { n: "3", title: "We confirm your order", body: "We will contact you to confirm the design and arrange delivery or pickup." },
+  { n: "4", title: "We get to work", body: "We create your custom stamp, bake, and package your cookies." },
+  { n: "5", title: "Delivery or pickup", body: "Your cookies arrive ready to gift, present, or enjoy." },
 ];
 
 function getPriceEach(qty: number): number | null {
@@ -44,7 +52,7 @@ const SLIDES = [
 
 function PlaceholderSlide({ text }: { text: string }) {
   return (
-    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 420, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 360, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
       <div>
         <div style={{ width: 72, height: 72, borderRadius: 18, border: "2px dashed #B7AED9", margin: "0 auto 18px" }} />
         <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 18 }}>{text}</p>
@@ -63,12 +71,12 @@ export default function CustomCookieSection() {
   const [companyName, setCompanyName] = useState("");
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [designBrief, setDesignBrief] = useState("");
-  const [pickup, setPickup] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const dateRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setActiveSlide((prev) => (prev + 1) % SLIDES.length), 4000);
@@ -90,7 +98,6 @@ export default function CustomCookieSection() {
     if (!neededDate) { setError("Please select a date needed by."); return; }
     if (!designBrief.trim()) { setError("Please add a design brief."); return; }
     if (!name || !email || !phone) { setError("Please fill in your name, email, and phone."); return; }
-
     setLoading(true);
     try {
       let logoUrl = "";
@@ -102,26 +109,18 @@ export default function CustomCookieSection() {
           reader.readAsDataURL(logoFile);
         });
       }
-
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          orderType: "custom",
-          name, email, phone,
-          quantity: qty,
-          priceEach,
+          orderType: "custom", name, email, phone,
+          quantity: qty, priceEach,
           subtotal: deposit,
-          colour,
-          companyName,
-          logoUrl,
-          designBrief,
+          colour, companyName, logoUrl, designBrief,
           latestNeededDate: neededDate,
-          pickup,
           description: `Custom Cookies x${qty} - 50% deposit (full order $${subtotal.toFixed(2)})`,
         }),
       });
-
       const data = await res.json();
       if (data.url) { window.location.href = data.url; }
       else { setError(data.error || "Something went wrong. Please try again."); }
@@ -137,28 +136,48 @@ export default function CustomCookieSection() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
 
-          {/* Left — carousel */}
-          <div>
-            <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
-              Your design, your stamp, your moment
-            </span>
-            <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>
-              Custom Cookies
-            </h2>
-            <p style={{ color: "#666", fontWeight: 600, marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>
-              We use 3D-printed custom stamps to reproduce logos, monograms, and detailed designs. Perfect for corporate gifting, brand events, weddings, and milestone celebrations.
-            </p>
+          {/* Left */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div>
+              <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
+                Your design, your stamp, your moment
+              </span>
+              <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>
+                Custom Cookies
+              </h2>
+              <p style={{ color: "#666", fontWeight: 600, fontSize: 15, lineHeight: 1.6 }}>
+                We use 3D-printed custom stamps to reproduce logos, monograms, and detailed designs. Perfect for corporate gifting, brand events, weddings, and milestone celebrations.
+              </p>
+            </div>
+
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
               <PlaceholderSlide text={SLIDES[activeSlide]} />
               <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
               <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
+            </div>
+
+            {/* Order steps */}
+            <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
+              <p style={{ fontWeight: 900, color: "#00205B", fontSize: 15, marginBottom: 16 }}>What to expect</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {ORDER_STEPS.map((step) => (
+                  <div key={step.n} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                    <div style={{ width: 26, height: 26, borderRadius: 999, backgroundColor: "#9B8EC4", color: "#fff", fontWeight: 900, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                      {step.n}
+                    </div>
+                    <div>
+                      <p style={{ fontWeight: 800, color: "#00205B", fontSize: 13, marginBottom: 1 }}>{step.title}</p>
+                      <p style={{ fontWeight: 600, color: "#777", fontSize: 12, lineHeight: 1.5 }}>{step.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Right — form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 
-            {/* Quantity + price calculator */}
             <div>
               <label style={labelStyle}>Quantity</label>
               <input
@@ -191,7 +210,16 @@ export default function CustomCookieSection() {
               </div>
               <div>
                 <label style={labelStyle}>Date Needed By</label>
-                <input type="date" value={neededDate} min={getMinDate()} onChange={(e) => setNeededDate(e.target.value)} onKeyDown={(e) => e.preventDefault()} style={inputStyle} />
+                <input
+                  ref={dateRef}
+                  type="date"
+                  value={neededDate}
+                  min={getMinDate()}
+                  onChange={(e) => setNeededDate(e.target.value)}
+                  onKeyDown={(e) => e.preventDefault()}
+                  onClick={() => dateRef.current?.showPicker?.()}
+                  style={{ ...inputStyle, cursor: "pointer" }}
+                />
                 <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>Min. 1 week lead time.</p>
               </div>
             </div>
@@ -203,7 +231,7 @@ export default function CustomCookieSection() {
                   <input type="color" value={colour} onChange={(e) => setColour(e.target.value)} style={{ width: 44, height: 44, border: "2px solid #E0DCF0", borderRadius: 10, cursor: "pointer", padding: 2 }} />
                   <span style={{ fontWeight: 600, color: "#555", fontSize: 14 }}>{colour.toUpperCase()}</span>
                 </div>
-                <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>Colours may vary slightly. We will confirm the closest match.</p>
+                <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>Colours may vary. We will confirm the closest match.</p>
               </div>
               <div>
                 <label style={labelStyle}>Company Name</label>
@@ -222,28 +250,17 @@ export default function CustomCookieSection() {
               <textarea value={designBrief} onChange={(e) => setDesignBrief(e.target.value)} rows={4} placeholder="Describe your vision — colours, text, event, special requests..." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }} />
             </div>
 
-            {/* Pickup */}
-            <div>
-              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, fontWeight: 700, color: "#00205B", cursor: "pointer" }}>
-                <input type="checkbox" checked={pickup} onChange={(e) => setPickup(e.target.checked)} style={{ marginTop: 3 }} />
-                <span>
-                  Local pickup (Lower Hutt) — no delivery fee
-                  <span style={{ display: "block", fontWeight: 600, color: "#777", fontSize: 13, marginTop: 2 }}>
-                    We will be in touch to arrange a pickup time once your order is confirmed.
-                  </span>
-                </span>
-              </label>
-            </div>
-
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div><label style={labelStyle}>Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} /></div>
               <div><label style={labelStyle}>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} /></div>
             </div>
-            <div><label style={labelStyle}>Phone</label><input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} /></div>
+            <div>
+              <label style={labelStyle}>Phone</label>
+              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} />
+            </div>
 
             {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14 }}>{error}</p>}
 
-            {/* Deposit summary */}
             {deposit > 0 && (
               <div style={{ backgroundColor: "#F3F0FC", borderRadius: 14, padding: "14px 18px" }}>
                 <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14, marginBottom: 4 }}>Payment summary</p>
@@ -260,6 +277,9 @@ export default function CustomCookieSection() {
             >
               {loading ? "Processing..." : deposit > 0 ? `Pay 50% Deposit — $${deposit.toFixed(2)} NZD` : "Enter quantity to continue"}
             </button>
+            <p style={{ fontSize: 12, color: "#999", fontWeight: 600, textAlign: "center" }}>
+              Shipping or pickup selected at checkout. Free delivery on orders over $119.
+            </p>
           </div>
         </div>
       </div>

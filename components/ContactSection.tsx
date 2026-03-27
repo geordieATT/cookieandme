@@ -24,7 +24,7 @@ const labelStyle: React.CSSProperties = {
 
 const faqItems = [
   { question: "What are your lead times?", answer: "Orders must be placed at least 1 week in advance. If you need something sooner, get in touch and we'll let you know what's possible." },
-  { question: "Where do you ship to?", answer: "We currently deliver within Wellington, Lower Hutt, and Upper Hutt. Delivery is free for orders over $150, otherwise a flat $10 fee applies. Nationwide shipping is coming soon." },
+  { question: "Where do you ship to?", answer: "We currently deliver within Wellington, Lower Hutt, and Upper Hutt. Delivery is free for orders over $119, otherwise a flat $10 fee applies. Nationwide shipping is coming soon." },
   { question: "How long do the cookies last?", answer: "Our cookies typically last 2–3 weeks when kept sealed and stored in a cool, dry place." },
   { question: "Do you offer pickup?", answer: "Yes, free pickup is available in Lower Hutt." },
   { question: "What flavours do you offer?", answer: "Vanilla, Chocolate, Chocolate Chip, Ginger, and Spice." },

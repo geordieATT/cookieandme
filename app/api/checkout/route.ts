@@ -5,122 +5,77 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2026-02-25.clover",
 });
 
-// Wellington region suburb/city keywords used to detect free delivery eligibility.
-// Stripe collects the full address at checkout; we use a webhook or post-payment
-// page to reconcile shipping — but for session creation we offer both shipping
-// options and let Stripe apply the correct one based on the customer's address.
-const WELLINGTON_REGIONS = [
-  "wellington",
-  "lower hutt",
-  "upper hutt",
-  "porirua",
-  "kapiti",
-  "paraparaumu",
-  "waikanae",
-  "masterton", // Wairarapa — exclude if desired
-];
-
-function isWellingtonAddress(address: {
-  city?: string | null;
-  state?: string | null;
-  line1?: string | null;
-  postal_code?: string | null;
-} | null): boolean {
-  if (!address) return false;
-  const haystack = [address.city, address.state, address.line1]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-  return WELLINGTON_REGIONS.some((region) => haystack.includes(region));
-}
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
     const {
-      orderType, // "giftbox" | "custom"
+      orderType,
       name,
       email,
-      subtotal, // number in dollars, e.g. 72.00
-      description, // human-readable line item label
-      // Optional: pre-collected address for shipping logic hint
-      // (Stripe collects authoritatively, but we can pre-fill)
+      phone,
+      subtotal,
+      description,
+      packSize,
+      theme,
+      flavour,
+      addCard,
+      cardMessage,
+      quantity,
+      priceEach,
+      colour,
+      logoUrl,
+      designBrief,
+      latestNeededDate,
+      companyName,
     } = body;
 
-    if (!orderType || !name || !email || !subtotal) {
-      return NextResponse.json(
-        { error: "Missing required checkout fields." },
-        { status: 400 }
-      );
+    if (!orderType || !name || !email || subtotal === undefined || subtotal === null) {
+      return NextResponse.json({ error: "Missing required checkout fields." }, { status: 400 });
     }
 
-    const subtotalCents = Math.round(Number(subtotal) * 100);
-    const flatRateShippingCents = 1000; // $10.00 NZD
-    const FREE_SHIPPING_THRESHOLD_CENTS = 12500; // $125.00 NZD
+    const subtotalNumber = Number(subtotal);
+    if (Number.isNaN(subtotalNumber) || subtotalNumber <= 0) {
+      return NextResponse.json({ error: "Subtotal must be a valid number greater than zero." }, { status: 400 });
+    }
 
-    // Build shipping options. We always offer both; Stripe's address collection
-    // will let us apply the right one. For orders clearly over $125 from Wellington,
-    // free shipping is the only sensible option — but we present both and handle
-    // via the `shipping_address_collection` + `shipping_options` below.
-    // Note: Stripe does not natively filter shipping options by address at session
-    // creation time. The recommended pattern is to present both and use a webhook
-    // (checkout.session.completed) to reconcile if needed, OR restrict via
-    // `shipping_options` with `allowed_countries`.
-    //
-    // Here we apply a simpler rule: if subtotal >= $125 we create a free shipping
-    // option as the only/primary choice for NZ, and include flat-rate as fallback.
-    // The customer can select the correct one; we confirm in the notification email.
+    const subtotalCents = Math.round(subtotalNumber * 100);
+    const freeShippingThreshold = 11900;
 
-    const shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[] =
-      [];
-
-    if (subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS) {
-      // Free delivery available for Wellington — list it first
-      shippingOptions.push({
+    const shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [
+      {
         shipping_rate_data: {
           type: "fixed_amount",
           fixed_amount: { amount: 0, currency: "nzd" },
-          display_name: "FREE Delivery – Wellington Region",
+          display_name: "Free Pickup — Lower Hutt",
           delivery_estimate: {
             minimum: { unit: "business_day", value: 3 },
             maximum: { unit: "business_day", value: 7 },
           },
         },
-      });
-      shippingOptions.push({
+      },
+      {
         shipping_rate_data: {
           type: "fixed_amount",
-          fixed_amount: { amount: flatRateShippingCents, currency: "nzd" },
-          display_name: "Flat Rate – NZ-Wide",
+          fixed_amount: {
+            amount: subtotalCents >= freeShippingThreshold ? 0 : 1000,
+            currency: "nzd",
+          },
+          display_name: subtotalCents >= freeShippingThreshold
+            ? "Free Delivery — Wellington Region"
+            : "Delivery — Wellington Region ($10.00)",
           delivery_estimate: {
             minimum: { unit: "business_day", value: 3 },
             maximum: { unit: "business_day", value: 7 },
           },
         },
-      });
-    } else {
-      // Only flat-rate applies
-      shippingOptions.push({
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: { amount: flatRateShippingCents, currency: "nzd" },
-          display_name: "Flat Rate – NZ-Wide",
-          delivery_estimate: {
-            minimum: { unit: "business_day", value: 3 },
-            maximum: { unit: "business_day", value: 7 },
-          },
-        },
-      });
-    }
+      },
+    ];
 
-    const lineItemLabel =
-      description ||
-      (orderType === "giftbox" ? "Cookie & Me Gift Box" : "Custom Logo Cookies");
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") || "https://cookieandme.nz";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      currency: "nzd",
       customer_email: email,
       payment_method_types: ["card"],
       line_items: [
@@ -129,33 +84,46 @@ export async function POST(req: NextRequest) {
             currency: "nzd",
             unit_amount: subtotalCents,
             product_data: {
-              name: lineItemLabel,
-              description: "Handcrafted cookies by Cookie & Me, Lower Hutt, NZ.",
-              images: ["https://cookieandme.nz/og-image.jpg"], // update if you have a product image
+              name: description || "Cookie and Me Order",
+              description: "Handcrafted cookies by Cookie and Me, Lower Hutt, NZ.",
             },
           },
           quantity: 1,
         },
       ],
-      shipping_address_collection: {
-        allowed_countries: ["NZ"],
-      },
+      shipping_address_collection: { allowed_countries: ["NZ"] },
       shipping_options: shippingOptions,
       metadata: {
         orderType,
-        customerName: name,
-        customerEmail: email,
+        customerName: String(name),
+        customerEmail: String(email),
+        customerPhone: String(phone || ""),
+        subtotal: String(subtotalNumber),
+        description: String(description || ""),
+        packSize: String(packSize || ""),
+        theme: String(theme || ""),
+        flavour: String(flavour || ""),
+        addCard: String(addCard || false),
+        cardMessage: String(cardMessage || ""),
+        quantity: String(quantity || ""),
+        priceEach: String(priceEach || ""),
+        colour: String(colour || ""),
+        logoUrl: String(logoUrl || ""),
+        designBrief: String(designBrief || ""),
+        latestNeededDate: String(latestNeededDate || ""),
+        companyName: String(companyName || ""),
       },
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/#${orderType === "giftbox" ? "gift-boxes" : "custom"}`,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/`,
     });
 
+    if (!session.url) {
+      return NextResponse.json({ error: "Stripe session created but no URL returned." }, { status: 500 });
+    }
+
     return NextResponse.json({ url: session.url });
-  } catch (err) {
-    console.error("Stripe checkout error:", err);
-    return NextResponse.json(
-      { error: "Failed to create checkout session." },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Stripe checkout error:", error);
+    return NextResponse.json({ error: "Failed to create checkout session." }, { status: 500 });
   }
 }
