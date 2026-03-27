@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const PACKS = [
   { size: 6, price: 39.9, label: "6 Pack" },
@@ -13,7 +13,9 @@ const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "12px 16px", border: "2px solid #E0DCF0", borderRadius: 12,
   fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B",
-  backgroundColor: "#fff", outline: "none",
+  backgroundColor: "#fff", outline: "none", appearance: "none" as const,
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239B8EC4' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
+  backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center",
 };
 
 const labelStyle: React.CSSProperties = {
@@ -33,7 +35,7 @@ function PlaceholderSlide({ text }: { text: string }) {
 
 export default function GiftBoxSection() {
   const [selectedPack, setSelectedPack] = useState<number>(6);
-  const [theme, setTheme] = useState("Easter");
+  const [theme, setTheme] = useState("");
   const [flavour, setFlavour] = useState("");
   const [addCard, setAddCard] = useState(false);
   const [cardMessage, setCardMessage] = useState("");
@@ -44,20 +46,28 @@ export default function GiftBoxSection() {
   const [error, setError] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const pack = PACKS.find((p) => p.size === selectedPack)!;
 
   const slides = useMemo(() => [
-    `${selectedPack} pack of ${theme}`,
+    theme ? `${selectedPack} pack – ${theme}` : `${selectedPack} pack gift box`,
     `${selectedPack} pack gift box`,
-    `${theme} cookie close-up`,
+    theme ? `${theme} cookie close-up` : "Cookie close-up",
   ], [selectedPack, theme]);
 
-  useEffect(() => { setActiveSlide(0); }, [selectedPack, theme]);
+  // Auto-rotate only when no theme selected
   useEffect(() => {
-    const timer = setInterval(() => setActiveSlide((prev) => (prev + 1) % slides.length), 4000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (!theme) {
+      timerRef.current = setInterval(() => {
+        setActiveSlide((prev) => (prev + 1) % slides.length);
+      }, 4000);
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [theme, slides.length]);
+
+  useEffect(() => { setActiveSlide(0); }, [selectedPack, theme]);
 
   const prev = () => setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length);
   const next = () => setActiveSlide((prev) => (prev + 1) % slides.length);
@@ -133,6 +143,7 @@ export default function GiftBoxSection() {
               <div>
                 <label style={labelStyle}>Theme</label>
                 <select value={theme} onChange={(e) => setTheme(e.target.value)} style={inputStyle}>
+                  <option value="">Select a theme...</option>
                   {THEMES.map((item) => <option key={item} value={item}>{item}</option>)}
                 </select>
               </div>
@@ -152,19 +163,19 @@ export default function GiftBoxSection() {
               </label>
               {addCard && (
                 <>
-                  <textarea value={cardMessage} onChange={(e) => setCardMessage(e.target.value.slice(0, 200))} rows={4} placeholder="Write your message here..." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }} />
+                  <textarea value={cardMessage} onChange={(e) => setCardMessage(e.target.value.slice(0, 200))} rows={4} placeholder="Write your message here..." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6, backgroundImage: "none" }} />
                   <p style={{ fontSize: 12, color: "#777", fontWeight: 600, marginTop: 6 }}>Short messages work best. {cardMessage.length}/200</p>
                 </>
               )}
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
-              <div><label style={labelStyle}>Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} /></div>
-              <div><label style={labelStyle}>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} /></div>
+              <div><label style={labelStyle}>Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} style={{ ...inputStyle, backgroundImage: "none" }} /></div>
+              <div><label style={labelStyle}>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={{ ...inputStyle, backgroundImage: "none" }} /></div>
             </div>
             <div style={{ marginBottom: 16 }}>
               <label style={labelStyle}>Phone</label>
-              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} />
+              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320, backgroundImage: "none" }} />
             </div>
 
             {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14, marginBottom: 12 }}>{error}</p>}
@@ -173,7 +184,7 @@ export default function GiftBoxSection() {
               {loading ? "Processing..." : `Pay $${pack.price.toFixed(2)} NZD`}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 10, textAlign: "center" }}>
-              Shipping calculated at checkout. Free delivery on orders over $119.
+              Shipping or free pickup selected at checkout. Free delivery on orders over $119.
             </p>
           </div>
         </div>

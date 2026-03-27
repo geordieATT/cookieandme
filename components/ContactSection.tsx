@@ -27,7 +27,7 @@ const faqItems = [
   { question: "Where do you ship to?", answer: "We currently deliver within Wellington, Lower Hutt, and Upper Hutt. Delivery is free for orders over $119, otherwise a flat $10 fee applies. Nationwide shipping is coming soon." },
   { question: "How long do the cookies last?", answer: "Our cookies typically last 2–3 weeks when kept sealed and stored in a cool, dry place." },
   { question: "Do you offer pickup?", answer: "Yes, free pickup is available in Lower Hutt." },
-  { question: "What flavours do you offer?", answer: "Vanilla, Chocolate, Chocolate Chip, Ginger, and Spice." },
+  { question: "What flavours do you offer?", answer: "Vanilla, Chocolate, Chocolate Chip, Ginger, and Spiced." },
   { question: "What ingredients do your cookies contain?", answer: "We use high-quality ingredients in all our cookies. Full ingredient details will be added soon." },
   { question: "Can I use my own logo or design?", answer: "Yes. For custom cookies, you can upload your logo or artwork and we'll confirm what works best." },
   { question: "What is the minimum order for custom cookies?", answer: "Minimum order is 12 cookies." },
