@@ -1,435 +1,168 @@
 "use client";
-import { useState, useRef, useCallback, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+const PACKS = [
+  { size: 6, price: 39.9, label: "6 Pack", sub: "Perfect for a sweet treat" },
+  { size: 12, price: 72.0, label: "12 Pack", sub: "Great for sharing" },
+  { size: 24, price: 120.0, label: "24 Pack", sub: "Ideal for events" },
+];
+
+const THEMES = ["Love You", "Congratulations", "Happy Birthday", "Easter", "Celebration"];
 const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spice"];
 
-function getPriceEach(qty: number): number {
-  if (qty < 12) return 0;
-  if (qty < 24) return 6.0;
-  if (qty < 50) return 5.8;
-  if (qty < 100) return 5.5;
-  if (qty < 200) return 5.0;
-  if (qty < 300) return 4.5;
-  if (qty < 500) return 4.25;
-  return 4.0;
-}
-
 const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  border: "2px solid #E0DCF0",
-  borderRadius: 12,
-  fontFamily: "'Nunito', sans-serif",
-  fontWeight: 600,
-  fontSize: 15,
-  color: "#00205B",
-  backgroundColor: "#fff",
-  outline: "none",
-  transition: "border-color 0.2s",
+  width: "100%", padding: "12px 16px", border: "2px solid #E0DCF0", borderRadius: 12,
+  fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B",
+  backgroundColor: "#fff", outline: "none",
 };
 
 const labelStyle: React.CSSProperties = {
-  fontWeight: 700,
-  fontSize: 14,
-  color: "#00205B",
-  display: "block",
-  marginBottom: 6,
+  fontWeight: 700, fontSize: 14, color: "#00205B", display: "block", marginBottom: 6,
 };
 
-function formatDateForInput(date: Date) {
-  const year = date.getFullYear();
-  const month = `${date.getMonth() + 1}`.padStart(2, "0");
-  const day = `${date.getDate()}`.padStart(2, "0");
-  return `${year}-${month}-${day}`;
+function getMinDate(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 7);
+  return d.toISOString().split("T")[0];
+}
+
+function PlaceholderSlide({ text }: { text: string }) {
+  return (
+    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 420, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+      <div>
+        <div style={{ width: 72, height: 72, borderRadius: 18, border: "2px dashed #B7AED9", margin: "0 auto 18px" }} />
+        <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 18 }}>{text}</p>
+      </div>
+    </div>
+  );
 }
 
 export default function CustomCookieSection() {
-  const [quantity, setQuantity] = useState<string>("50");
+  const [selectedPack, setSelectedPack] = useState<number>(6);
+  const [theme, setTheme] = useState("Easter");
   const [flavour, setFlavour] = useState("");
-  const [colour, setColour] = useState("#9B8EC4");
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [designBrief, setDesignBrief] = useState("");
-  const [latestNeededDate, setLatestNeededDate] = useState("");
+  const [addCard, setAddCard] = useState(false);
+  const [cardMessage, setCardMessage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [companyName, setCompanyName] = useState("");
+  const [neededDate, setNeededDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [hovered, setHovered] = useState(false);
 
-  const qty = parseInt(quantity, 10) || 0;
-  const validQty = qty >= 12 ? qty : 0;
-  const priceEach = validQty ? getPriceEach(validQty) : 0;
-  const subtotal = validQty * priceEach;
+  const pack = PACKS.find((p) => p.size === selectedPack)!;
+  const total = pack.price;
 
-  const minDate = useMemo(() => {
-    const d = new Date();
-    d.setDate(d.getDate() + 14);
-    return formatDateForInput(d);
-  }, []);
+  const slides = useMemo(() => [`${selectedPack} pack of ${theme}`, `${selectedPack} pack gift box`, `${theme} cookie close-up`], [selectedPack, theme]);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file && ["image/png", "image/jpeg", "image/svg+xml"].includes(file.type)) {
-      setLogoFile(file);
-      setError("");
-    } else {
-      setError("Please upload a PNG, JPG, or SVG file.");
-    }
-  }, []);
+  useEffect(() => { setActiveSlide(0); }, [selectedPack, theme]);
+  useEffect(() => {
+    const timer = setInterval(() => setActiveSlide((prev) => (prev + 1) % slides.length), 4000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setLogoFile(file);
-      setError("");
-    }
-  };
+  const prev = () => setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  const next = () => setActiveSlide((prev) => (prev + 1) % slides.length);
 
   const handleSubmit = async () => {
     setError("");
-
-    if (!flavour || !latestNeededDate || !name || !email || !phone) {
-      setError("Please fill in all required fields.");
+    if (!selectedPack || !theme || !flavour || !name || !email || !phone || !neededDate) {
+      setError("Please fill in all fields including the date.");
       return;
     }
-
-    if (qty < 12) {
-      setError("Minimum order is 12 cookies.");
+    if (addCard && cardMessage.trim().length === 0) {
+      setError("Please add your handwritten card message or untick the card option.");
       return;
     }
-
-    if (latestNeededDate < minDate) {
-      setError("Please choose a date at least 2 weeks from today.");
-      return;
-    }
-
     setLoading(true);
-
     try {
-      let logoUrl = "";
-      if (logoFile) {
-        logoUrl = `[Logo uploaded: ${logoFile.name} - replace with Blob upload URL later]`;
-      }
-
-      await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderType: "custom",
-          quantity: qty,
-          priceEach,
-          flavour,
-          colour,
-          logoUrl,
-          designBrief,
-          latestNeededDate,
-          name,
-          email,
-          phone,
-          companyName,
-          subtotal,
-          description: `Custom Logo Cookies × ${qty} (${flavour})`,
-        }),
-      });
-
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderType: "custom",
-          name,
-          email,
-          subtotal,
-          description: `Custom Logo Cookies × ${qty} (${flavour})`,
-        }),
+        body: JSON.stringify({ orderType: "giftbox", name, email, phone, packSize: selectedPack, theme, flavour, addCard, cardMessage: addCard ? cardMessage.trim() : "", latestNeededDate: neededDate, subtotal: total, description: `Cookie & Me ${selectedPack} Pack – ${theme} – ${flavour}` }),
       });
-
       const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        setError(data.error || "Something went wrong. Please try again.");
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+      if (data.url) { window.location.href = data.url; }
+      else { setError(data.error || "Something went wrong. Please try again."); }
+    } catch { setError("Something went wrong. Please try again."); }
+    finally { setLoading(false); }
   };
 
+  const arrowStyle = (side: "left" | "right"): React.CSSProperties => ({
+    position: "absolute", [side]: 12, top: "50%", transform: "translateY(-50%)",
+    opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none",
+    background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38,
+    borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900,
+  });
+
   return (
-    <section
-      id="custom"
-      style={{
-        background: "linear-gradient(160deg, #00205B 0%, #0a2d7a 100%)",
-        padding: "72px 24px",
-      }}
-    >
-      <div style={{ maxWidth: 980, margin: "0 auto" }}>
-        <div style={{ marginBottom: 40, textAlign: "center" }}>
-          <span
-            style={{
-              color: "#9B8EC4",
-              fontWeight: 800,
-              fontSize: 13,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              display: "block",
-              marginBottom: 12,
-            }}
-          >
-            ✦ Design Lab ✦
-          </span>
-          <h2
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontWeight: 900,
-              fontSize: 36,
-              color: "#fff",
-              marginBottom: 8,
-            }}
-          >
-            Custom Logo Cookies
-          </h2>
-          <p style={{ color: "rgba(255,255,255,0.75)", fontWeight: 600, fontSize: 16 }}>
-            Perfect for events, launches, weddings, gifting, and branded moments.
-          </p>
-        </div>
-
-        <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: 28,
-            padding: "48px",
-            boxShadow: "0 16px 64px rgba(0,0,0,0.25)",
-          }}
-        >
-          <div style={{ marginBottom: 32 }}>
-            <label style={labelStyle}>Quantity</label>
-            <input
-              type="number"
-              min={12}
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              style={{
-                ...inputStyle,
-                fontSize: 28,
-                fontWeight: 900,
-                padding: "16px 20px",
-                width: 180,
-                textAlign: "center",
-                color: "#00205B",
-              }}
-            />
-
-            {qty > 0 && qty < 12 && (
-              <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 13, marginTop: 6 }}>
-                Minimum order is 12 cookies.
-              </p>
-            )}
-
-            {validQty >= 12 && (
-              <div
-                style={{
-                  marginTop: 16,
-                  padding: "16px 20px",
-                  backgroundColor: "#F3F0FC",
-                  borderRadius: 14,
-                  border: "2px solid #9B8EC4",
-                  display: "inline-block",
-                }}
-              >
-                <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>Quantity: {validQty}</span>
-                <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>
-                <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>
-                  Price: ${priceEach.toFixed(2)} each
-                </span>
-                <span style={{ margin: "0 10px", color: "#ccc" }}>|</span>
-                <span style={{ fontWeight: 900, color: "#00205B", fontSize: 17 }}>
-                  Subtotal: ${subtotal.toFixed(2)}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
-            <div>
-              <label style={labelStyle}>Flavour</label>
-              <select value={flavour} onChange={(e) => setFlavour(e.target.value)} style={inputStyle}>
-                <option value="">Select a flavour…</option>
-                {FLAVOURS.map((f) => (
-                  <option key={f} value={f}>
-                    {f}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label style={labelStyle}>When do you need them by? *</label>
-              <input
-                type="date"
-                min={minDate}
-                value={latestNeededDate}
-                onChange={(e) => setLatestNeededDate(e.target.value)}
-                style={inputStyle}
-              />
-              <p style={{ fontSize: 12, color: "#777", fontWeight: 600, marginTop: 6 }}>
-                Orders must be placed at least 2 weeks in advance.
-              </p>
-            </div>
-
-            <div>
-              <label style={labelStyle}>Fondant Colour</label>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <input
-                  type="color"
-                  value={colour}
-                  onChange={(e) => setColour(e.target.value)}
-                  style={{
-                    width: 52,
-                    height: 48,
-                    border: "2px solid #E0DCF0",
-                    borderRadius: 10,
-                    cursor: "pointer",
-                    padding: 2,
-                    backgroundColor: "#fff",
-                  }}
-                />
-                <span style={{ fontWeight: 700, color: "#555", fontSize: 15 }}>{colour}</span>
-              </div>
-              <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 6, lineHeight: 1.4 }}>
-                <em>Fondant colours may vary slightly from screen. We’ll confirm the closest match with you.</em>
-              </p>
-            </div>
-
-            <div>
-              <label style={labelStyle}>Company Name</label>
-              <input
-                type="text"
-                placeholder="Acme Co. (optional)"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                style={inputStyle}
-              />
-            </div>
-
-            <div style={{ gridColumn: "1 / -1" }}>
-              <label style={labelStyle}>Logo File (PNG, JPG, or SVG)</label>
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragging(true);
-                }}
-                onDragLeave={() => setIsDragging(false)}
-                onDrop={handleDrop}
-                style={{
-                  border: `2px dashed ${isDragging ? "#9B8EC4" : "#E0DCF0"}`,
-                  borderRadius: 16,
-                  padding: "32px",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor: isDragging ? "#F3F0FC" : "#FAFAF8",
-                  transition: "all 0.2s",
-                }}
-              >
-                {logoFile ? (
-                  <div>
-                    <span style={{ fontSize: 28 }}>✅</span>
-                    <p style={{ fontWeight: 700, color: "#00205B", marginTop: 8 }}>{logoFile.name}</p>
-                    <p style={{ color: "#888", fontSize: 13, marginTop: 4 }}>Click to replace</p>
-                  </div>
-                ) : (
-                  <div>
-                    <span style={{ fontSize: 32 }}>📁</span>
-                    <p style={{ fontWeight: 700, color: "#555", marginTop: 8 }}>
-                      Drag & drop your logo here, or click to browse
-                    </p>
-                    <p style={{ color: "#aaa", fontSize: 13, marginTop: 4 }}>PNG, JPG, or SVG</p>
-                  </div>
-                )}
-              </div>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".png,.jpg,.jpeg,.svg"
-                style={{ display: "none" }}
-                onChange={handleFileInput}
-              />
-            </div>
-
-            <div style={{ gridColumn: "1 / -1" }}>
-              <label style={labelStyle}>Design Brief</label>
-              <textarea
-                value={designBrief}
-                onChange={(e) => setDesignBrief(e.target.value)}
-                placeholder="Describe your vision — colours, text, event, special requests…"
-                rows={4}
-                style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
-              />
+    <section id="custom" style={{ padding: "40px 24px 64px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
+          <div>
+            <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>Your design, your brand, your moment</span>
+            <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>Custom Cookies</h2>
+            <p style={{ color: "#666", fontWeight: 600, marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>Choose a theme, pick your flavour, and add a handwritten card if you'd like. We'll deliver it ready to gift.</p>
+            <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
+              <PlaceholderSlide text={slides[activeSlide]} />
+              <button type="button" onClick={prev} style={arrowStyle("left")}>‹</button>
+              <button type="button" onClick={next} style={arrowStyle("right")}>›</button>
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 8 }}>
-            <div>
-              <label style={labelStyle}>Your Name *</label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Smith" style={inputStyle} />
+          <div>
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, marginBottom: 20 }}>
+                {PACKS.map((p) => {
+                  const isSelected = selectedPack === p.size;
+                  return (
+                    <button key={p.size} type="button" onClick={() => setSelectedPack(p.size)} style={{ border: isSelected ? "2.5px solid #9B8EC4" : "2px solid #E0DCF0", borderRadius: 18, padding: "24px 16px", cursor: "pointer", backgroundColor: isSelected ? "#F3F0FC" : "#fff", textAlign: "center" }}>
+                      <div style={{ fontWeight: 900, fontSize: 22, color: "#00205B" }}>{p.label}</div>
+                      <div style={{ fontWeight: 700, fontSize: 20, color: "#C04B2B", margin: "6px 0 4px" }}>${p.price.toFixed(2)}</div>
+                      <div style={{ color: "#888", fontSize: 13, fontWeight: 600 }}>{p.sub}</div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div>
+                  <label style={labelStyle}>Theme</label>
+                  <select value={theme} onChange={(e) => setTheme(e.target.value)} style={inputStyle}>
+                    {THEMES.map((item) => <option key={item} value={item}>{item}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>Flavour</label>
+                  <select value={flavour} onChange={(e) => setFlavour(e.target.value)} style={inputStyle}>
+                    <option value="">Select a flavour…</option>
+                    {FLAVOURS.map((f) => <option key={f} value={f}>{f}</option>)}
+                  </select>
+                </div>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={labelStyle}>Date Needed By</label>
+                  <input type="date" value={neededDate} min={getMinDate()} onChange={(e) => setNeededDate(e.target.value)} onKeyDown={(e) => e.preventDefault()} style={inputStyle} />
+                  <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 6 }}>Orders must be placed at least 1 week in advance.</p>
+                </div>
+                <div style={{ gridColumn: "1 / -1" }}>
+                  <label style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, color: "#00205B", cursor: "pointer", marginBottom: 8 }}>
+                    <input type="checkbox" checked={addCard} onChange={(e) => setAddCard(e.target.checked)} />
+                    Add a handwritten card
+                  </label>
+                  {addCard && (
+                    <>
+                      <textarea value={cardMessage} onChange={(e) => setCardMessage(e.target.value.slice(0, 200))} rows={4} placeholder="Write your message here... we'll handwrite this and include it with your order." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }} />
+                      <p style={{ fontSize: 12, color: "#777", fontWeight: 600, marginTop: 6 }}>Short messages work best. {cardMessage.length}/200</p>
+                    </>
+                  )}
+                </div>
+                <div><label style={labelStyle}>Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} /></div>
+                <div><label style={labelStyle}>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} /></div>
+                <div style={{ gridColumn: "1 / -1" }}><label style={labelStyle}>Phone</label><input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} /></div>
+              </div>
             </div>
 
-            <div>
-              <label style={labelStyle}>Email *</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" style={inputStyle} />
-            </div>
-
-            <div style={{ gridColumn: "1 / -1" }}>
-              <label style={labelStyle}>Phone *</label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+64 21 000 0000"
-                style={{ ...inputStyle, maxWidth: 320 }}
-              />
-            </div>
-          </div>
-
-          {error && (
-            <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14, marginTop: 8 }}>{error}</p>
-          )}
-
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            style={{
-              marginTop: 28,
-              width: "100%",
-              backgroundColor: loading ? "#aaa" : "#C04B2B",
-              color: "#fff",
-              fontFamily: "'Nunito', sans-serif",
-              fontWeight: 900,
-              fontSize: 18,
-              padding: "18px 0",
-              borderRadius: 50,
-              border: "none",
-              cursor: loading ? "not-allowed" : "pointer",
-            }}
-          >
-            {loading
-              ? "Processing…"
-              : validQty >= 12
-              ? `Order Custom Cookies – $${subtotal.toFixed(2)}`
-              : "Order Custom Cookies"}
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-}
+            {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14, marginTop: 12 }}>{error}</p>}
+            <button onClick={handleSubmit} disabled={loading} style={{ marginTop: 20, width: "100%", backgroundColor: loading ? "#aaa" : "#C04B2B", color: "

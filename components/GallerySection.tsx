@@ -1,172 +1,125 @@
 "use client";
 import { useState } from "react";
 
-const galleryItems = [
-  "Branded cookies",
-  "Gift box set",
-  "Behind the scenes baking",
-  "Packaging and ribbon",
+const CATEGORIES = ["All", "Custom", "Gift Boxes", "Homemade"];
+
+const GALLERY_ITEMS = [
+  { id: 1, category: "Custom", label: "Corporate logo cookies" },
+  { id: 2, category: "Custom", label: "Wedding monogram" },
+  { id: 3, category: "Custom", label: "Birthday name stamp" },
+  { id: 4, category: "Gift Boxes", label: "Happy Birthday box" },
+  { id: 5, category: "Gift Boxes", label: "Congratulations box" },
+  { id: 6, category: "Gift Boxes", label: "Love You gift set" },
+  { id: 7, category: "Homemade", label: "Chocolate chip cookies" },
+  { id: 8, category: "Homemade", label: "Classic vanilla" },
+  { id: 9, category: "Custom", label: "Anniversary stamp" },
+  { id: 10, category: "Gift Boxes", label: "Easter box" },
+  { id: 11, category: "Homemade", label: "Ginger cookies" },
+  { id: 12, category: "Custom", label: "Baby shower set" },
 ];
 
-const reviews = [
-  {
-    quote: "They looked incredible and tasted even better.",
-    name: "Happy customer",
-  },
-  {
-    quote: "Such a cool idea for client gifts. Everyone remembered them.",
-    name: "Corporate order",
-  },
-  {
-    quote: "Beautifully made and so thoughtful. They felt really special.",
-    name: "Gift box customer",
-  },
-];
-
-function PlaceholderImage({ label }: { label: string }) {
+function PlaceholderTile({ label }: { label: string }) {
   return (
     <div
       style={{
-        border: "2px dashed #CFC8E7",
-        borderRadius: 28,
         backgroundColor: "#F6F3ED",
-        minHeight: 420,
+        border: "2px dashed #CFC8E7",
+        borderRadius: 20,
+        aspectRatio: "1 / 1",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        gap: 10,
+        padding: 16,
         textAlign: "center",
-        padding: 24,
       }}
     >
-      <div>
-        <div
-          style={{
-            width: 84,
-            height: 84,
-            border: "2px dashed #B7AED9",
-            borderRadius: 20,
-            margin: "0 auto 18px",
-          }}
-        />
-        <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 18 }}>{label}</p>
-      </div>
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke="#B7AED9" strokeWidth="2" />
+        <path d="M16 30 Q20 22 24 26 Q28 18 32 26" stroke="#B7AED9" strokeWidth="2" strokeLinecap="round" fill="none" />
+        <circle cx="18" cy="20" r="3" fill="#B7AED9" />
+      </svg>
+      <span style={{ color: "#9B8EC4", fontWeight: 700, fontSize: 13, lineHeight: 1.4 }}>
+        {label}
+      </span>
     </div>
   );
 }
 
 export default function GallerySection() {
-  const [active, setActive] = useState(0);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filtered =
+    activeCategory === "All"
+      ? GALLERY_ITEMS
+      : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
 
   return (
     <section id="gallery" style={{ padding: "72px 24px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <span
+          style={{
+            color: "#9B8EC4",
+            fontWeight: 800,
+            fontSize: 13,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            display: "block",
+            marginBottom: 12,
+          }}
+        >
+          A little taste of what we do
+        </span>
+
+        <h2
+          style={{
+            fontFamily: "'Nunito', sans-serif",
+            fontWeight: 900,
+            fontSize: 32,
+            color: "#00205B",
+            marginBottom: 28,
+          }}
+        >
+          Gallery
+        </h2>
+
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 36 }}>
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: 50,
+                  border: isActive ? "2.5px solid #9B8EC4" : "2px solid #E0DCF0",
+                  backgroundColor: isActive ? "#F3F0FC" : "#fff",
+                  color: isActive ? "#00205B" : "#888",
+                  fontFamily: "'Nunito', sans-serif",
+                  fontWeight: 800,
+                  fontSize: 14,
+                  cursor: "pointer",
+                }}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1.2fr 0.8fr",
-            gap: 36,
-            alignItems: "start",
+            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+            gap: 20,
           }}
         >
-          <div>
-            <span
-              style={{
-                color: "#9B8EC4",
-                fontWeight: 800,
-                fontSize: 13,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                display: "block",
-                marginBottom: 12,
-              }}
-            >
-              A little look behind the scenes
-            </span>
-
-            <h2
-              style={{
-                fontFamily: "'Nunito', sans-serif",
-                fontWeight: 900,
-                fontSize: 32,
-                color: "#00205B",
-                marginBottom: 8,
-              }}
-            >
-              Gallery
-            </h2>
-
-            <p style={{ color: "#666", fontWeight: 600, marginBottom: 22, fontSize: 15, lineHeight: 1.6 }}>
-              Add your cookie photos, packing shots, and baking moments here. For now I’ve used clean placeholder frames so the layout is ready.
-            </p>
-
-            <PlaceholderImage label={galleryItems[active]} />
-
-            <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
-              {galleryItems.map((item, index) => {
-                const isActive = active === index;
-                return (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setActive(index)}
-                    style={{
-                      border: isActive ? "2px solid #9B8EC4" : "2px solid #E0DCF0",
-                      backgroundColor: isActive ? "#F3F0FC" : "#fff",
-                      color: "#00205B",
-                      borderRadius: 999,
-                      padding: "10px 14px",
-                      fontWeight: 700,
-                      cursor: "pointer",
-                    }}
-                  >
-                    {item}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div>
-            <h3
-              style={{
-                fontFamily: "'Nunito', sans-serif",
-                fontWeight: 900,
-                fontSize: 24,
-                color: "#00205B",
-                marginBottom: 18,
-              }}
-            >
-              Kind words
-            </h3>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {reviews.map((review) => (
-                <div
-                  key={review.quote}
-                  style={{
-                    backgroundColor: "#fff",
-                    border: "2px solid #EAE4F5",
-                    borderRadius: 22,
-                    padding: 24,
-                    boxShadow: "0 6px 22px rgba(0,32,91,0.05)",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: 16,
-                      lineHeight: 1.7,
-                      color: "#2B2B2B",
-                      fontWeight: 700,
-                      marginBottom: 12,
-                    }}
-                  >
-                    “{review.quote}”
-                  </p>
-                  <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 14 }}>{review.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {filtered.map((item) => (
+            <PlaceholderTile key={item.id} label={item.label} />
+          ))}
         </div>
       </div>
     </section>
