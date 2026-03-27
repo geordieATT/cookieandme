@@ -38,27 +38,7 @@ export default function Hero() {
 
       {/* Right: copy */}
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        <span
-          style={{
-            color: "#9B8EC4",
-            fontWeight: 800,
-            fontSize: 13,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-          }}
-        >
-          ★ Designed With Good Taste ★
-        </span>
-
-        <h1
-          style={{
-            fontFamily: "'Nunito', sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(2rem, 4vw, 3.25rem)",
-            color: "#00205B",
-            lineHeight: 1.15,
-          }}
-        >
+     
           Designed With
           <br />
           Good Taste.
