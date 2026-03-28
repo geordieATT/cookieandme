@@ -34,3 +34,47 @@ h1, h2, h3, h4 {
 input, select, textarea {
   font-family: 'Nunito', sans-serif;
 }
+@media (max-width: 768px) {
+  .grid-2col {
+    grid-template-columns: 1fr !important;
+  }
+  .grid-3col {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .hide-mobile {
+    display: none !important;
+  }
+  .section-padding {
+    padding: 40px 16px !important;
+  }
+  .card-padding {
+    padding: 24px 20px !important;
+  }
+  .hero-heading {
+    font-size: 2rem !important;
+  }
+  .nav-gap {
+    gap: 12px !important;
+  }
+  .pack-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .form-2col {
+    grid-template-columns: 1fr !important;
+  }
+  .full-mobile {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
+.show-mobile-flex {
+  display: none;
+}
+@media (max-width: 768px) {
+  .show-mobile-flex {
+    display: flex !important;
+  }
+  .hide-mobile {
+    display: none !important;
+  }
+}

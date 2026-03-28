@@ -21,6 +21,14 @@ const ORDER_STEPS = [
   { n: "5", title: "Delivery or pickup", body: "Your cookies arrive ready to gift, present, or enjoy." },
 ];
 
+const SLIDES = [
+  "Custom logo cookies",
+  "Wedding monogram set",
+  "Corporate gift box",
+  "Anniversary stamp cookies",
+  "Birthday name cookies",
+];
+
 function getPriceEach(qty: number): number | null {
   const tier = PRICE_TIERS.find((t) => qty >= t.min);
   return tier ? tier.price : null;
@@ -60,13 +68,7 @@ function CustomSelect({ value, onChange, options, placeholder }: {
     <div ref={ref} style={{ position: "relative", width: "100%" }}>
       <div
         onClick={() => setOpen(!open)}
-        style={{
-          padding: "12px 16px", border: `2px solid ${open ? "#9B8EC4" : "#E0DCF0"}`,
-          borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600,
-          fontSize: 15, color: value ? "#00205B" : "#aaa", backgroundColor: "#fff",
-          cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center",
-          userSelect: "none",
-        }}
+        style={{ padding: "12px 16px", border: `2px solid ${open ? "#9B8EC4" : "#E0DCF0"}`, borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: value ? "#00205B" : "#aaa", backgroundColor: "#fff", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", userSelect: "none" }}
       >
         <span>{value || placeholder}</span>
         <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0 }}>
@@ -95,31 +97,13 @@ function CustomSelect({ value, onChange, options, placeholder }: {
 function ColourPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <div
-      onClick={() => inputRef.current?.click()}
-      style={{
-        display: "flex", alignItems: "center", gap: 12, padding: "10px 16px",
-        border: "2px solid #E0DCF0", borderRadius: 12, backgroundColor: "#fff",
-        cursor: "pointer", width: "100%",
-      }}
-    >
-      <div style={{
-        width: 28, height: 28, borderRadius: 8, backgroundColor: value,
-        border: "2px solid #E0DCF0", flexShrink: 0,
-      }} />
-      <span style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B" }}>
-        {value.toUpperCase()}
-      </span>
+    <div onClick={() => inputRef.current?.click()} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 16px", border: "2px solid #E0DCF0", borderRadius: 12, backgroundColor: "#fff", cursor: "pointer", width: "100%" }}>
+      <div style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: value, border: "2px solid #E0DCF0", flexShrink: 0 }} />
+      <span style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B" }}>{value.toUpperCase()}</span>
       <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ marginLeft: "auto", flexShrink: 0 }}>
         <path d="M1 1l5 5 5-5" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
       </svg>
-      <input
-        ref={inputRef}
-        type="color"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        style={{ position: "absolute", opacity: 0, width: 0, height: 0, pointerEvents: "none" }}
-      />
+      <input ref={inputRef} type="color" value={value} onChange={(e) => onChange(e.target.value)} style={{ position: "absolute", opacity: 0, width: 0, height: 0, pointerEvents: "none" }} />
     </div>
   );
 }
@@ -141,20 +125,9 @@ function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: Fil
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}
-      style={{
-        border: `2px dashed ${dragging ? "#9B8EC4" : "#CFC8E7"}`,
-        borderRadius: 12, backgroundColor: dragging ? "#F3F0FC" : "#FAF9F7",
-        padding: "24px 16px", textAlign: "center", cursor: "pointer",
-        transition: "all 0.2s",
-      }}
+      style={{ border: `2px dashed ${dragging ? "#9B8EC4" : "#CFC8E7"}`, borderRadius: 12, backgroundColor: dragging ? "#F3F0FC" : "#FAF9F7", padding: "24px 16px", textAlign: "center", cursor: "pointer", transition: "all 0.2s" }}
     >
-      <input
-        ref={inputRef}
-        type="file"
-        accept=".png,.jpg,.jpeg,.svg"
-        onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-        style={{ display: "none" }}
-      />
+      <input ref={inputRef} type="file" accept=".png,.jpg,.jpeg,.svg" onChange={(e) => onChange(e.target.files?.[0] ?? null)} style={{ display: "none" }} />
       {file ? (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
           <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#9B8EC4", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -167,13 +140,7 @@ function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: Fil
             <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14 }}>{file.name}</p>
             <p style={{ fontWeight: 600, color: "#9B8EC4", fontSize: 12 }}>{(file.size / 1024).toFixed(0)} KB</p>
           </div>
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); onChange(null); }}
-            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: 18, fontWeight: 700 }}
-          >
-            x
-          </button>
+          <button type="button" onClick={(e) => { e.stopPropagation(); onChange(null); }} style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: 18, fontWeight: 700 }}>x</button>
         </div>
       ) : (
         <>
@@ -189,17 +156,9 @@ function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: Fil
   );
 }
 
-const SLIDES = [
-  "Custom logo cookies",
-  "Wedding monogram set",
-  "Corporate gift box",
-  "Anniversary stamp cookies",
-  "Birthday name cookies",
-];
-
 function PlaceholderSlide({ text }: { text: string }) {
   return (
-    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 360, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 320, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
       <div>
         <div style={{ width: 72, height: 72, borderRadius: 18, border: "2px dashed #B7AED9", margin: "0 auto 18px" }} />
         <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 18 }}>{text}</p>
@@ -259,29 +218,21 @@ export default function CustomCookieSection() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderType: "custom", name, email, phone,
-          quantity: qty, priceEach, subtotal: deposit,
-          colour, companyName, logoUrl, designBrief,
-          latestNeededDate: neededDate,
-          description: `Custom Cookies x${qty} - 50% deposit (full order $${subtotal.toFixed(2)})`,
-        }),
+        body: JSON.stringify({ orderType: "custom", name, email, phone, quantity: qty, priceEach, subtotal: deposit, colour, companyName, logoUrl, designBrief, latestNeededDate: neededDate, description: `Custom Cookies x${qty} - 50% deposit (full order $${subtotal.toFixed(2)})` }),
       });
       const data = await res.json();
       if (data.url) { window.location.href = data.url; }
       else { setError(data.error || "Something went wrong. Please try again."); }
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    } catch { setError("Something went wrong. Please try again."); }
+    finally { setLoading(false); }
   };
 
   return (
-    <section id="custom" style={{ padding: "40px 24px 64px" }}>
+    <section id="custom" style={{ padding: "40px 20px 64px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
+        <div className="grid-2col card-padding" style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
 
+          {/* Left */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             <div>
               <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
@@ -297,8 +248,8 @@ export default function CustomCookieSection() {
 
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
               <PlaceholderSlide text={SLIDES[activeSlide]} />
-              <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
-              <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
+              <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
+              <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
             </div>
 
             <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
@@ -319,14 +270,11 @@ export default function CustomCookieSection() {
             </div>
           </div>
 
+          {/* Right */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div>
               <label style={labelStyle}>Quantity</label>
-              <input
-                type="number" min={12} value={quantity}
-                onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))}
-                placeholder="Min. 12 cookies" style={inputStyle}
-              />
+              <input type="number" min={12} value={quantity} onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))} placeholder="Min. 12 cookies" style={inputStyle} />
               {qty > 0 && qty < 12 && (
                 <p style={{ fontSize: 12, color: "#C04B2B", fontWeight: 700, marginTop: 6 }}>Minimum order is 12 cookies.</p>
               )}
@@ -339,32 +287,15 @@ export default function CustomCookieSection() {
               )}
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div>
                 <label style={labelStyle}>Flavour</label>
                 <CustomSelect value={flavour} onChange={setFlavour} options={FLAVOURS} placeholder="Select a flavour..." />
               </div>
               <div>
                 <label style={labelStyle}>Date Needed By</label>
-                <div
-                  onClick={() => dateRef.current?.showPicker?.()}
-                  style={{ position: "relative", cursor: "pointer" }}
-                >
-                  <input
-                    ref={dateRef}
-                    type="date"
-                    value={neededDate}
-                    min={getMinDate()}
-                    onChange={(e) => setNeededDate(e.target.value)}
-                    onKeyDown={(e) => e.preventDefault()}
-                    style={{
-                      ...inputStyle,
-                      cursor: "pointer",
-                      color: neededDate ? "#00205B" : "#aaa",
-                      appearance: "none" as const,
-                      paddingRight: 40,
-                    }}
-                  />
+                <div onClick={() => dateRef.current?.showPicker?.()} style={{ position: "relative", cursor: "pointer" }}>
+                  <input ref={dateRef} type="date" value={neededDate} min={getMinDate()} onChange={(e) => setNeededDate(e.target.value)} onKeyDown={(e) => e.preventDefault()} style={{ ...inputStyle, cursor: "pointer", color: neededDate ? "#00205B" : "#aaa", appearance: "none" as const, paddingRight: 40 }} />
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
                     <rect x="3" y="4" width="18" height="18" rx="3" stroke="#9B8EC4" strokeWidth="2" />
                     <path d="M3 9h18M8 2v4M16 2v4" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
@@ -374,7 +305,7 @@ export default function CustomCookieSection() {
               </div>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div>
                 <label style={labelStyle}>Fondant Colour</label>
                 <ColourPicker value={colour} onChange={setColour} />
@@ -397,13 +328,14 @@ export default function CustomCookieSection() {
               <textarea value={designBrief} onChange={(e) => setDesignBrief(e.target.value)} rows={4} placeholder="Describe your vision — colours, text, event, special requests..." style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }} />
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div><label style={labelStyle}>Your Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} /></div>
               <div><label style={labelStyle}>Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} /></div>
             </div>
+
             <div>
               <label style={labelStyle}>Phone</label>
-              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} />
+              <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} className="full-mobile" />
             </div>
 
             {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14 }}>{error}</p>}
@@ -417,10 +349,7 @@ export default function CustomCookieSection() {
               </div>
             )}
 
-            <button
-              onClick={handleSubmit} disabled={loading || !priceEach}
-              style={{ width: "100%", backgroundColor: loading || !priceEach ? "#aaa" : "#C04B2B", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach ? "not-allowed" : "pointer" }}
-            >
+            <button onClick={handleSubmit} disabled={loading || !priceEach} style={{ width: "100%", backgroundColor: loading || !priceEach ? "#aaa" : "#C04B2B", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach ? "not-allowed" : "pointer" }}>
               {loading ? "Processing..." : deposit > 0 ? `Pay 50% Deposit — $${deposit.toFixed(2)} NZD` : "Enter quantity to continue"}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, textAlign: "center" }}>
