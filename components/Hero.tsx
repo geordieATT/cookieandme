@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 export default function Hero() {
   const heading = "Designed With Good Taste";
@@ -6,13 +7,15 @@ export default function Hero() {
   return (
     <section style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 20px 48px" }}>
       <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-        <div style={{ backgroundColor: "#E8E3D8", borderRadius: 24, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 12, border: "2px dashed #9B8EC4" }}>
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="22" stroke="#9B8EC4" strokeWidth="2" />
-            <path d="M16 30 Q20 22 24 26 Q28 18 32 26" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
-            <circle cx="18" cy="20" r="3" fill="#9B8EC4" />
-          </svg>
-          <span style={{ color: "#9B8EC4", fontWeight: 700, fontSize: 14 }}>Lifestyle photo here</span>
+        <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", paddingBottom: "75%" }}>
+          <Image
+            src="/images/IMG_20260419_143712_514.jpg"
+            alt="Samuel and Georgia wedding cookies close-up"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>

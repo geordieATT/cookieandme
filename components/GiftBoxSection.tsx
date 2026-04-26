@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 const PACKS = [
   { size: 6, price: 39.9, label: "6 Pack" },
@@ -57,16 +58,10 @@ function CustomSelect({ value, onChange, options, placeholder }: {
   );
 }
 
-function PlaceholderSlide({ text }: { text: string }) {
-  return (
-    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 320, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-      <div>
-        <div style={{ width: 72, height: 72, borderRadius: 18, border: "2px dashed #B7AED9", margin: "0 auto 18px" }} />
-        <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 18 }}>{text}</p>
-      </div>
-    </div>
-  );
-}
+const PACKAGING_SLIDES = [
+  { src: "/images/IMG-20260412-WA0031.jpg", alt: "Navy anniversary gift boxes with gold ribbon on grey background" },
+  { src: "/images/IMG-20260423-WA0015.jpg", alt: "Cookie and Me branded box with gold ribbon and logo sticker" },
+];
 
 export default function GiftBoxSection() {
   const [selectedPack, setSelectedPack] = useState<number>(6);
@@ -85,24 +80,14 @@ export default function GiftBoxSection() {
 
   const pack = PACKS.find((p) => p.size === selectedPack)!;
 
-  const slides = useMemo(() => [
-    theme ? `${selectedPack} pack - ${theme}` : `${selectedPack} pack gift box`,
-    `${selectedPack} pack gift box`,
-    theme ? `${theme} cookie close-up` : "Cookie close-up",
-  ], [selectedPack, theme]);
-
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
-    if (!theme) {
-      timerRef.current = setInterval(() => setActiveSlide((prev) => (prev + 1) % slides.length), 4000);
-    }
+    timerRef.current = setInterval(() => setActiveSlide((prev) => (prev + 1) % PACKAGING_SLIDES.length), 4000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [theme, slides.length]);
+  }, []);
 
-  useEffect(() => { setActiveSlide(0); }, [selectedPack, theme]);
-
-  const prev = () => setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  const next = () => setActiveSlide((prev) => (prev + 1) % slides.length);
+  const prev = () => setActiveSlide((prev) => (prev - 1 + PACKAGING_SLIDES.length) % PACKAGING_SLIDES.length);
+  const next = () => setActiveSlide((prev) => (prev + 1) % PACKAGING_SLIDES.length);
 
   const handleSubmit = async () => {
     setError("");
@@ -131,7 +116,15 @@ export default function GiftBoxSection() {
             <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>Gift Boxes</h2>
             <p style={{ color: "#666", fontWeight: 600, marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>Choose a theme, pick your flavour, and add a handwritten card if you would like. We will deliver it ready to gift.</p>
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
-              <PlaceholderSlide text={slides[activeSlide]} />
+              <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", paddingBottom: "75%" }}>
+                <Image
+                  src={PACKAGING_SLIDES[activeSlide].src}
+                  alt={PACKAGING_SLIDES[activeSlide].alt}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px) 100vw, 600px"
+                />
+              </div>
               <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
               <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
             </div>

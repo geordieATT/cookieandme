@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
 
@@ -22,11 +23,12 @@ const ORDER_STEPS = [
 ];
 
 const SLIDES = [
-  "Custom logo cookies",
-  "Wedding monogram set",
-  "Corporate gift box",
-  "Anniversary stamp cookies",
-  "Birthday name cookies",
+  { src: "/images/IMG_20260419_143712_514.jpg", alt: "Georgia wedding cookies close-up" },
+  { src: "/images/IMG-20260412-WA0022.jpg", alt: "Starbucks farewell custom cookies" },
+  { src: "/images/IMG-20260412-WA0038.jpg", alt: "GEM Homestay branded cookies" },
+  { src: "/images/IMG-20260418-WA0005.jpg", alt: "Sendd logo cookie on white background" },
+  { src: "/images/IMG-20260423-WA0025.jpg", alt: "3D stamp tool with fondant impressions in a row" },
+  { src: "/images/IMG-20260423-WA0009.jpg", alt: "Stamp tool with dinosaur cutter beside finished cookies" },
 ];
 
 function getPriceEach(qty: number): number | null {
@@ -156,16 +158,6 @@ function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: Fil
   );
 }
 
-function PlaceholderSlide({ text }: { text: string }) {
-  return (
-    <div style={{ border: "2px dashed #CFC8E7", borderRadius: 24, backgroundColor: "#F6F3ED", minHeight: 320, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
-      <div>
-        <div style={{ width: 72, height: 72, borderRadius: 18, border: "2px dashed #B7AED9", margin: "0 auto 18px" }} />
-        <p style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 18 }}>{text}</p>
-      </div>
-    </div>
-  );
-}
 
 export default function CustomCookieSection() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -247,7 +239,15 @@ export default function CustomCookieSection() {
             </div>
 
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
-              <PlaceholderSlide text={SLIDES[activeSlide]} />
+              <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", paddingBottom: "75%" }}>
+                <Image
+                  src={SLIDES[activeSlide].src}
+                  alt={SLIDES[activeSlide].alt}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 768px) 100vw, 600px"
+                />
+              </div>
               <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
               <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
             </div>

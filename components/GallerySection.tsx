@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const SLIDES = [
-  { id: 1, label: "Corporate logo cookies" },
-  { id: 2, label: "Wedding monogram set" },
-  { id: 3, label: "Happy Birthday gift box" },
-  { id: 4, label: "Easter cookie collection" },
-  { id: 5, label: "Custom anniversary stamp" },
-  { id: 6, label: "Chocolate chip homemade" },
+  { id: 1, src: "/images/IMG_20260419_143712_689.jpg", alt: "Three dinosaur cookies on black background" },
+  { id: 2, src: "/images/IMG-20260419-WA0007.jpg", alt: "Easter basket cookie display" },
+  { id: 3, src: "/images/IMG-20260412-WA0044.jpg", alt: "Easter egg cookies fanned out on white" },
 ];
 
 const REVIEWS = [
@@ -16,18 +14,6 @@ const REVIEWS = [
   { name: "Aroha K.", initials: "AK", role: "Birthday Order", quote: "Ordered a gift box for my mum's 60th and she cried happy tears. The handwritten card was such a lovely touch. Will definitely order again.", color: "#00205B" },
 ];
 
-function PlaceholderSlide({ label }: { label: string }) {
-  return (
-    <div style={{ backgroundColor: "#F6F3ED", border: "2px dashed #CFC8E7", borderRadius: 24, width: "100%", aspectRatio: "16 / 9", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-        <circle cx="24" cy="24" r="22" stroke="#B7AED9" strokeWidth="2" />
-        <path d="M16 30 Q20 22 24 26 Q28 18 32 26" stroke="#B7AED9" strokeWidth="2" strokeLinecap="round" fill="none" />
-        <circle cx="18" cy="20" r="3" fill="#B7AED9" />
-      </svg>
-      <p style={{ color: "#9B8EC4", fontWeight: 700, fontSize: 15 }}>{label}</p>
-    </div>
-  );
-}
 
 export default function GallerySection() {
   const [active, setActive] = useState(0);
@@ -52,7 +38,15 @@ export default function GallerySection() {
         </h2>
 
         <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative", marginBottom: 64 }}>
-          <PlaceholderSlide label={SLIDES[active].label} />
+          <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", width: "100%", paddingBottom: "56.25%" }}>
+            <Image
+              src={SLIDES[active].src}
+              alt={SLIDES[active].alt}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 1140px"
+            />
+          </div>
           <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 42, height: 42, borderRadius: 999, cursor: "pointer", fontSize: 20, fontWeight: 900 }}>{"<"}</button>
           <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 42, height: 42, borderRadius: 999, cursor: "pointer", fontSize: 20, fontWeight: 900 }}>{">"}</button>
         </div>
