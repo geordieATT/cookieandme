@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\GATTa\\\\Downloads\" -Recurse | Where-Object { $_.Name -match \"WA0022|WA0038|WA0005|WA0025|WA0009|WA0031|WA0015|WA0007|WA0044|WA0026|WA0016|WA0088|WA0046|143712\" } | Select-Object FullName)",
+      "PowerShell(\\(Get-ChildItem \"C:\\\\Users\\\\GATTa\\\\Downloads\"\\).Count)"
+    ]
+  }
+}

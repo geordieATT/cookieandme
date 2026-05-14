@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
 
@@ -22,14 +21,6 @@ const ORDER_STEPS = [
   { n: "5", title: "Delivery or pickup", body: "Your cookies arrive ready to gift, present, or enjoy." },
 ];
 
-const SLIDES = [
-  { src: "/images/IMG_20260419_143712_514.jpg", alt: "Georgia wedding cookies close-up" },
-  { src: "/images/IMG-20260412-WA0022.jpg", alt: "Starbucks farewell custom cookies" },
-  { src: "/images/IMG-20260412-WA0038.jpg", alt: "GEM Homestay branded cookies" },
-  { src: "/images/IMG-20260418-WA0005.jpg", alt: "Sendd logo cookie on white background" },
-  { src: "/images/IMG-20260423-WA0025.jpg", alt: "3D stamp tool with fondant impressions in a row" },
-  { src: "/images/IMG-20260423-WA0009.jpg", alt: "Stamp tool with dinosaur cutter beside finished cookies" },
-];
 
 function getPriceEach(qty: number): number | null {
   const tier = PRICE_TIERS.find((t) => qty >= t.min);
@@ -160,8 +151,6 @@ function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: Fil
 
 
 export default function CustomCookieSection() {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const [quantity, setQuantity] = useState<number | "">("");
   const [flavour, setFlavour] = useState("");
   const [neededDate, setNeededDate] = useState("");
@@ -175,14 +164,6 @@ export default function CustomCookieSection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const dateRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => setActiveSlide((prev) => (prev + 1) % SLIDES.length), 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const prev = () => setActiveSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  const next = () => setActiveSlide((prev) => (prev + 1) % SLIDES.length);
 
   const qty = typeof quantity === "number" ? quantity : 0;
   const priceEach = qty >= 12 ? getPriceEach(qty) : null;
@@ -236,20 +217,6 @@ export default function CustomCookieSection() {
               <p style={{ color: "#666", fontWeight: 600, fontSize: 15, lineHeight: 1.6 }}>
                 We use 3D-printed custom stamps to reproduce logos, monograms, and detailed designs. Perfect for corporate gifting, brand events, weddings, and milestone celebrations.
               </p>
-            </div>
-
-            <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
-              <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", paddingBottom: "75%" }}>
-                <Image
-                  src={SLIDES[activeSlide].src}
-                  alt={SLIDES[activeSlide].alt}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 768px) 100vw, 600px"
-                />
-              </div>
-              <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
-              <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
             </div>
 
             <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
@@ -353,7 +320,7 @@ export default function CustomCookieSection() {
               {loading ? "Processing..." : deposit > 0 ? `Pay 50% Deposit — $${deposit.toFixed(2)} NZD` : "Enter quantity to continue"}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, textAlign: "center" }}>
-              Shipping or pickup selected at checkout. Free delivery on orders over $119.
+              Free pickup or delivery in Lower Hutt on orders over $100. Nationwide shipping from $8.
             </p>
           </div>
         </div>

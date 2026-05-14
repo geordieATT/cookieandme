@@ -18,14 +18,16 @@ const REVIEWS = [
 export default function GallerySection() {
   const [active, setActive] = useState(0);
   const [hovered, setHovered] = useState(false);
+  const [autoStopped, setAutoStopped] = useState(false);
 
   useEffect(() => {
+    if (autoStopped) return;
     const timer = setInterval(() => setActive((prev) => (prev + 1) % SLIDES.length), 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [autoStopped]);
 
-  const prev = () => setActive((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  const next = () => setActive((prev) => (prev + 1) % SLIDES.length);
+  const prev = () => { setAutoStopped(true); setActive((prev) => (prev - 1 + SLIDES.length) % SLIDES.length); };
+  const next = () => { setAutoStopped(true); setActive((prev) => (prev + 1) % SLIDES.length); };
 
   return (
     <section id="gallery" style={{ padding: "60px 20px" }}>
@@ -37,7 +39,7 @@ export default function GallerySection() {
           Gallery
         </h2>
 
-        <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative", marginBottom: 64 }}>
+        <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onPointerDown={() => setAutoStopped(true)} style={{ position: "relative", marginBottom: 64 }}>
           <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", width: "100%", paddingBottom: "56.25%" }}>
             <Image
               src={SLIDES[active].src}
