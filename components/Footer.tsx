@@ -2,8 +2,8 @@
 
 const navItems = [
   { label: "Gallery", href: "#gallery" },
-  { label: "Gift Boxes", href: "#gift-boxes" },
   { label: "Custom Cookies", href: "#custom" },
+  { label: "Our Story", href: "#about" },
   { label: "Contact", href: "#footer" },
 ];
 

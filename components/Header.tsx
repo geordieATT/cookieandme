@@ -3,8 +3,8 @@ import { useState } from "react";
 
 const navItems = [
   { label: "Gallery", href: "#gallery" },
-  { label: "Gift Boxes", href: "#gift-boxes" },
-  { label: "Custom", href: "#custom" },
+  { label: "Custom Cookies", href: "#custom" },
+  { label: "Our Story", href: "#about" },
   { label: "Contact", href: "#footer" },
 ];
 

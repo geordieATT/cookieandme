@@ -26,11 +26,11 @@ export default function Hero() {
             Handcrafted, custom-designed cookies delivered from Lower Hutt.
           </p>
           <div style={{ display: "flex", gap: 14, marginTop: 8, flexWrap: "wrap" }}>
-            <a href="#gift-boxes" style={{ backgroundColor: "#C04B2B", color: "#fff", fontWeight: 800, fontSize: 16, padding: "14px 30px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
-              Shop Gift Boxes
+            <a href="#custom" style={{ backgroundColor: "#C04B2B", color: "#fff", fontWeight: 800, fontSize: 16, padding: "14px 30px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
+              Order Custom Cookies
             </a>
-            <a href="#custom" style={{ border: "2px solid #00205B", color: "#00205B", fontWeight: 800, fontSize: 16, padding: "12px 28px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
-              Custom Orders
+            <a href="#gallery" style={{ border: "2px solid #00205B", color: "#00205B", fontWeight: 800, fontSize: 16, padding: "12px 28px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
+              View Gallery
             </a>
           </div>
         </div>

@@ -10,7 +10,6 @@ const PRICE_TIERS = [
   { min: 100, price: 5.0 },
   { min: 50, price: 5.5 },
   { min: 24, price: 5.8 },
-  { min: 12, price: 6.25 },
 ];
 
 const ORDER_STEPS = [
@@ -166,13 +165,13 @@ export default function CustomCookieSection() {
   const dateRef = useRef<HTMLInputElement>(null);
 
   const qty = typeof quantity === "number" ? quantity : 0;
-  const priceEach = qty >= 12 ? getPriceEach(qty) : null;
+  const priceEach = qty >= 24 ? getPriceEach(qty) : null;
   const subtotal = priceEach ? Math.round(priceEach * qty * 100) / 100 : 0;
   const deposit = priceEach ? Math.round(subtotal * 0.5 * 100) / 100 : 0;
 
   const handleSubmit = async () => {
     setError("");
-    if (!quantity || qty < 12) { setError("Minimum order is 12 cookies."); return; }
+    if (!quantity || qty < 24) { setError("Minimum order is 24 cookies."); return; }
     if (!flavour) { setError("Please select a flavour."); return; }
     if (!neededDate) { setError("Please select a date needed by."); return; }
     if (!designBrief.trim()) { setError("Please add a design brief."); return; }
@@ -203,47 +202,43 @@ export default function CustomCookieSection() {
   return (
     <section id="custom" style={{ padding: "40px 20px 64px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+
+        <div style={{ marginBottom: 32 }}>
+          <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 10 }}>
+            Your design, your stamp, your moment
+          </span>
+          <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B" }}>
+            Custom Cookies
+          </h2>
+        </div>
+
         <div className="grid-2col card-padding" style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
 
-          {/* Left */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            <div>
-              <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
-                Your design, your stamp, your moment
-              </span>
-              <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>
-                Custom Cookies
-              </h2>
-              <p style={{ color: "#666", fontWeight: 600, fontSize: 15, lineHeight: 1.6 }}>
-                We use 3D-printed custom stamps to reproduce logos, monograms, and detailed designs. Perfect for corporate gifting, brand events, weddings, and milestone celebrations.
-              </p>
-            </div>
-
-            <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
-              <p style={{ fontWeight: 900, color: "#00205B", fontSize: 15, marginBottom: 16 }}>What to expect</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {ORDER_STEPS.map((step) => (
-                  <div key={step.n} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <div style={{ width: 26, height: 26, borderRadius: 999, backgroundColor: "#9B8EC4", color: "#fff", fontWeight: 900, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                      {step.n}
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 800, color: "#00205B", fontSize: 13, marginBottom: 1 }}>{step.title}</p>
-                      <p style={{ fontWeight: 600, color: "#777", fontSize: 12, lineHeight: 1.5 }}>{step.body}</p>
-                    </div>
+          {/* Left — What to expect */}
+          <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
+            <p style={{ fontWeight: 900, color: "#00205B", fontSize: 15, marginBottom: 16 }}>What to expect</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {ORDER_STEPS.map((step) => (
+                <div key={step.n} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <div style={{ width: 26, height: 26, borderRadius: 999, backgroundColor: "#9B8EC4", color: "#fff", fontWeight: 900, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                    {step.n}
                   </div>
-                ))}
-              </div>
+                  <div>
+                    <p style={{ fontWeight: 800, color: "#00205B", fontSize: 13, marginBottom: 1 }}>{step.title}</p>
+                    <p style={{ fontWeight: 600, color: "#777", fontSize: 12, lineHeight: 1.5 }}>{step.body}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right */}
+          {/* Right — Form */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div>
               <label style={labelStyle}>Quantity</label>
-              <input type="number" min={12} value={quantity} onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))} placeholder="Min. 12 cookies" style={inputStyle} />
-              {qty > 0 && qty < 12 && (
-                <p style={{ fontSize: 12, color: "#C04B2B", fontWeight: 700, marginTop: 6 }}>Minimum order is 12 cookies.</p>
+              <input type="number" min={24} value={quantity} onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))} placeholder="Min. 24 cookies" style={inputStyle} />
+              {qty > 0 && qty < 24 && (
+                <p style={{ fontSize: 12, color: "#C04B2B", fontWeight: 700, marginTop: 6 }}>Minimum order is 24 cookies.</p>
               )}
               {priceEach && (
                 <div style={{ marginTop: 10, backgroundColor: "#F3F0FC", borderRadius: 12, padding: "12px 16px", display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
