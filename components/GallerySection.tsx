@@ -1,77 +1,76 @@
-"use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const SLIDES = [
-  { id: 1, src: "/images/IMG_20260419_143712_689.jpg", alt: "Three dinosaur cookies on black background" },
-  { id: 2, src: "/images/IMG-20260419-WA0007.jpg", alt: "Easter basket cookie display" },
-  { id: 3, src: "/images/IMG-20260412-WA0044.jpg", alt: "Easter egg cookies fanned out on white" },
+const images = [
+  {
+    src: "/images/dinosaur-trio-cookies-black-background.jpg",
+    alt: "Three dinosaur cookies on black background",
+  },
+  {
+    src: "/images/60th-birthday-russell-gift-box-gold-ribbon.jpg",
+    alt: "60th birthday cookies in gift box with gold ribbon",
+  },
+  {
+    src: "/images/gem-homestay-welcome-cookies-blue-purple.jpg",
+    alt: "Gem Homestay welcome cookies in blue and purple",
+  },
+  {
+    src: "/images/gold-monogram-cookies-white-gift-box.jpg",
+    alt: "Gold monogram cookies in white gift box",
+  },
+  {
+    src: "/images/anzac-lest-we-forget-gift-box-candle-poppy.jpg",
+    alt: "ANZAC Lest We Forget gift box with candle and poppy",
+  },
+  {
+    src: "/images/mothers-day-cookies-outdoor-candle-blue-pink.jpg",
+    alt: "Mother's Day cookies with candle outdoors",
+  },
+  {
+    src: "/images/wedding-samuel-georgia-gift-box-pink-ribbon.jpg",
+    alt: "Wedding cookies in gift box with pink ribbon",
+  },
+  {
+    src: "/images/guide-dog-day-orange-cookies-cooling-rack.jpg",
+    alt: "Guide Dog Day orange cookies on cooling rack",
+  },
+  {
+    src: "/images/devopsdays-wellington-cookies-tray-closeup.jpg",
+    alt: "DevOpsDays Wellington cookies on tray close-up",
+  },
 ];
-
-const REVIEWS = [
-  { name: "Sarah M.", initials: "SM", role: "Wedding Client", quote: "Absolutely stunning cookies for our wedding. Every guest was blown away by the detail on the monogram stamps. Will treasure the photos forever.", color: "#9B8EC4" },
-  { name: "James T.", initials: "JT", role: "Corporate Client", quote: "We ordered branded cookies for our product launch and the logo reproduction was incredible. Our team loved them and so did our clients.", color: "#C04B2B" },
-  { name: "Aroha K.", initials: "AK", role: "Birthday Order", quote: "Ordered a gift box for my mum's 60th and she cried happy tears. The handwritten card was such a lovely touch. Will definitely order again.", color: "#00205B" },
-];
-
 
 export default function GallerySection() {
-  const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState(false);
-  const [autoStopped, setAutoStopped] = useState(false);
-
-  useEffect(() => {
-    if (autoStopped) return;
-    const timer = setInterval(() => setActive((prev) => (prev + 1) % SLIDES.length), 4000);
-    return () => clearInterval(timer);
-  }, [autoStopped]);
-
-  const prev = () => { setAutoStopped(true); setActive((prev) => (prev - 1 + SLIDES.length) % SLIDES.length); };
-  const next = () => { setAutoStopped(true); setActive((prev) => (prev + 1) % SLIDES.length); };
-
   return (
-    <section id="gallery" style={{ padding: "60px 20px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
-          A little taste of what we do
-        </span>
-        <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 32 }}>
-          Gallery
+    <section
+      id="gallery"
+      style={{ padding: "96px 0", backgroundColor: "#F4F4F2" }}
+    >
+      <div className="section-container">
+        <h2
+          style={{
+            fontFamily: "'Nunito', sans-serif",
+            fontWeight: 900,
+            fontSize: "clamp(26px, 3.5vw, 38px)",
+            color: "#1B2B6B",
+            marginBottom: 48,
+            textAlign: "center",
+          }}
+        >
+          A Little Taste of What We Do
         </h2>
 
-        <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onPointerDown={() => setAutoStopped(true)} style={{ position: "relative", marginBottom: 64 }}>
-          <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", width: "100%", paddingBottom: "56.25%" }}>
-            <Image
-              src={SLIDES[active].src}
-              alt={SLIDES[active].alt}
-              fill
-              style={{ objectFit: "cover" }}
-              sizes="(max-width: 768px) 100vw, 1140px"
-            />
-          </div>
-          <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 42, height: 42, borderRadius: 999, cursor: "pointer", fontSize: 20, fontWeight: 900 }}>{"<"}</button>
-          <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 42, height: 42, borderRadius: 999, cursor: "pointer", fontSize: 20, fontWeight: 900 }}>{">"}</button>
-        </div>
-
-        <h3 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 28, color: "#00205B", marginBottom: 28, textAlign: "center" }}>
-          What Customers are Saying
-        </h3>
-
-        <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
-          {REVIEWS.map((r) => (
-            <div key={r.name} style={{ backgroundColor: "#fff", border: "2px solid #EAE4F5", borderRadius: 20, padding: "28px", display: "flex", flexDirection: "column", gap: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 999, backgroundColor: r.color, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 900, fontSize: 15, flexShrink: 0 }}>
-                  {r.initials}
-                </div>
-                <div>
-                  <p style={{ fontWeight: 800, color: "#00205B", fontSize: 15, marginBottom: 2 }}>{r.name}</p>
-                  <p style={{ fontWeight: 600, color: "#9B8EC4", fontSize: 13 }}>{r.role}</p>
-                </div>
+        <div className="gallery-grid">
+          {images.map((img) => (
+            <div key={img.src} className="gallery-item">
+              <div style={{ position: "relative", paddingBottom: "75%" }}>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
               </div>
-              <p style={{ color: "#555", fontWeight: 600, fontSize: 14, lineHeight: 1.7, fontStyle: "italic" }}>
-                "{r.quote}"
-              </p>
             </div>
           ))}
         </div>

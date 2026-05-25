@@ -1,77 +1,110 @@
-"use client";
+import Image from "next/image";
 
-const navItems = [
+const navLinks = [
   { label: "Gallery", href: "#gallery" },
-  { label: "Custom Cookies", href: "#custom" },
+  { label: "Corporate", href: "#corporate" },
   { label: "Our Story", href: "#about" },
-  { label: "Contact", href: "#footer" },
+  { label: "Order", href: "#order" },
+  { label: "Contact", href: "#contact" },
 ];
 
-function RedStar() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="#C04B2B">
-      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-    </svg>
-  );
-}
-
-function PurpleStar() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="#9B8EC4">
-      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-    </svg>
-  );
-}
-
 export default function Footer() {
-  const year = new Date().getFullYear();
-
   return (
-    <footer id="footer" style={{ backgroundColor: "#00205B", color: "#fff", padding: "48px 20px 32px" }}>
-      <div className="grid-2col" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: 40, alignItems: "start", marginBottom: 40 }}>
-
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <RedStar />
-            <p style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 22 }}>
-              Cookie and Me
+    <footer
+      style={{
+        backgroundColor: "#1B2B6B",
+        color: "#FAFAF8",
+        padding: "60px 0 32px",
+      }}
+    >
+      <div className="section-container">
+        <div className="footer-main" style={{ marginBottom: 48 }}>
+          {/* Logo + tagline */}
+          <div>
+            <a
+              href="/"
+              aria-label="Cookie and Me home"
+              style={{ display: "inline-block", marginBottom: 16 }}
+            >
+              <Image
+                src="/images/cookie-and-me-logo.svg.svg"
+                alt="Cookie and Me"
+                width={140}
+                height={40}
+                style={{
+                  height: 36,
+                  width: "auto",
+                  filter: "brightness(0) invert(1)",
+                }}
+              />
+            </a>
+            <p
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 13,
+                color: "rgba(250, 250, 248, 0.5)",
+                lineHeight: 1.7,
+                maxWidth: 220,
+              }}
+            >
+              Designed With Good Taste.
+              <br />
+              Handcrafted in Lower Hutt, New Zealand.
             </p>
-            <PurpleStar />
           </div>
 
-          <p style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: 14, maxWidth: 280, marginBottom: 20 }}>
-            Handcrafted, custom-designed cookies delivered from Lower Hutt, New Zealand.
-          </p>
+          {/* Nav links */}
+          <nav
+            aria-label="Footer navigation"
+            style={{ display: "flex", flexDirection: "column", gap: 12 }}
+          >
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className="footer-link">
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <a href="tel:0211757181" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 15 }}>
-              021 175 7181
+          {/* Contact */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <a
+              href="https://instagram.com/cookieandme_nz"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-link"
+            >
+              @cookieandme_nz
             </a>
-            <a href="mailto:cookieandme.nz@gmail.com" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 15 }}>
+            <a
+              href="mailto:cookieandme.nz@gmail.com"
+              className="footer-link"
+            >
               cookieandme.nz@gmail.com
             </a>
-            <a href="https://instagram.com/cookieandme_nz" target="_blank" rel="noreferrer" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none", fontWeight: 700, fontSize: 15 }}>
-              @cookieandme_nz
+            <a href="tel:0211757181" className="footer-link">
+              021 175 7181
             </a>
           </div>
         </div>
 
-        <nav style={{ display: "flex", flexDirection: "column", gap: 12, paddingTop: 4 }}>
-          {navItems.map((item) => (
-            <a key={item.label} href={item.href} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-
-      <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.12)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, fontWeight: 600 }}>
-          {year} Cookie and Me. All rights reserved.
-        </p>
-        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, fontWeight: 600 }}>
-          Lower Hutt, New Zealand
-        </p>
+        {/* Bottom bar */}
+        <div
+          style={{
+            borderTop: "1px solid rgba(250, 250, 248, 0.1)",
+            paddingTop: 24,
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 13,
+              color: "rgba(250, 250, 248, 0.3)",
+            }}
+          >
+            &copy; 2026 Cookie &amp; Me. Handcrafted in Lower Hutt, New
+            Zealand.
+          </p>
+        </div>
       </div>
     </footer>
   );
