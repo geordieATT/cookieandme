@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 
 function calcTotal(qty: number): number {
   if (qty <= 24) return 110;
+  if (qty < 50) return qty * 5.0;
   if (qty < 100) return qty * 4.5;
   return qty * 4.0;
 }
@@ -41,7 +42,7 @@ export default function OrderSection() {
   const total = calcTotal(qty);
   const deposit = calcDeposit(qty, total);
   const isFullPayment = qty < 100;
-  const priceEach = qty === 24 ? "" : qty < 100 ? "4.50" : "4.00";
+  const priceEach = qty === 24 ? "" : qty < 50 ? "5.00" : qty < 100 ? "4.50" : "4.00";
 
   const handleSubmit = async () => {
     setError("");
@@ -400,7 +401,7 @@ export default function OrderSection() {
                   <span>
                     {qty === 24
                       ? "24-pack flat rate"
-                      : `${qty} cookies @ ${priceEach === "4.50" ? "$4.50" : "$4.00"} each`}
+                      : `${qty} cookies @ $${priceEach} each`}
                   </span>
                   <span style={{ fontWeight: 600, color: "#1B2B6B" }}>
                     {fmt(total)}

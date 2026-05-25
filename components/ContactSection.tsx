@@ -2,6 +2,45 @@
 
 import { useState } from "react";
 
+function CopyButton({ text, display }: { text: string; display: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback: do nothing
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      style={{
+        background: "none",
+        border: "none",
+        padding: 0,
+        cursor: "pointer",
+        fontFamily: "'Inter', sans-serif",
+        fontSize: 15,
+        fontWeight: 500,
+        color: copied ? "#1B2B6B" : "#1B2B6B",
+        textAlign: "left",
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        transition: "color 0.15s",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.color = "#C0392B")}
+      onMouseLeave={(e) => (e.currentTarget.style.color = "#1B2B6B")}
+    >
+      {copied ? "Copied!" : display}
+    </button>
+  );
+}
+
 export default function ContactSection() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,76 +89,40 @@ export default function ContactSection() {
   return (
     <section id="contact" style={{ padding: "96px 0" }}>
       <div className="section-container">
-        <h2
-          style={{
-            fontFamily: "'Nunito', sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#1B2B6B",
-            marginBottom: 56,
-          }}
-        >
-          Get in Touch
-        </h2>
-
-        <div className="two-col" style={{ alignItems: "start", gap: 64 }}>
-          {/* Contact details */}
+        <div className="two-col" style={{ alignItems: "start", gap: 72 }}>
+          {/* Left: intro + contact details */}
           <div>
-            <h3
+            <h2
               style={{
                 fontFamily: "'Nunito', sans-serif",
-                fontWeight: 800,
-                fontSize: 20,
+                fontWeight: 900,
+                fontSize: "clamp(26px, 3.5vw, 38px)",
                 color: "#1B2B6B",
-                marginBottom: 20,
+                marginBottom: 16,
               }}
             >
-              Contact Details
-            </h3>
-            <div
+              Get in Touch
+            </h2>
+            <p
               style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-                marginBottom: 36,
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 15,
+                color: "#555",
+                lineHeight: 1.75,
+                marginBottom: 40,
               }}
             >
-              <a
-                href="tel:0211757181"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "#1B2B6B",
-                  transition: "color 0.15s",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#C0392B")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#1B2B6B")
-                }
-              >
-                021 175 7181
-              </a>
-              <a
-                href="mailto:cookieandme.nz@gmail.com"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "#1B2B6B",
-                  transition: "color 0.15s",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#C0392B")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#1B2B6B")
-                }
-              >
-                cookieandme.nz@gmail.com
-              </a>
+              Whether you have a specific idea or just want to explore what is
+              possible, we would love to hear from you. Fill out the form or
+              reach us directly below.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <CopyButton text="021 175 7181" display="021 175 7181" />
+              <CopyButton
+                text="cookieandme.nz@gmail.com"
+                display="cookieandme.nz@gmail.com"
+              />
               <a
                 href="https://instagram.com/cookieandme_nz"
                 target="_blank"
@@ -141,31 +144,9 @@ export default function ContactSection() {
                 @cookieandme_nz on Instagram
               </a>
             </div>
-
-            <div
-              style={{
-                border: "1.5px solid #D4D9EE",
-                borderRadius: 2,
-                padding: "24px",
-                backgroundColor: "#F4F5FB",
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 14,
-                  color: "#444",
-                  lineHeight: 1.75,
-                }}
-              >
-                If you have an event date, logo, colour palette, or custom idea
-                in mind, send us the details and we will let you know what is
-                possible.
-              </p>
-            </div>
           </div>
 
-          {/* Contact form */}
+          {/* Right: form */}
           <div>
             {sent ? (
               <div

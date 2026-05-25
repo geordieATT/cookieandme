@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 const navLinks = [
@@ -7,6 +10,36 @@ const navLinks = [
   { label: "Order", href: "#order" },
   { label: "Contact", href: "#contact" },
 ];
+
+function CopyFooterButton({ text, display }: { text: string; display: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback: do nothing
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="footer-link"
+      style={{
+        background: "none",
+        border: "none",
+        padding: 0,
+        cursor: "pointer",
+        textAlign: "left",
+      }}
+    >
+      {copied ? "Copied!" : display}
+    </button>
+  );
+}
 
 export default function Footer() {
   return (
@@ -76,15 +109,11 @@ export default function Footer() {
             >
               @cookieandme_nz
             </a>
-            <a
-              href="mailto:cookieandme.nz@gmail.com"
-              className="footer-link"
-            >
-              cookieandme.nz@gmail.com
-            </a>
-            <a href="tel:0211757181" className="footer-link">
-              021 175 7181
-            </a>
+            <CopyFooterButton
+              text="cookieandme.nz@gmail.com"
+              display="cookieandme.nz@gmail.com"
+            />
+            <CopyFooterButton text="021 175 7181" display="021 175 7181" />
           </div>
         </div>
 

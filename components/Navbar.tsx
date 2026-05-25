@@ -46,7 +46,7 @@ export default function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        <a href="/" aria-label="Cookie and Me home">
+        <a href="/" aria-label="Cookie and Me home" style={{ flexShrink: 0 }}>
           <Image
             src="/images/cookie-and-me-logo-horizontal.svg"
             alt="Cookie and Me"
@@ -60,7 +60,7 @@ export default function Navbar() {
         {/* Desktop nav */}
         <nav
           className="nav-links"
-          style={{ gap: 36, alignItems: "center" }}
+          style={{ gap: 36, alignItems: "center", flexShrink: 0 }}
           aria-label="Main navigation"
         >
           {navLinks.map((link) => (

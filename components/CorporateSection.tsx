@@ -4,13 +4,23 @@ const pricingTiers = [
   {
     label: "24 Pack",
     price: "$110",
+    strikethrough: "$120",
     perUnit: null,
     note: "Fixed price",
     highlight: false,
   },
   {
-    label: "25–99 Cookies",
+    label: "25–49 Cookies",
+    price: "$5.00",
+    strikethrough: null,
+    perUnit: "per cookie",
+    note: "",
+    highlight: false,
+  },
+  {
+    label: "50–99 Cookies",
     price: "$4.50",
+    strikethrough: null,
     perUnit: "per cookie",
     note: "Most popular",
     highlight: true,
@@ -18,6 +28,7 @@ const pricingTiers = [
   {
     label: "100+ Cookies",
     price: "$4.00",
+    strikethrough: null,
     perUnit: "per cookie",
     note: "Best value",
     highlight: false,
@@ -52,6 +63,7 @@ export default function CorporateSection() {
               fontSize: "clamp(28px, 3.5vw, 40px)",
               color: "#1B2B6B",
               marginBottom: 14,
+              maxWidth: 400,
             }}
           >
             Make Your Brand Unforgettable
@@ -106,7 +118,7 @@ export default function CorporateSection() {
           <div
             style={{
               position: "relative",
-              aspectRatio: "4/3",
+              height: 520,
               overflow: "hidden",
               borderRadius: 2,
             }}
@@ -146,7 +158,7 @@ export default function CorporateSection() {
 
         {/* Pricing table */}
         <div style={{ marginBottom: 20 }}>
-          <div className="three-col">
+          <div className="pricing-grid">
             {pricingTiers.map((tier) => (
               <div
                 key={tier.label}
@@ -155,7 +167,7 @@ export default function CorporateSection() {
                     ? "2px solid #1B2B6B"
                     : "1.5px solid #E0DFDD",
                   borderRadius: 2,
-                  padding: "32px 28px",
+                  padding: "28px 20px",
                   textAlign: "center",
                   backgroundColor: tier.highlight ? "#F4F5FB" : "#FAFAF8",
                   position: "relative",
@@ -170,12 +182,12 @@ export default function CorporateSection() {
                       transform: "translateX(-50%)",
                       backgroundColor: "#1B2B6B",
                       color: "#FAFAF8",
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: 600,
                       fontFamily: "'Inter', sans-serif",
                       letterSpacing: "0.08em",
                       textTransform: "uppercase",
-                      padding: "4px 12px",
+                      padding: "4px 10px",
                       borderRadius: "0 0 2px 2px",
                       whiteSpace: "nowrap",
                     }}
@@ -186,13 +198,13 @@ export default function CorporateSection() {
                 <p
                   style={{
                     fontFamily: "'Inter', sans-serif",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 600,
                     color: "#888",
-                    letterSpacing: "0.1em",
+                    letterSpacing: "0.08em",
                     textTransform: "uppercase",
-                    marginBottom: 12,
-                    marginTop: tier.highlight ? 16 : 0,
+                    marginBottom: 10,
+                    marginTop: tier.highlight ? 14 : 0,
                   }}
                 >
                   {tier.label}
@@ -202,25 +214,38 @@ export default function CorporateSection() {
                     display: "flex",
                     alignItems: "baseline",
                     justifyContent: "center",
-                    gap: 4,
-                    marginBottom: 6,
+                    gap: 6,
+                    marginBottom: 4,
+                    flexWrap: "wrap",
                   }}
                 >
                   <span
                     style={{
                       fontFamily: "'Nunito', sans-serif",
                       fontWeight: 900,
-                      fontSize: 36,
+                      fontSize: 32,
                       color: "#1B2B6B",
                     }}
                   >
                     {tier.price}
                   </span>
+                  {tier.strikethrough && (
+                    <span
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: 14,
+                        color: "#BBB",
+                        textDecoration: "line-through",
+                      }}
+                    >
+                      {tier.strikethrough}
+                    </span>
+                  )}
                   {tier.perUnit && (
                     <span
                       style={{
                         fontFamily: "'Inter', sans-serif",
-                        fontSize: 13,
+                        fontSize: 12,
                         color: "#666",
                       }}
                     >
@@ -228,15 +253,17 @@ export default function CorporateSection() {
                     </span>
                   )}
                 </div>
-                <p
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 12,
-                    color: "#888",
-                  }}
-                >
-                  {tier.note}
-                </p>
+                {tier.note && (
+                  <p
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: 11,
+                      color: "#AAA",
+                    }}
+                  >
+                    {tier.note}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -267,7 +294,7 @@ export default function CorporateSection() {
         </div>
 
         <a href="#contact" className="btn-navy">
-          Get a Corporate Quote
+          Get a Quote
         </a>
       </div>
     </section>
