@@ -10,6 +10,29 @@ export default function OurStorySection() {
         <div className="two-col">
           {/* Copy */}
           <div>
+            {/* Placeholder — restore original copy below when ready */}
+            <div
+              style={{
+                backgroundColor: "#E8E8E5",
+                borderRadius: 2,
+                height: 280,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 14,
+                  color: "#AAA",
+                }}
+              >
+                Copy goes here
+              </span>
+            </div>
+
+            {/*
             <h2
               style={{
                 fontFamily: "'Nunito', sans-serif",
@@ -62,6 +85,7 @@ export default function OurStorySection() {
               Lower Hutt, New Zealand &middot; Est. 2026 &middot; Mother &amp;
               Son
             </p>
+            */}
           </div>
 
           {/* Image */}
@@ -77,7 +101,7 @@ export default function OurStorySection() {
               src="/images/geordie-and-kersti-kitchen.jpg"
               alt="Geordie and Kersti in the kitchen"
               fill
-              style={{ objectFit: "cover", objectPosition: "center top" }}
+              style={{ objectFit: "cover", objectPosition: "left center" }}
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
