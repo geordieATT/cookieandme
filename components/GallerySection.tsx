@@ -14,28 +14,28 @@ const images = [
     alt: "Gem Homestay welcome cookies in blue and purple",
   },
   {
-    src: "/images/gold-monogram-cookies-white-gift-box.jpg",
-    alt: "Gold monogram cookies in white gift box",
+    src: "/images/farewell-patrick-chamber-cookies-sunny.jpg",
+    alt: "Farewell cookies for Patrick, Chamber of Commerce",
   },
   {
-    src: "/images/anzac-lest-we-forget-gift-box-candle-poppy.jpg",
-    alt: "ANZAC Lest We Forget gift box with candle and poppy",
+    src: "/images/60th-birthday-russell-cookies-tray-overhead.jpg",
+    alt: "60th birthday cookies on tray overhead view",
   },
   {
     src: "/images/mothers-day-cookies-outdoor-candle-blue-pink.jpg",
     alt: "Mother's Day cookies with candle outdoors",
   },
   {
-    src: "/images/wedding-samuel-georgia-gift-box-pink-ribbon.jpg",
-    alt: "Wedding cookies in gift box with pink ribbon",
+    src: "/images/timedock-branded-cookies-production-bench.jpg",
+    alt: "TimeDock branded cookies on production bench",
   },
   {
     src: "/images/guide-dog-day-orange-cookies-cooling-rack.jpg",
     alt: "Guide Dog Day orange cookies on cooling rack",
   },
   {
-    src: "/images/devopsdays-wellington-cookies-tray-closeup.jpg",
-    alt: "DevOpsDays Wellington cookies on tray close-up",
+    src: "/images/devopsdays-wellington-branded-cookie-black-background.jpg",
+    alt: "DevOpsDays Wellington branded cookie on black background",
   },
 ];
 

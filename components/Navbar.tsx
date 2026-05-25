@@ -48,12 +48,12 @@ export default function Navbar() {
       >
         <a href="/" aria-label="Cookie and Me home">
           <Image
-            src="/images/cookie-and-me-logo.svg.svg"
+            src="/images/cookie-and-me-logo-horizontal.svg"
             alt="Cookie and Me"
-            width={150}
-            height={42}
+            width={220}
+            height={64}
             priority
-            style={{ height: 36, width: "auto" }}
+            style={{ width: 180, height: "auto", display: "block" }}
           />
         </a>
 

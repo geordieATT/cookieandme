@@ -30,8 +30,8 @@ const galleryImages = [
     alt: "QSpace branded vanilla cookie on black background",
   },
   {
-    src: "/images/starbucks-farewell-branded-green-cookies.jpg",
-    alt: "Starbucks farewell branded green cookies",
+    src: "/images/devopsdays-wellington-branded-cookie-black-background.jpg",
+    alt: "DevOpsDays Wellington branded cookie on black background",
   },
   {
     src: "/images/pink-shirt-day-full-production-bench-overhead.jpg",
@@ -112,8 +112,8 @@ export default function CorporateSection() {
             }}
           >
             <Image
-              src="/images/devopsdays-wellington-branded-cookie-black-background.jpg"
-              alt="DevOpsDays Wellington branded cookie on black background"
+              src="/images/timedock-branded-cookies-production-bench.jpg"
+              alt="TimeDock branded cookies on production bench"
               fill
               style={{ objectFit: "cover" }}
               sizes="(max-width: 768px) 100vw, 50vw"

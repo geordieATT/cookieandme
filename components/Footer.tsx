@@ -27,13 +27,14 @@ export default function Footer() {
               style={{ display: "inline-block", marginBottom: 16 }}
             >
               <Image
-                src="/images/cookie-and-me-logo.svg.svg"
+                src="/images/cookie-and-me-logo-horizontal.svg"
                 alt="Cookie and Me"
-                width={140}
-                height={40}
+                width={220}
+                height={64}
                 style={{
-                  height: 36,
-                  width: "auto",
+                  width: 160,
+                  height: "auto",
+                  display: "block",
                   filter: "brightness(0) invert(1)",
                 }}
               />

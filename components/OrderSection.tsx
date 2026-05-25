@@ -224,6 +224,8 @@ export default function OrderSection() {
                   <option>Classic Vanilla</option>
                   <option>Vanilla Chocolate Chip</option>
                   <option>Dark Salted Chocolate</option>
+                  <option>Ginger</option>
+                  <option>Spice</option>
                 </select>
               </div>
             </div>

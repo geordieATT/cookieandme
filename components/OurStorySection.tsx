@@ -74,8 +74,8 @@ export default function OurStorySection() {
             }}
           >
             <Image
-              src="/images/guide-dog-day-stall-wellington-kersti.jpg"
-              alt="Kersti at the Guide Dog Day stall in Wellington"
+              src="/images/geordie-and-kersti-kitchen.jpg"
+              alt="Geordie and Kersti in the kitchen"
               fill
               style={{ objectFit: "cover", objectPosition: "center top" }}
               sizes="(max-width: 768px) 100vw, 50vw"

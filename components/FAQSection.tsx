@@ -20,12 +20,8 @@ const faqs = [
     a: "Our cookies stay fresh for up to 4 weeks from their production date in sealed packaging.",
   },
   {
-    q: "Can I use my own logo?",
-    a: "Absolutely. Send us your logo file (PNG, JPG, or SVG) and we'll design a custom stamp to match it.",
-  },
-  {
     q: "What flavours do you offer?",
-    a: "Classic Vanilla, Vanilla Chocolate Chip, and Dark Salted Chocolate.",
+    a: "Classic Vanilla, Vanilla Chocolate Chip, Dark Salted Chocolate, Ginger, and Spice.",
   },
 ];
 
