@@ -83,7 +83,7 @@ export default function CorporateSection() {
 
         {/* Two-column layout */}
         <div className="two-col" style={{ marginBottom: 56 }}>
-          <div>
+          <div style={{ alignSelf: "center" }}>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
