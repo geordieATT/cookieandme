@@ -17,11 +17,9 @@ function fmt(n: number): string {
   return "$" + n.toFixed(2).replace(/\.00$/, "");
 }
 
-const minDateStr = (() => {
-  const d = new Date();
-  d.setDate(d.getDate() + 7);
-  return d.toISOString().split("T")[0];
-})();
+const minDate = new Date();
+minDate.setDate(minDate.getDate() + 10);
+const minDateStr = minDate.toISOString().split("T")[0];
 
 export default function OrderSection() {
   const [name, setName] = useState("");
@@ -37,6 +35,7 @@ export default function OrderSection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const qty = typeof quantity === "number" && quantity >= 24 ? quantity : 24;
   const total = calcTotal(qty);
@@ -165,26 +164,17 @@ export default function OrderSection() {
                   autoComplete="tel"
                 />
               </div>
-              <div>
-                <label className="form-label">Date Needed *</label>
+              <div onClick={() => dateInputRef.current?.showPicker()} style={{ cursor: "pointer" }}>
+                <label className="form-label" style={{ cursor: "pointer" }}>Date Needed *</label>
                 <input
+                  ref={dateInputRef}
                   type="date"
                   className="form-field"
                   value={dateNeeded}
                   onChange={(e) => setDateNeeded(e.target.value)}
                   min={minDateStr}
+                  style={{ cursor: "pointer" }}
                 />
-                <p
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 12,
-                    color: "#888",
-                    marginTop: 5,
-                  }}
-                >
-                  Minimum 7 days from today. Up to 10 days depending on order
-                  size.
-                </p>
               </div>
             </div>
 
@@ -262,6 +252,18 @@ export default function OrderSection() {
                   {colour}
                 </span>
               </div>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 12,
+                  color: "#888",
+                  marginTop: 6,
+                }}
+              >
+                We will do our best to match your chosen colour exactly. Please
+                note that fondant can appear different under different lighting
+                conditions.
+              </p>
             </div>
 
             {/* Company name */}
