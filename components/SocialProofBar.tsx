@@ -1,6 +1,5 @@
 const stats = [
   { value: "1,500", label: "Cookies Baked So Far" },
-  { value: "Up to 10 Days", label: "Lead Time" },
   { value: "Lower Hutt, NZ", label: "Based In" },
 ];
 

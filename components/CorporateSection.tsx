@@ -6,11 +6,11 @@ const pricingTiers = [
     price: "$110",
     strikethrough: "$120",
     perUnit: null,
-    note: "Fixed price",
+    note: "",
     highlight: false,
   },
   {
-    label: "25–49 Cookies",
+    label: "25–99 Cookies",
     price: "$5.00",
     strikethrough: null,
     perUnit: "per cookie",
@@ -18,7 +18,7 @@ const pricingTiers = [
     highlight: false,
   },
   {
-    label: "50–99 Cookies",
+    label: "100–499 Cookies",
     price: "$4.50",
     strikethrough: null,
     perUnit: "per cookie",
@@ -26,7 +26,7 @@ const pricingTiers = [
     highlight: true,
   },
   {
-    label: "100+ Cookies",
+    label: "500+ Cookies",
     price: "$4.00",
     strikethrough: null,
     perUnit: "per cookie",
@@ -279,8 +279,8 @@ export default function CorporateSection() {
               marginBottom: 6,
             }}
           >
-            Orders under 100 cookies require full payment upfront. Orders of 100
-            or more require a 50% deposit.
+            Orders under 100 cookies require full payment upfront. Orders of
+            100 or more require a 50% deposit.
           </p>
           <p
             style={{
