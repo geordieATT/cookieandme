@@ -54,71 +54,91 @@ export default function CorporateSection() {
   return (
     <section id="corporate" style={{ padding: "96px 0" }}>
       <div className="section-container">
-        {/* Heading */}
-        <div style={{ maxWidth: 640, marginBottom: 56 }}>
-          <h2
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontWeight: 900,
-              fontSize: "clamp(28px, 3.5vw, 40px)",
-              color: "#1B2B6B",
-              marginBottom: 14,
-              maxWidth: 400,
-            }}
-          >
-            Make Your Brand Unforgettable
-          </h2>
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 17,
-              color: "#555",
-              lineHeight: 1.65,
-            }}
-          >
-            From conferences to client gifts, we create branded cookies that
-            people actually remember.
-          </p>
-        </div>
-
         {/* Two-column layout */}
-        <div className="two-col" style={{ marginBottom: 56 }}>
-          <div style={{ alignSelf: "center" }}>
-            <p
+        <div
+          style={{
+            display: "flex",
+            alignItems: "stretch",
+            gap: 72,
+            marginBottom: 56,
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <div
               style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 15,
-                color: "#333",
-                lineHeight: 1.8,
-                marginBottom: 20,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                height: "100%",
               }}
             >
-              We work with businesses across Wellington to create custom-stamped
-              cookies that carry your logo, your message, and your brand colours.
-              Whether you need 24 cookies for a team event or 500 for a
-              conference, every single one is made by hand in our Lower Hutt
-              kitchen. Our 3D-printed stamps are designed in-house using CAD
-              software, allowing us to reproduce detailed logos and complex
-              designs that letter stamps simply cannot achieve.
-            </p>
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 15,
-                color: "#333",
-                lineHeight: 1.8,
-              }}
-            >
-              <strong style={{ color: "#1B2B6B" }}>Perfect for:</strong> client
-              gifting, product launches, conferences, networking events, staff
-              appreciation, and brand activations.
-            </p>
+              <h2
+                style={{
+                  fontFamily: "'Nunito', sans-serif",
+                  fontWeight: 900,
+                  fontSize: "clamp(28px, 3.5vw, 40px)",
+                  color: "#1B2B6B",
+                  marginBottom: 14,
+                  maxWidth: 400,
+                }}
+              >
+                Make Your Brand Unforgettable
+              </h2>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 17,
+                  color: "#555",
+                  lineHeight: 1.65,
+                  marginBottom: 32,
+                }}
+              >
+                From conferences to client gifts, we create branded cookies that
+                people actually remember.
+              </p>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 15,
+                  color: "#333",
+                  lineHeight: 1.8,
+                  marginBottom: 20,
+                }}
+              >
+                We work with businesses across Wellington to create
+                custom-stamped cookies that carry your logo, your message, and
+                your brand colours. Whether you need 24 cookies for a team event
+                or 500 for a conference, every single one is made by hand in our
+                Lower Hutt kitchen. Our 3D-printed stamps are designed in-house
+                using CAD software, allowing us to reproduce detailed logos and
+                complex designs that letter stamps simply cannot achieve.
+              </p>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 15,
+                  color: "#333",
+                  lineHeight: 1.8,
+                  marginBottom: 32,
+                }}
+              >
+                <strong style={{ color: "#1B2B6B" }}>Perfect for:</strong>{" "}
+                client gifting, product launches, conferences, networking events,
+                staff appreciation, and brand activations.
+              </p>
+              <div>
+                <a href="#contact" className="btn-navy">
+                  Get a Quote
+                </a>
+              </div>
+            </div>
           </div>
 
           <div
             style={{
               position: "relative",
-              height: 520,
+              height: 500,
+              flex: 1,
               overflow: "hidden",
               borderRadius: 2,
             }}
@@ -293,9 +313,6 @@ export default function CorporateSection() {
           </p>
         </div>
 
-        <a href="#contact" className="btn-navy">
-          Get a Quote
-        </a>
       </div>
     </section>
   );
