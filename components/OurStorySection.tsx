@@ -9,30 +9,14 @@ export default function OurStorySection() {
       <div className="section-container">
         <div className="two-col">
           {/* Copy */}
-          <div>
-            {/* Placeholder — restore original copy below when ready */}
-            <div
-              style={{
-                backgroundColor: "#E8E8E5",
-                borderRadius: 2,
-                height: 280,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 14,
-                  color: "#AAA",
-                }}
-              >
-                Copy goes here
-              </span>
-            </div>
-
-            {/*
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "100%",
+            }}
+          >
             <h2
               style={{
                 fontFamily: "'Nunito', sans-serif",
@@ -42,7 +26,7 @@ export default function OurStorySection() {
                 marginBottom: 24,
               }}
             >
-              Who We Are
+              Our Story
             </h2>
             <p
               style={{
@@ -53,12 +37,10 @@ export default function OurStorySection() {
                 marginBottom: 20,
               }}
             >
-              Cookie &amp; Me is a mother and son business based in Lower Hutt,
-              New Zealand. Kersti brings the baking and the heart. Geordie brings
-              the engineering — designing every custom stamp from scratch using
-              CAD software and a 3D printer. Together, we make cookies that carry
-              meaning: your logo, your message, your moment, pressed into every
-              single one.
+              Cookie &amp; Me is a mother-and-son business based in Lower Hutt.
+              We started because we wanted to build something together that used
+              both of our existing skills, while developing the experience,
+              skills, and connections that will carry us into future ventures.
             </p>
             <p
               style={{
@@ -66,26 +48,14 @@ export default function OurStorySection() {
                 fontSize: 15,
                 color: "#333",
                 lineHeight: 1.8,
-                marginBottom: 32,
               }}
             >
-              We started Cookie &amp; Me because we believe a great gift should
-              feel personal, not generic. That&apos;s why every order is made by
-              hand, finished with care, and sent out with a label made just for
-              you.
+              What sets us apart is the design work. Every stamp is created from
+              scratch using CAD software and 3D-printed on a dedicated printer
+              using FDA-approved food-safe filament. That&apos;s what lets us
+              produce real logos, custom text, and detailed artwork, rather than
+              relying on letter blocks and hand-iced icons like most bakeries.
             </p>
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 13,
-                color: "#888",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Lower Hutt, New Zealand &middot; Est. 2026 &middot; Mother &amp;
-              Son
-            </p>
-            */}
           </div>
 
           {/* Image */}
