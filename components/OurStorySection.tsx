@@ -101,7 +101,7 @@ export default function OurStorySection() {
               src="/images/geordie-and-kersti-kitchen.jpg"
               alt="Geordie and Kersti in the kitchen"
               fill
-              style={{ objectFit: "cover", objectPosition: "left center" }}
+              style={{ objectFit: "cover", objectPosition: "left center", transform: "scale(1.06)", transformOrigin: "left center" }}
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
