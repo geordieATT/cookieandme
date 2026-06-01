@@ -82,36 +82,19 @@ export default function CorporateSection() {
                   maxWidth: 400,
                 }}
               >
-                Make Your Brand Unforgettable
+                Make your Occasion Unforgettable
               </h2>
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
-                  fontSize: 17,
-                  color: "#555",
-                  lineHeight: 1.65,
-                  marginBottom: 32,
-                }}
-              >
-                From conferences to client gifts, we create branded cookies that
-                people actually remember.
-              </p>
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
                   fontSize: 15,
                   color: "#333",
                   lineHeight: 1.8,
-                  marginBottom: 20,
+                  marginBottom: 16,
                 }}
               >
-                We work with businesses across Wellington to create
-                custom-stamped cookies that carry your logo, your message, and
-                your brand colours. Whether you need 24 cookies for a team event
-                or 500 for a conference, every single one is made by hand in our
-                Lower Hutt kitchen. Our 3D-printed stamps are designed in-house
-                using CAD software, allowing us to reproduce detailed logos and
-                complex designs that letter stamps simply cannot achieve.
+                At Cookie &amp; Me, we design and bake personalised cookies
+                stamped with your design or logo.
               </p>
               <p
                 style={{
@@ -122,9 +105,12 @@ export default function CorporateSection() {
                   marginBottom: 32,
                 }}
               >
-                <strong style={{ color: "#1B2B6B" }}>Perfect for:</strong>{" "}
-                client gifting, product launches, conferences, networking events,
-                staff appreciation, and brand activations.
+                Whether you&apos;re planning a birthday, baby shower,
+                anniversary, or another special celebration, an event organiser
+                looking to add value to a wedding bundle or catering package, or
+                a business looking for a unique, memorable gift for clients, a
+                way to celebrate milestone achievements, or something to hand
+                out at expos and events — you&apos;ve come to the right place!
               </p>
               <div>
                 <a href="#contact" className="btn-navy">
