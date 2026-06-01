@@ -190,6 +190,14 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   transform: scale(1.05);
 }
 
+.gallery-item-shift-left img {
+  transform: scale(1.15) translateX(-8%);
+}
+
+.gallery-item-shift-left:hover img {
+  transform: scale(1.20) translateX(-8%);
+}
+
 /* --- FAQ accordion --- */
 .faq-item {
   border: 1px solid #E0DFDD;

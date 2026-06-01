@@ -16,6 +16,7 @@ const images = [
   {
     src: "/images/farewell-patrick-chamber-cookies-sunny.jpg",
     alt: "Farewell cookies for Patrick, Chamber of Commerce",
+    itemClass: "gallery-item-shift-left",
   },
   {
     src: "/images/60th-birthday-russell-cookies-tray-overhead.jpg",
@@ -61,7 +62,7 @@ export default function GallerySection() {
 
         <div className="gallery-grid">
           {images.map((img) => (
-            <div key={img.src} className="gallery-item">
+            <div key={img.src} className={`gallery-item${img.itemClass ? ` ${img.itemClass}` : ""}`}>
               <div style={{ position: "relative", paddingBottom: "75%" }}>
                 <Image
                   src={img.src}
