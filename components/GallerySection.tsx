@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-const images = [
+interface GalleryImage {
+  src: string;
+  alt: string;
+  itemClass?: string;
+}
+
+const images: GalleryImage[] = [
   {
     src: "/images/dinosaur-trio-cookies-black-background.jpg",
     alt: "Three dinosaur cookies on black background",
