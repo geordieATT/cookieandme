@@ -1,0 +1,21 @@
+{
+  "name": "Cookie & Me",
+  "short_name": "Cookie & Me",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#1B2B6B",
+  "background_color": "#FAFAF8",
+  "display": "standalone"
+}
