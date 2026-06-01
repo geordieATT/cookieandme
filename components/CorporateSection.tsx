@@ -96,6 +96,31 @@ export default function CorporateSection() {
                 At Cookie &amp; Me, we design and bake personalised cookies
                 stamped with your design or logo.
               </p>
+              <ul
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 15,
+                  color: "#333",
+                  lineHeight: 1.8,
+                  marginBottom: 16,
+                  paddingLeft: 20,
+                  listStyleType: "disc",
+                }}
+              >
+                <li style={{ marginBottom: 8 }}>
+                  Whether you&apos;re planning a birthday, baby shower,
+                  anniversary, or another special celebration,
+                </li>
+                <li style={{ marginBottom: 8 }}>
+                  an event organiser looking to add value to a wedding bundle or
+                  catering package,
+                </li>
+                <li>
+                  or a business looking for a unique, memorable gift for
+                  clients, a way to celebrate milestone achievements, or
+                  something to hand out at expos and events,
+                </li>
+              </ul>
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
@@ -105,16 +130,11 @@ export default function CorporateSection() {
                   marginBottom: 32,
                 }}
               >
-                Whether you&apos;re planning a birthday, baby shower,
-                anniversary, or another special celebration, an event organiser
-                looking to add value to a wedding bundle or catering package, or
-                a business looking for a unique, memorable gift for clients, a
-                way to celebrate milestone achievements, or something to hand
-                out at expos and events — you&apos;ve come to the right place!
+                You&apos;ve come to the right place!
               </p>
               <div>
-                <a href="#contact" className="btn-navy">
-                  Get a Quote
+                <a href="#order" className="btn-navy">
+                  Order Now
                 </a>
               </div>
             </div>
