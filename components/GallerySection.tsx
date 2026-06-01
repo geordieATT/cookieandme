@@ -14,9 +14,8 @@ const images = [
     alt: "Gem Homestay welcome cookies in blue and purple",
   },
   {
-    src: "/images/farewell-patrick-chamber-cookies-sunny.jpg",
-    alt: "Farewell cookies for Patrick, Chamber of Commerce",
-    itemClass: "gallery-item-shift-left",
+    src: "/images/steves-70th-on-bench.jpg",
+    alt: "Steve's 70th birthday cookies on bench",
   },
   {
     src: "/images/60th-birthday-russell-cookies-tray-overhead.jpg",
