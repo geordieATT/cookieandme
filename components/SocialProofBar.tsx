@@ -1,6 +1,6 @@
 const stats = [
-  { value: "1,500", label: "Cookies Baked So Far" },
-  { value: "Lower Hutt, NZ", label: "Based In" },
+  "1,500 Cookies Baked So Far",
+  "Based in Lower Hutt, NZ",
 ];
 
 export default function SocialProofBar() {
@@ -23,41 +23,26 @@ export default function SocialProofBar() {
       >
         {stats.map((stat, i) => (
           <div
-            key={stat.label}
+            key={stat}
             style={{
               display: "flex",
-              flexDirection: "column",
               alignItems: "center",
-              padding: "24px 48px",
+              padding: "18px 48px",
               borderRight:
                 i < stats.length - 1 ? "1px solid #D8D7D5" : "none",
-              flex: "1 1 180px",
               textAlign: "center",
             }}
           >
             <span
               style={{
-                fontFamily: "'Nunito', sans-serif",
-                fontWeight: 900,
-                fontSize: 20,
-                color: "#1B2B6B",
-                marginBottom: 4,
-                whiteSpace: "nowrap",
-              }}
-            >
-              {stat.value}
-            </span>
-            <span
-              style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: 13,
-                color: "#666",
-                fontWeight: 500,
-                letterSpacing: "0.01em",
+                fontWeight: 600,
+                fontSize: 14,
+                color: "#1B2B6B",
                 whiteSpace: "nowrap",
               }}
             >
-              {stat.label}
+              {stat}
             </span>
           </div>
         ))}
