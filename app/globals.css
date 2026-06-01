@@ -271,6 +271,21 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
 }
 .footer-link:hover { color: #FAFAF8; }
 
+/* --- Corporate section image --- */
+.corporate-image {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .corporate-image {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}
+
 /* --- Pricing grid (4 columns) --- */
 .pricing-grid {
   display: grid;

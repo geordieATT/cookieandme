@@ -55,14 +55,7 @@ export default function CorporateSection() {
     <section id="corporate" style={{ padding: "96px 0" }}>
       <div className="section-container">
         {/* Two-column layout */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "stretch",
-            gap: 72,
-            marginBottom: 56,
-          }}
-        >
+        <div className="two-col" style={{ marginBottom: 56 }}>
           <div style={{ flex: 1 }}>
             <div
               style={{
@@ -140,15 +133,7 @@ export default function CorporateSection() {
             </div>
           </div>
 
-          <div
-            style={{
-              position: "relative",
-              height: 500,
-              flex: 1,
-              overflow: "hidden",
-              borderRadius: 2,
-            }}
-          >
+          <div className="corporate-image">
             <Image
               src="/images/timedock-branded-cookies-production-bench.jpg"
               alt="TimeDock branded cookies on production bench"
