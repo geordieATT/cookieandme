@@ -42,6 +42,7 @@ export default function SocialProofBar() {
                 fontSize: 20,
                 color: "#1B2B6B",
                 marginBottom: 4,
+                whiteSpace: "nowrap",
               }}
             >
               {stat.value}
@@ -53,6 +54,7 @@ export default function SocialProofBar() {
                 color: "#666",
                 fontWeight: 500,
                 letterSpacing: "0.01em",
+                whiteSpace: "nowrap",
               }}
             >
               {stat.label}
