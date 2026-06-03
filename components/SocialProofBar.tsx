@@ -29,7 +29,7 @@ export default function SocialProofBar() {
               alignItems: "center",
               padding: "18px 48px",
               borderRight:
-                i < stats.length - 1 ? "1px solid #D8D7D5" : "none",
+                i < stats.length - 1 ? "1px solid #6A3EA2" : "none",
               textAlign: "center",
             }}
           >

@@ -24,6 +24,8 @@ export default function OurStorySection() {
                 fontSize: "clamp(26px, 3.5vw, 38px)",
                 color: "#0C0E58",
                 marginBottom: 24,
+                borderLeft: "4px solid #6A3EA2",
+                paddingLeft: 14,
               }}
             >
               Our Story

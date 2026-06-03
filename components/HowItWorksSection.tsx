@@ -24,6 +24,8 @@ const steps = [
   },
 ];
 
+const stepColors = ["#FB3D03", "#6A3EA2", "#FB3D03", "#6A3EA2"];
+
 export default function HowItWorksSection() {
   return (
     <section style={{ padding: "96px 0" }}>
@@ -51,7 +53,7 @@ export default function HowItWorksSection() {
                 style={{
                   width: 40,
                   height: 40,
-                  backgroundColor: "#0C0E58",
+                  backgroundColor: stepColors[i],
                   borderRadius: 2,
                   display: "flex",
                   alignItems: "center",

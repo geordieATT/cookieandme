@@ -202,7 +202,7 @@ export default function CorporateSection() {
                       top: -1,
                       left: "50%",
                       transform: "translateX(-50%)",
-                      backgroundColor: "#0C0E58",
+                      backgroundColor: "#FB3D03",
                       color: "#FAFAF8",
                       fontSize: 10,
                       fontWeight: 600,

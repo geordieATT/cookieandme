@@ -48,6 +48,7 @@ export default function Footer() {
         backgroundColor: "#0C0E58",
         color: "#FAFAF8",
         padding: "60px 0 32px",
+        borderTop: "4px solid #FB3D03",
       }}
     >
       <div className="section-container">
@@ -68,7 +69,6 @@ export default function Footer() {
                   width: 160,
                   height: "auto",
                   display: "block",
-                  filter: "brightness(0) invert(1)",
                 }}
               />
             </a>

@@ -58,12 +58,13 @@ export default function GallerySection() {
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
             color: "#0C0E58",
-            marginBottom: 48,
+            marginBottom: 16,
             textAlign: "center",
           }}
         >
           A Little Taste of What We Do
         </h2>
+        <div style={{ width: 48, height: 3, backgroundColor: "#FB3D03", margin: "0 auto 32px" }} />
 
         <div className="gallery-grid">
           {images.map((img) => (

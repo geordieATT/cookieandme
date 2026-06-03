@@ -78,7 +78,7 @@ export default function FAQSection() {
                   >
                     <path
                       d="M3 6L8 11L13 6"
-                      stroke="#0C0E58"
+                      stroke="#6A3EA2"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
