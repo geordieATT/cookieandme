@@ -8,10 +8,10 @@ export default function AboutSection() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div>
-              <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
+              <span style={{ color: "#6A3EA2", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
                 Handmade with heart in Lower Hutt
               </span>
-              <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 16 }}>
+              <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#0C0E58", marginBottom: 16 }}>
                 Our Story
               </h2>
             </div>

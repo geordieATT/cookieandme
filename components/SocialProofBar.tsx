@@ -38,7 +38,7 @@ export default function SocialProofBar() {
                 fontFamily: "'Inter', sans-serif",
                 fontWeight: 600,
                 fontSize: 14,
-                color: "#1B2B6B",
+                color: "#0C0E58",
                 whiteSpace: "nowrap",
               }}
             >

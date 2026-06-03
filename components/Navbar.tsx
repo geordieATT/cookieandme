@@ -31,7 +31,7 @@ export default function Navbar() {
         zIndex: 1000,
         backgroundColor: "#FAFAF8",
         borderBottom: "1px solid #E0DFDD",
-        boxShadow: scrolled ? "0 2px 12px rgba(27,43,107,0.08)" : "none",
+        boxShadow: scrolled ? "0 2px 12px rgba(12,14,88,0.08)" : "none",
         transition: "box-shadow 0.3s ease",
       }}
     >
@@ -48,7 +48,7 @@ export default function Navbar() {
       >
         <a href="/" aria-label="Cookie and Me home" style={{ flexShrink: 0 }}>
           <Image
-            src="/images/cookie-and-me-logo-horizontal.svg"
+            src="/images/cookieandme-logo-h.png"
             alt="Cookie and Me"
             width={220}
             height={64}
@@ -71,12 +71,12 @@ export default function Navbar() {
                 fontFamily: "'Inter', sans-serif",
                 fontSize: 14,
                 fontWeight: 500,
-                color: "#1B2B6B",
+                color: "#0C0E58",
                 letterSpacing: "0.015em",
                 transition: "color 0.15s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#C0392B")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#1B2B6B")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#FB3D03")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#0C0E58")}
             >
               {link.label}
             </a>
@@ -103,7 +103,7 @@ export default function Navbar() {
               display: "block",
               width: 22,
               height: 2,
-              backgroundColor: "#1B2B6B",
+              backgroundColor: "#0C0E58",
               transition: "transform 0.2s, opacity 0.2s",
               transformOrigin: "center",
               transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none",
@@ -114,7 +114,7 @@ export default function Navbar() {
               display: "block",
               width: 22,
               height: 2,
-              backgroundColor: "#1B2B6B",
+              backgroundColor: "#0C0E58",
               transition: "opacity 0.2s",
               opacity: menuOpen ? 0 : 1,
             }}
@@ -124,7 +124,7 @@ export default function Navbar() {
               display: "block",
               width: 22,
               height: 2,
-              backgroundColor: "#1B2B6B",
+              backgroundColor: "#0C0E58",
               transition: "transform 0.2s, opacity 0.2s",
               transformOrigin: "center",
               transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none",
@@ -153,7 +153,7 @@ export default function Navbar() {
                 fontFamily: "'Inter', sans-serif",
                 fontSize: 15,
                 fontWeight: 500,
-                color: "#1B2B6B",
+                color: "#0C0E58",
                 borderBottom: "1px solid #F4F4F2",
               }}
             >

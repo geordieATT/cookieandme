@@ -34,12 +34,12 @@ function getMinDate(): string {
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "12px 16px", border: "2px solid #E0DCF0", borderRadius: 12,
-  fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B",
+  fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#0C0E58",
   backgroundColor: "#fff", outline: "none",
 };
 
 const labelStyle: React.CSSProperties = {
-  fontWeight: 700, fontSize: 14, color: "#00205B", display: "block", marginBottom: 6,
+  fontWeight: 700, fontSize: 14, color: "#0C0E58", display: "block", marginBottom: 6,
 };
 
 function CustomSelect({ value, onChange, options, placeholder }: {
@@ -60,20 +60,20 @@ function CustomSelect({ value, onChange, options, placeholder }: {
     <div ref={ref} style={{ position: "relative", width: "100%" }}>
       <div
         onClick={() => setOpen(!open)}
-        style={{ padding: "12px 16px", border: `2px solid ${open ? "#9B8EC4" : "#E0DCF0"}`, borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: value ? "#00205B" : "#aaa", backgroundColor: "#fff", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", userSelect: "none" }}
+        style={{ padding: "12px 16px", border: `2px solid ${open ? "#6A3EA2" : "#E0DCF0"}`, borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: value ? "#0C0E58" : "#aaa", backgroundColor: "#fff", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", userSelect: "none" }}
       >
         <span>{value || placeholder}</span>
         <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0 }}>
-          <path d="M1 1l5 5 5-5" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
+          <path d="M1 1l5 5 5-5" stroke="#6A3EA2" strokeWidth="2" strokeLinecap="round" fill="none" />
         </svg>
       </div>
       {open && (
-        <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, backgroundColor: "#fff", border: "2px solid #E0DCF0", borderRadius: 12, boxShadow: "0 8px 24px rgba(0,32,91,0.10)", zIndex: 50, overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, backgroundColor: "#fff", border: "2px solid #E0DCF0", borderRadius: 12, boxShadow: "0 8px 24px rgba(12,14,88,0.10)", zIndex: 50, overflow: "hidden" }}>
           {options.map((opt) => (
             <div
               key={opt}
               onClick={() => { onChange(opt); setOpen(false); }}
-              style={{ padding: "12px 16px", fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B", cursor: "pointer", backgroundColor: value === opt ? "#F3F0FC" : "#fff" }}
+              style={{ padding: "12px 16px", fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#0C0E58", cursor: "pointer", backgroundColor: value === opt ? "#F3F0FC" : "#fff" }}
               onMouseEnter={(e) => { if (value !== opt) (e.currentTarget as HTMLDivElement).style.backgroundColor = "#FAF8FF"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.backgroundColor = value === opt ? "#F3F0FC" : "#fff"; }}
             >
@@ -91,9 +91,9 @@ function ColourPicker({ value, onChange }: { value: string; onChange: (v: string
   return (
     <div onClick={() => inputRef.current?.click()} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 16px", border: "2px solid #E0DCF0", borderRadius: 12, backgroundColor: "#fff", cursor: "pointer", width: "100%" }}>
       <div style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: value, border: "2px solid #E0DCF0", flexShrink: 0 }} />
-      <span style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B" }}>{value.toUpperCase()}</span>
+      <span style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#0C0E58" }}>{value.toUpperCase()}</span>
       <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ marginLeft: "auto", flexShrink: 0 }}>
-        <path d="M1 1l5 5 5-5" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
+        <path d="M1 1l5 5 5-5" stroke="#6A3EA2" strokeWidth="2" strokeLinecap="round" fill="none" />
       </svg>
       <input ref={inputRef} type="color" value={value} onChange={(e) => onChange(e.target.value)} style={{ position: "absolute", opacity: 0, width: 0, height: 0, pointerEvents: "none" }} />
     </div>
@@ -117,30 +117,30 @@ function FileDropZone({ file, onChange }: { file: File | null; onChange: (f: Fil
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}
-      style={{ border: `2px dashed ${dragging ? "#9B8EC4" : "#CFC8E7"}`, borderRadius: 12, backgroundColor: dragging ? "#F3F0FC" : "#FAF9F7", padding: "24px 16px", textAlign: "center", cursor: "pointer", transition: "all 0.2s" }}
+      style={{ border: `2px dashed ${dragging ? "#6A3EA2" : "#CFC8E7"}`, borderRadius: 12, backgroundColor: dragging ? "#F3F0FC" : "#FAF9F7", padding: "24px 16px", textAlign: "center", cursor: "pointer", transition: "all 0.2s" }}
     >
       <input ref={inputRef} type="file" accept=".png,.jpg,.jpeg,.svg" onChange={(e) => onChange(e.target.files?.[0] ?? null)} style={{ display: "none" }} />
       {file ? (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#9B8EC4", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#6A3EA2", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
               <path d="M14 2v6h6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </div>
           <div style={{ textAlign: "left" }}>
-            <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14 }}>{file.name}</p>
-            <p style={{ fontWeight: 600, color: "#9B8EC4", fontSize: 12 }}>{(file.size / 1024).toFixed(0)} KB</p>
+            <p style={{ fontWeight: 700, color: "#0C0E58", fontSize: 14 }}>{file.name}</p>
+            <p style={{ fontWeight: 600, color: "#6A3EA2", fontSize: 12 }}>{(file.size / 1024).toFixed(0)} KB</p>
           </div>
           <button type="button" onClick={(e) => { e.stopPropagation(); onChange(null); }} style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: 18, fontWeight: 700 }}>x</button>
         </div>
       ) : (
         <>
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style={{ margin: "0 auto 8px" }}>
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
-            <path d="M17 8l-5-5-5 5M12 3v12" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="#6A3EA2" strokeWidth="2" strokeLinecap="round" />
+            <path d="M17 8l-5-5-5 5M12 3v12" stroke="#6A3EA2" strokeWidth="2" strokeLinecap="round" />
           </svg>
-          <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14, marginBottom: 4 }}>Drag and drop your logo here</p>
+          <p style={{ fontWeight: 700, color: "#0C0E58", fontSize: 14, marginBottom: 4 }}>Drag and drop your logo here</p>
           <p style={{ fontWeight: 600, color: "#aaa", fontSize: 12 }}>or click to browse — PNG, JPG, SVG</p>
         </>
       )}
@@ -204,27 +204,27 @@ export default function CustomCookieSection() {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
 
         <div style={{ marginBottom: 32 }}>
-          <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 10 }}>
+          <span style={{ color: "#6A3EA2", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 10 }}>
             Your design, your stamp, your moment
           </span>
-          <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B" }}>
+          <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#0C0E58" }}>
             Custom Cookies
           </h2>
         </div>
 
-        <div className="grid-2col card-padding" style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
+        <div className="grid-2col card-padding" style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(12,14,88,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
 
           {/* Left — What to expect */}
           <div style={{ backgroundColor: "#F6F3ED", borderRadius: 20, padding: "24px 28px" }}>
-            <p style={{ fontWeight: 900, color: "#00205B", fontSize: 15, marginBottom: 16 }}>What to expect</p>
+            <p style={{ fontWeight: 900, color: "#0C0E58", fontSize: 15, marginBottom: 16 }}>What to expect</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {ORDER_STEPS.map((step) => (
                 <div key={step.n} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <div style={{ width: 26, height: 26, borderRadius: 999, backgroundColor: "#9B8EC4", color: "#fff", fontWeight: 900, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                  <div style={{ width: 26, height: 26, borderRadius: 999, backgroundColor: "#6A3EA2", color: "#fff", fontWeight: 900, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                     {step.n}
                   </div>
                   <div>
-                    <p style={{ fontWeight: 800, color: "#00205B", fontSize: 13, marginBottom: 1 }}>{step.title}</p>
+                    <p style={{ fontWeight: 800, color: "#0C0E58", fontSize: 13, marginBottom: 1 }}>{step.title}</p>
                     <p style={{ fontWeight: 600, color: "#777", fontSize: 12, lineHeight: 1.5 }}>{step.body}</p>
                   </div>
                 </div>
@@ -238,13 +238,13 @@ export default function CustomCookieSection() {
               <label style={labelStyle}>Quantity</label>
               <input type="number" min={24} value={quantity} onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))} placeholder="Min. 24 cookies" style={inputStyle} />
               {qty > 0 && qty < 24 && (
-                <p style={{ fontSize: 12, color: "#C04B2B", fontWeight: 700, marginTop: 6 }}>Minimum order is 24 cookies.</p>
+                <p style={{ fontSize: 12, color: "#FB3D03", fontWeight: 700, marginTop: 6 }}>Minimum order is 24 cookies.</p>
               )}
               {priceEach && (
                 <div style={{ marginTop: 10, backgroundColor: "#F3F0FC", borderRadius: 12, padding: "12px 16px", display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
-                  <span style={{ fontWeight: 700, color: "#555", fontSize: 14 }}>Qty: <strong style={{ color: "#00205B" }}>{qty}</strong></span>
-                  <span style={{ fontWeight: 700, color: "#555", fontSize: 14 }}>Each: <strong style={{ color: "#00205B" }}>${priceEach.toFixed(2)}</strong></span>
-                  <span style={{ fontWeight: 900, color: "#C04B2B", fontSize: 14 }}>Total: <strong>${subtotal.toFixed(2)}</strong></span>
+                  <span style={{ fontWeight: 700, color: "#555", fontSize: 14 }}>Qty: <strong style={{ color: "#0C0E58" }}>{qty}</strong></span>
+                  <span style={{ fontWeight: 700, color: "#555", fontSize: 14 }}>Each: <strong style={{ color: "#0C0E58" }}>${priceEach.toFixed(2)}</strong></span>
+                  <span style={{ fontWeight: 900, color: "#FB3D03", fontSize: 14 }}>Total: <strong>${subtotal.toFixed(2)}</strong></span>
                 </div>
               )}
             </div>
@@ -257,10 +257,10 @@ export default function CustomCookieSection() {
               <div>
                 <label style={labelStyle}>Date Needed By</label>
                 <div onClick={() => dateRef.current?.showPicker?.()} style={{ position: "relative", cursor: "pointer" }}>
-                  <input ref={dateRef} type="date" value={neededDate} min={getMinDate()} onChange={(e) => setNeededDate(e.target.value)} onKeyDown={(e) => e.preventDefault()} style={{ ...inputStyle, cursor: "pointer", color: neededDate ? "#00205B" : "#aaa", appearance: "none" as const, paddingRight: 40 }} />
+                  <input ref={dateRef} type="date" value={neededDate} min={getMinDate()} onChange={(e) => setNeededDate(e.target.value)} onKeyDown={(e) => e.preventDefault()} style={{ ...inputStyle, cursor: "pointer", color: neededDate ? "#0C0E58" : "#aaa", appearance: "none" as const, paddingRight: 40 }} />
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
-                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="#9B8EC4" strokeWidth="2" />
-                    <path d="M3 9h18M8 2v4M16 2v4" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" />
+                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="#6A3EA2" strokeWidth="2" />
+                    <path d="M3 9h18M8 2v4M16 2v4" stroke="#6A3EA2" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </div>
                 <p style={{ fontSize: 11, color: "#999", fontWeight: 600, marginTop: 4 }}>Min. 1 week lead time.</p>
@@ -300,18 +300,18 @@ export default function CustomCookieSection() {
               <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} className="full-mobile" />
             </div>
 
-            {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14 }}>{error}</p>}
+            {error && <p style={{ color: "#FB3D03", fontWeight: 700, fontSize: 14 }}>{error}</p>}
 
             {deposit > 0 && (
               <div style={{ backgroundColor: "#F3F0FC", borderRadius: 14, padding: "14px 18px" }}>
-                <p style={{ fontWeight: 700, color: "#00205B", fontSize: 14, marginBottom: 4 }}>Payment summary</p>
+                <p style={{ fontWeight: 700, color: "#0C0E58", fontSize: 14, marginBottom: 4 }}>Payment summary</p>
                 <p style={{ fontWeight: 600, color: "#555", fontSize: 13 }}>Full order total: ${subtotal.toFixed(2)}</p>
-                <p style={{ fontWeight: 800, color: "#C04B2B", fontSize: 14 }}>50% deposit due now: ${deposit.toFixed(2)}</p>
+                <p style={{ fontWeight: 800, color: "#FB3D03", fontSize: 14 }}>50% deposit due now: ${deposit.toFixed(2)}</p>
                 <p style={{ fontWeight: 600, color: "#777", fontSize: 12, marginTop: 4 }}>Remaining ${deposit.toFixed(2)} invoiced after delivery.</p>
               </div>
             )}
 
-            <button onClick={handleSubmit} disabled={loading || !priceEach} style={{ width: "100%", backgroundColor: loading || !priceEach ? "#aaa" : "#C04B2B", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach ? "not-allowed" : "pointer" }}>
+            <button onClick={handleSubmit} disabled={loading || !priceEach} style={{ width: "100%", backgroundColor: loading || !priceEach ? "#aaa" : "#FB3D03", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach ? "not-allowed" : "pointer" }}>
               {loading ? "Processing..." : deposit > 0 ? `Pay 50% Deposit — $${deposit.toFixed(2)} NZD` : "Enter quantity to continue"}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, textAlign: "center" }}>

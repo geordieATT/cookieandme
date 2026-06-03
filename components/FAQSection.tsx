@@ -36,7 +36,7 @@ export default function FAQSection() {
             fontFamily: "'Nunito', sans-serif",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#1B2B6B",
+            color: "#0C0E58",
             marginBottom: 48,
             textAlign: "center",
           }}
@@ -78,7 +78,7 @@ export default function FAQSection() {
                   >
                     <path
                       d="M3 6L8 11L13 6"
-                      stroke="#1B2B6B"
+                      stroke="#0C0E58"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"

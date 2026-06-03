@@ -19,17 +19,17 @@ export default function Hero() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <h1 className="hero-heading" style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "#00205B", lineHeight: 1.15 }}>
+          <h1 className="hero-heading" style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.25rem)", color: "#0C0E58", lineHeight: 1.15 }}>
             {heading}
           </h1>
           <p style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 18, color: "#444", lineHeight: 1.6 }}>
             Handcrafted, custom-designed cookies delivered from Lower Hutt.
           </p>
           <div style={{ display: "flex", gap: 14, marginTop: 8, flexWrap: "wrap" }}>
-            <a href="#custom" style={{ backgroundColor: "#C04B2B", color: "#fff", fontWeight: 800, fontSize: 16, padding: "14px 30px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
+            <a href="#custom" style={{ backgroundColor: "#FB3D03", color: "#fff", fontWeight: 800, fontSize: 16, padding: "14px 30px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
               Order Custom Cookies
             </a>
-            <a href="#gallery" style={{ border: "2px solid #00205B", color: "#00205B", fontWeight: 800, fontSize: 16, padding: "12px 28px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
+            <a href="#gallery" style={{ border: "2px solid #0C0E58", color: "#0C0E58", fontWeight: 800, fontSize: 16, padding: "12px 28px", borderRadius: 50, textDecoration: "none", display: "inline-block" }}>
               View Gallery
             </a>
           </div>

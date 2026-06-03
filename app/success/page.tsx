@@ -17,7 +17,7 @@ export default function SuccessPage() {
           style={{
             width: 56,
             height: 56,
-            backgroundColor: "#1B2B6B",
+            backgroundColor: "#0C0E58",
             borderRadius: 2,
             display: "flex",
             alignItems: "center",
@@ -46,7 +46,7 @@ export default function SuccessPage() {
             fontFamily: "'Nunito', sans-serif",
             fontWeight: 900,
             fontSize: 32,
-            color: "#1B2B6B",
+            color: "#0C0E58",
             marginBottom: 12,
           }}
         >
@@ -72,7 +72,7 @@ export default function SuccessPage() {
             fontSize: 14,
             letterSpacing: "0.02em",
             color: "#FAFAF8",
-            backgroundColor: "#1B2B6B",
+            backgroundColor: "#0C0E58",
             padding: "13px 32px",
             borderRadius: 2,
             display: "inline-block",

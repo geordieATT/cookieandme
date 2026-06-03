@@ -12,12 +12,12 @@ const THEMES = ["Love You", "Congratulations", "Happy Birthday", "Easter", "Cele
 const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
 
 const labelStyle: React.CSSProperties = {
-  fontWeight: 700, fontSize: 14, color: "#00205B", display: "block", marginBottom: 6,
+  fontWeight: 700, fontSize: 14, color: "#0C0E58", display: "block", marginBottom: 6,
 };
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "12px 16px", border: "2px solid #E0DCF0", borderRadius: 12,
-  fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B",
+  fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#0C0E58",
   backgroundColor: "#fff", outline: "none",
 };
 
@@ -37,16 +37,16 @@ function CustomSelect({ value, onChange, options, placeholder }: {
 
   return (
     <div ref={ref} style={{ position: "relative", width: "100%" }}>
-      <div onClick={() => setOpen(!open)} style={{ padding: "12px 16px", border: `2px solid ${open ? "#9B8EC4" : "#E0DCF0"}`, borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: value ? "#00205B" : "#aaa", backgroundColor: "#fff", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", userSelect: "none" }}>
+      <div onClick={() => setOpen(!open)} style={{ padding: "12px 16px", border: `2px solid ${open ? "#6A3EA2" : "#E0DCF0"}`, borderRadius: 12, fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: value ? "#0C0E58" : "#aaa", backgroundColor: "#fff", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", userSelect: "none" }}>
         <span>{value || placeholder}</span>
         <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0 }}>
-          <path d="M1 1l5 5 5-5" stroke="#9B8EC4" strokeWidth="2" strokeLinecap="round" fill="none" />
+          <path d="M1 1l5 5 5-5" stroke="#6A3EA2" strokeWidth="2" strokeLinecap="round" fill="none" />
         </svg>
       </div>
       {open && (
-        <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, backgroundColor: "#fff", border: "2px solid #E0DCF0", borderRadius: 12, boxShadow: "0 8px 24px rgba(0,32,91,0.10)", zIndex: 50, overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, backgroundColor: "#fff", border: "2px solid #E0DCF0", borderRadius: 12, boxShadow: "0 8px 24px rgba(12,14,88,0.10)", zIndex: 50, overflow: "hidden" }}>
           {options.map((opt) => (
-            <div key={opt} onClick={() => { onChange(opt); setOpen(false); }} style={{ padding: "12px 16px", fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#00205B", cursor: "pointer", backgroundColor: value === opt ? "#F3F0FC" : "#fff" }}
+            <div key={opt} onClick={() => { onChange(opt); setOpen(false); }} style={{ padding: "12px 16px", fontFamily: "'Nunito', sans-serif", fontWeight: 600, fontSize: 15, color: "#0C0E58", cursor: "pointer", backgroundColor: value === opt ? "#F3F0FC" : "#fff" }}
               onMouseEnter={(e) => { if (value !== opt) (e.currentTarget as HTMLDivElement).style.backgroundColor = "#FAF8FF"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.backgroundColor = value === opt ? "#F3F0FC" : "#fff"; }}>
               {opt}
@@ -110,10 +110,10 @@ export default function GiftBoxSection() {
   return (
     <section id="gift-boxes" style={{ padding: "40px 20px 64px" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div className="grid-2col card-padding" style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(0,32,91,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
+        <div className="grid-2col card-padding" style={{ backgroundColor: "#fff", borderRadius: 28, padding: "48px", boxShadow: "0 8px 48px rgba(12,14,88,0.10)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, alignItems: "start" }}>
           <div>
-            <span style={{ color: "#9B8EC4", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>Giftable, joyful, beautifully packaged</span>
-            <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#00205B", marginBottom: 6 }}>Gift Boxes</h2>
+            <span style={{ color: "#6A3EA2", fontWeight: 800, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>Giftable, joyful, beautifully packaged</span>
+            <h2 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 32, color: "#0C0E58", marginBottom: 6 }}>Gift Boxes</h2>
             <p style={{ color: "#666", fontWeight: 600, marginBottom: 24, fontSize: 15, lineHeight: 1.6 }}>Choose a theme, pick your flavour, and add a handwritten card if you would like. We will deliver it ready to gift.</p>
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
               <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", paddingBottom: "75%" }}>
@@ -125,8 +125,8 @@ export default function GiftBoxSection() {
                   sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>
-              <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
-              <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#00205B", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
+              <button type="button" onClick={prev} style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#0C0E58", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{"<"}</button>
+              <button type="button" onClick={next} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", opacity: hovered ? 1 : 0.4, transition: "opacity 0.2s", border: "none", background: "rgba(255,255,255,0.9)", color: "#0C0E58", width: 38, height: 38, borderRadius: 999, cursor: "pointer", fontSize: 18, fontWeight: 900 }}>{">"}</button>
             </div>
           </div>
 
@@ -135,9 +135,9 @@ export default function GiftBoxSection() {
               {PACKS.map((p) => {
                 const isSelected = selectedPack === p.size;
                 return (
-                  <button key={p.size} type="button" onClick={() => setSelectedPack(p.size)} style={{ border: isSelected ? "2.5px solid #9B8EC4" : "2px solid #E0DCF0", borderRadius: 18, padding: "16px 8px", cursor: "pointer", backgroundColor: isSelected ? "#F3F0FC" : "#fff", textAlign: "center" }}>
-                    <div style={{ fontWeight: 900, fontSize: 18, color: "#00205B" }}>{p.label}</div>
-                    <div style={{ fontWeight: 700, fontSize: 16, color: "#C04B2B", margin: "4px 0" }}>${p.price.toFixed(2)}</div>
+                  <button key={p.size} type="button" onClick={() => setSelectedPack(p.size)} style={{ border: isSelected ? "2.5px solid #6A3EA2" : "2px solid #E0DCF0", borderRadius: 18, padding: "16px 8px", cursor: "pointer", backgroundColor: isSelected ? "#F3F0FC" : "#fff", textAlign: "center" }}>
+                    <div style={{ fontWeight: 900, fontSize: 18, color: "#0C0E58" }}>{p.label}</div>
+                    <div style={{ fontWeight: 700, fontSize: 16, color: "#FB3D03", margin: "4px 0" }}>${p.price.toFixed(2)}</div>
                   </button>
                 );
               })}
@@ -149,7 +149,7 @@ export default function GiftBoxSection() {
             </div>
 
             <div style={{ marginBottom: 16 }}>
-              <label style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, color: "#00205B", cursor: "pointer", marginBottom: 8 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, color: "#0C0E58", cursor: "pointer", marginBottom: 8 }}>
                 <input type="checkbox" checked={addCard} onChange={(e) => setAddCard(e.target.checked)} />
                 Add a handwritten card
               </label>
@@ -170,9 +170,9 @@ export default function GiftBoxSection() {
               <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} className="full-mobile" />
             </div>
 
-            {error && <p style={{ color: "#C04B2B", fontWeight: 700, fontSize: 14, marginBottom: 12 }}>{error}</p>}
+            {error && <p style={{ color: "#FB3D03", fontWeight: 700, fontSize: 14, marginBottom: 12 }}>{error}</p>}
 
-            <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", backgroundColor: loading ? "#aaa" : "#C04B2B", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading ? "not-allowed" : "pointer" }}>
+            <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", backgroundColor: loading ? "#aaa" : "#FB3D03", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading ? "not-allowed" : "pointer" }}>
               {loading ? "Processing..." : `Pay $${pack.price.toFixed(2)} NZD`}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 10, textAlign: "center" }}>

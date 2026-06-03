@@ -26,15 +26,15 @@ function CopyButton({ text, display }: { text: string; display: string }) {
         fontFamily: "'Inter', sans-serif",
         fontSize: 15,
         fontWeight: 500,
-        color: copied ? "#1B2B6B" : "#1B2B6B",
+        color: copied ? "#0C0E58" : "#0C0E58",
         textAlign: "left",
         display: "flex",
         alignItems: "center",
         gap: 8,
         transition: "color 0.15s",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "#C0392B")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "#1B2B6B")}
+      onMouseEnter={(e) => (e.currentTarget.style.color = "#FB3D03")}
+      onMouseLeave={(e) => (e.currentTarget.style.color = "#0C0E58")}
     >
       {copied ? "Copied!" : display}
     </button>
@@ -97,7 +97,7 @@ export default function ContactSection() {
                 fontFamily: "'Nunito', sans-serif",
                 fontWeight: 900,
                 fontSize: "clamp(26px, 3.5vw, 38px)",
-                color: "#1B2B6B",
+                color: "#0C0E58",
                 marginBottom: 16,
               }}
             >
@@ -131,14 +131,14 @@ export default function ContactSection() {
                   fontFamily: "'Inter', sans-serif",
                   fontSize: 15,
                   fontWeight: 500,
-                  color: "#1B2B6B",
+                  color: "#0C0E58",
                   transition: "color 0.15s",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#C0392B")
+                  (e.currentTarget.style.color = "#FB3D03")
                 }
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#1B2B6B")
+                  (e.currentTarget.style.color = "#0C0E58")
                 }
               >
                 @cookieandme_nz on Instagram
@@ -162,7 +162,7 @@ export default function ContactSection() {
                     fontFamily: "'Nunito', sans-serif",
                     fontWeight: 800,
                     fontSize: 20,
-                    color: "#1B2B6B",
+                    color: "#0C0E58",
                     marginBottom: 8,
                   }}
                 >
@@ -228,7 +228,7 @@ export default function ContactSection() {
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       fontSize: 14,
-                      color: "#C0392B",
+                      color: "#FB3D03",
                     }}
                   >
                     {error}

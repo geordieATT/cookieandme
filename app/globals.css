@@ -1,7 +1,7 @@
 :root {
-  --navy: #1B2B6B;
-  --red: #C0392B;
-  --lavender: #9B8EC4;
+  --navy: #0C0E58;
+  --red: #FB3D03;
+  --lavender: #6A3EA2;
   --warm-white: #FAFAF8;
   --light-grey: #F4F4F2;
   --mid-grey: #E0DFDD;
@@ -25,7 +25,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Nunito', sans-serif;
-  color: #1B2B6B;
+  color: #0C0E58;
   line-height: 1.2;
 }
 
@@ -42,7 +42,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   font-size: 14px;
   letter-spacing: 0.03em;
   color: #FAFAF8;
-  background-color: #1B2B6B;
+  background-color: #0C0E58;
   padding: 13px 28px;
   border-radius: 2px;
   border: none;
@@ -50,7 +50,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   text-align: center;
   transition: background-color 0.15s;
 }
-.btn-navy:hover { background-color: #142050; }
+.btn-navy:hover { background-color: #090A42; }
 
 .btn-red {
   display: inline-block;
@@ -59,7 +59,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   font-size: 14px;
   letter-spacing: 0.03em;
   color: #FAFAF8;
-  background-color: #C0392B;
+  background-color: #FB3D03;
   padding: 13px 28px;
   border-radius: 2px;
   border: none;
@@ -67,7 +67,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   text-align: center;
   transition: background-color 0.15s;
 }
-.btn-red:hover { background-color: #a02820; }
+.btn-red:hover { background-color: #D43302; }
 
 .btn-outline-white {
   display: inline-block;
@@ -218,7 +218,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
   font-size: 15px;
-  color: #1B2B6B;
+  color: #0C0E58;
   line-height: 1.4;
 }
 
@@ -241,14 +241,14 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   border-radius: 2px;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: #1B2B6B;
+  color: #0C0E58;
   background: #FAFAF8;
   outline: none;
   transition: border-color 0.15s;
   -webkit-appearance: none;
   appearance: none;
 }
-.form-field:focus { border-color: #1B2B6B; }
+.form-field:focus { border-color: #0C0E58; }
 .form-field::placeholder { color: #AAA; }
 
 .form-label {
@@ -256,7 +256,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #1B2B6B;
+  color: #0C0E58;
   margin-bottom: 6px;
   letter-spacing: 0.01em;
 }

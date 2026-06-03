@@ -33,7 +33,7 @@ export default function HowItWorksSection() {
             fontFamily: "'Nunito', sans-serif",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#1B2B6B",
+            color: "#0C0E58",
             marginBottom: 56,
             textAlign: "center",
           }}
@@ -51,7 +51,7 @@ export default function HowItWorksSection() {
                 style={{
                   width: 40,
                   height: 40,
-                  backgroundColor: "#1B2B6B",
+                  backgroundColor: "#0C0E58",
                   borderRadius: 2,
                   display: "flex",
                   alignItems: "center",
@@ -79,7 +79,7 @@ export default function HowItWorksSection() {
                   fontFamily: "'Nunito', sans-serif",
                   fontWeight: 800,
                   fontSize: 17,
-                  color: "#1B2B6B",
+                  color: "#0C0E58",
                   marginBottom: 10,
                 }}
               >

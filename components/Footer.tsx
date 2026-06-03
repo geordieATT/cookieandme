@@ -45,7 +45,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: "#1B2B6B",
+        backgroundColor: "#0C0E58",
         color: "#FAFAF8",
         padding: "60px 0 32px",
       }}
@@ -60,7 +60,7 @@ export default function Footer() {
               style={{ display: "inline-block", marginBottom: 16 }}
             >
               <Image
-                src="/images/cookie-and-me-logo-horizontal.svg"
+                src="/images/cookieandme-logo-h.png"
                 alt="Cookie and Me"
                 width={220}
                 height={64}

@@ -70,7 +70,7 @@ export default function CorporateSection() {
                   fontFamily: "'Nunito', sans-serif",
                   fontWeight: 900,
                   fontSize: "clamp(28px, 3.5vw, 40px)",
-                  color: "#1B2B6B",
+                  color: "#0C0E58",
                   marginBottom: 14,
                   maxWidth: 400,
                 }}
@@ -186,7 +186,7 @@ export default function CorporateSection() {
                 key={tier.label}
                 style={{
                   border: tier.highlight
-                    ? "2px solid #1B2B6B"
+                    ? "2px solid #0C0E58"
                     : "1.5px solid #E0DFDD",
                   borderRadius: 2,
                   padding: "28px 20px",
@@ -202,7 +202,7 @@ export default function CorporateSection() {
                       top: -1,
                       left: "50%",
                       transform: "translateX(-50%)",
-                      backgroundColor: "#1B2B6B",
+                      backgroundColor: "#0C0E58",
                       color: "#FAFAF8",
                       fontSize: 10,
                       fontWeight: 600,
@@ -246,7 +246,7 @@ export default function CorporateSection() {
                       fontFamily: "'Nunito', sans-serif",
                       fontWeight: 900,
                       fontSize: 32,
-                      color: "#1B2B6B",
+                      color: "#0C0E58",
                     }}
                   >
                     {tier.price}

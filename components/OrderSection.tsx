@@ -106,7 +106,7 @@ export default function OrderSection() {
               fontFamily: "'Nunito', sans-serif",
               fontWeight: 900,
               fontSize: "clamp(26px, 3.5vw, 38px)",
-              color: "#1B2B6B",
+              color: "#0C0E58",
               marginBottom: 10,
             }}
           >
@@ -303,7 +303,7 @@ export default function OrderSection() {
                   transition: "border-color 0.15s",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = "#1B2B6B")
+                  (e.currentTarget.style.borderColor = "#0C0E58")
                 }
                 onMouseLeave={(e) =>
                   (e.currentTarget.style.borderColor = "#C0BFBD")
@@ -324,7 +324,7 @@ export default function OrderSection() {
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       fontSize: 14,
-                      color: "#1B2B6B",
+                      color: "#0C0E58",
                       fontWeight: 500,
                     }}
                   >
@@ -405,7 +405,7 @@ export default function OrderSection() {
                       ? "24-pack flat rate"
                       : `${qty} cookies @ $${priceEach} each`}
                   </span>
-                  <span style={{ fontWeight: 600, color: "#1B2B6B" }}>
+                  <span style={{ fontWeight: 600, color: "#0C0E58" }}>
                     {fmt(total)}
                   </span>
                 </div>
@@ -416,7 +416,7 @@ export default function OrderSection() {
                     fontFamily: "'Inter', sans-serif",
                     fontSize: 14,
                     fontWeight: 600,
-                    color: "#1B2B6B",
+                    color: "#0C0E58",
                     borderTop: "1px solid #C8CCE0",
                     paddingTop: 10,
                     marginTop: 4,
@@ -458,7 +458,7 @@ export default function OrderSection() {
                 style={{
                   fontFamily: "'Inter', sans-serif",
                   fontSize: 14,
-                  color: "#C0392B",
+                  color: "#FB3D03",
                   fontWeight: 500,
                 }}
               >
@@ -496,7 +496,7 @@ export default function OrderSection() {
               <a
                 href="#contact"
                 style={{
-                  color: "#1B2B6B",
+                  color: "#0C0E58",
                   fontWeight: 600,
                   textDecoration: "underline",
                 }}

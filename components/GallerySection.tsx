@@ -57,7 +57,7 @@ export default function GallerySection() {
             fontFamily: "'Nunito', sans-serif",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#1B2B6B",
+            color: "#0C0E58",
             marginBottom: 48,
             textAlign: "center",
           }}
