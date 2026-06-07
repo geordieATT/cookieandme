@@ -4,12 +4,8 @@ import { useEffect, useRef, useState } from "react";
 const FLAVOURS = ["Vanilla", "Chocolate", "Chocolate Chip", "Ginger", "Spiced"];
 
 const PRICE_TIERS = [
-  { min: 500, price: 4.0 },
-  { min: 300, price: 4.25 },
-  { min: 200, price: 4.5 },
-  { min: 100, price: 5.0 },
-  { min: 50, price: 5.5 },
-  { min: 24, price: 5.8 },
+  { min: 51, price: 4.5 },
+  { min: 24, price: 5.0 },
 ];
 
 const ORDER_STEPS = [
@@ -22,6 +18,7 @@ const ORDER_STEPS = [
 
 
 function getPriceEach(qty: number): number | null {
+  if (qty > 150) return null;
   const tier = PRICE_TIERS.find((t) => qty >= t.min);
   return tier ? tier.price : null;
 }
@@ -165,13 +162,16 @@ export default function CustomCookieSection() {
   const dateRef = useRef<HTMLInputElement>(null);
 
   const qty = typeof quantity === "number" ? quantity : 0;
+  const overLimit = qty > 150;
   const priceEach = qty >= 24 ? getPriceEach(qty) : null;
   const subtotal = priceEach ? Math.round(priceEach * qty * 100) / 100 : 0;
-  const deposit = priceEach ? Math.round(subtotal * 0.5 * 100) / 100 : 0;
+  const isFullPayment = qty < 100;
+  const deposit = priceEach ? (isFullPayment ? subtotal : Math.round(subtotal * 0.5 * 100) / 100) : 0;
 
   const handleSubmit = async () => {
     setError("");
     if (!quantity || qty < 24) { setError("Minimum order is 24 cookies."); return; }
+    if (overLimit) { setError("For orders over 150 cookies, please contact us."); return; }
     if (!flavour) { setError("Please select a flavour."); return; }
     if (!neededDate) { setError("Please select a date needed by."); return; }
     if (!designBrief.trim()) { setError("Please add a design brief."); return; }
@@ -240,6 +240,16 @@ export default function CustomCookieSection() {
               {qty > 0 && qty < 24 && (
                 <p style={{ fontSize: 12, color: "#FB3D03", fontWeight: 700, marginTop: 6 }}>Minimum order is 24 cookies.</p>
               )}
+              {overLimit && (
+                <div style={{ borderLeft: "4px solid #FB3D03", backgroundColor: "#FFF8F6", padding: "12px 14px", borderRadius: 4, marginTop: 8 }}>
+                  <p style={{ fontSize: 13, color: "#333", fontWeight: 600, lineHeight: 1.6 }}>
+                    For orders over 150 cookies, please contact us for a better price —{" "}
+                    <a href="tel:0211751781" style={{ color: "#0C0E58", fontWeight: 700 }}>021 175 1781</a>{" "}
+                    or{" "}
+                    <a href="mailto:cookieandme.nz@gmail.com" style={{ color: "#0C0E58", fontWeight: 700 }}>cookieandme.nz@gmail.com</a>
+                  </p>
+                </div>
+              )}
               {priceEach && (
                 <div style={{ marginTop: 10, backgroundColor: "#F3F0FC", borderRadius: 12, padding: "12px 16px", display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
                   <span style={{ fontWeight: 700, color: "#555", fontSize: 14 }}>Qty: <strong style={{ color: "#0C0E58" }}>{qty}</strong></span>
@@ -306,13 +316,19 @@ export default function CustomCookieSection() {
               <div style={{ backgroundColor: "#F3F0FC", borderRadius: 14, padding: "14px 18px" }}>
                 <p style={{ fontWeight: 700, color: "#0C0E58", fontSize: 14, marginBottom: 4 }}>Payment summary</p>
                 <p style={{ fontWeight: 600, color: "#555", fontSize: 13 }}>Full order total: ${subtotal.toFixed(2)}</p>
-                <p style={{ fontWeight: 800, color: "#FB3D03", fontSize: 14 }}>50% deposit due now: ${deposit.toFixed(2)}</p>
-                <p style={{ fontWeight: 600, color: "#777", fontSize: 12, marginTop: 4 }}>Remaining ${deposit.toFixed(2)} invoiced after delivery.</p>
+                {isFullPayment ? (
+                  <p style={{ fontWeight: 800, color: "#FB3D03", fontSize: 14 }}>Full payment due now: ${deposit.toFixed(2)}</p>
+                ) : (
+                  <>
+                    <p style={{ fontWeight: 800, color: "#FB3D03", fontSize: 14 }}>50% deposit due now: ${deposit.toFixed(2)}</p>
+                    <p style={{ fontWeight: 600, color: "#777", fontSize: 12, marginTop: 4 }}>Remaining ${deposit.toFixed(2)} invoiced after delivery.</p>
+                  </>
+                )}
               </div>
             )}
 
-            <button onClick={handleSubmit} disabled={loading || !priceEach} style={{ width: "100%", backgroundColor: loading || !priceEach ? "#aaa" : "#FB3D03", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach ? "not-allowed" : "pointer" }}>
-              {loading ? "Processing..." : deposit > 0 ? `Pay 50% Deposit — $${deposit.toFixed(2)} NZD` : "Enter quantity to continue"}
+            <button onClick={handleSubmit} disabled={loading || !priceEach || overLimit} style={{ width: "100%", backgroundColor: loading || !priceEach || overLimit ? "#aaa" : "#FB3D03", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading || !priceEach || overLimit ? "not-allowed" : "pointer" }}>
+              {loading ? "Processing..." : deposit > 0 ? (isFullPayment ? `Pay Now — $${deposit.toFixed(2)} NZD` : `Pay 50% Deposit — $${deposit.toFixed(2)} NZD`) : "Enter quantity to continue"}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, textAlign: "center" }}>
               Free pickup or delivery in Lower Hutt on orders over $100. Nationwide shipping from $8.

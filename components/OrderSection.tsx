@@ -3,10 +3,8 @@
 import { useState, useRef } from "react";
 
 function calcTotal(qty: number): number {
-  if (qty <= 24) return 110;
-  if (qty < 100) return qty * 5.0;
-  if (qty < 500) return qty * 4.5;
-  return qty * 4.0;
+  if (qty <= 50) return qty * 5.0;
+  return qty * 4.5;
 }
 
 function calcDeposit(qty: number, total: number): number {
@@ -37,11 +35,13 @@ export default function OrderSection() {
   const fileRef = useRef<HTMLInputElement>(null);
   const dateInputRef = useRef<HTMLInputElement>(null);
 
-  const qty = typeof quantity === "number" && quantity >= 24 ? quantity : 24;
-  const total = calcTotal(qty);
-  const deposit = calcDeposit(qty, total);
+  const qty = typeof quantity === "number" ? quantity : 0;
+  const overLimit = qty > 150;
+  const validQty = qty >= 24 && !overLimit;
+  const priceEach = qty <= 50 ? "5.00" : "4.50";
+  const total = validQty ? calcTotal(qty) : 0;
+  const deposit = validQty ? calcDeposit(qty, total) : 0;
   const isFullPayment = qty < 100;
-  const priceEach = qty === 24 ? "" : qty < 100 ? "5.00" : qty < 500 ? "4.50" : "4.00";
 
   const handleSubmit = async () => {
     setError("");
@@ -53,14 +53,15 @@ export default function OrderSection() {
       setError("Minimum order is 24 cookies.");
       return;
     }
+    if (overLimit) {
+      setError("For orders over 150 cookies, please contact us.");
+      return;
+    }
     setLoading(true);
     try {
-      const description =
-        qty === 24
-          ? `Cookie & Me – 24 Custom Cookies (Full Payment: $110 NZD)`
-          : isFullPayment
-          ? `Cookie & Me – ${qty} Custom Cookies (Full Payment: ${fmt(total)} NZD)`
-          : `Cookie & Me – ${qty} Custom Cookies (50% Deposit: ${fmt(deposit)} NZD)`;
+      const description = isFullPayment
+        ? `Cookie & Me – ${qty} Custom Cookies (Full Payment: ${fmt(total)} NZD)`
+        : `Cookie & Me – ${qty} Custom Cookies (50% Deposit: ${fmt(deposit)} NZD)`;
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -95,7 +96,7 @@ export default function OrderSection() {
     }
   };
 
-  const showSummary = typeof quantity === "number" && quantity >= 24;
+  const showSummary = validQty;
 
   return (
     <section id="order" style={{ padding: "96px 0" }}>
@@ -380,6 +381,43 @@ export default function OrderSection() {
               />
             </div>
 
+            {/* Over-limit notice */}
+            {overLimit && (
+              <div
+                style={{
+                  borderLeft: "4px solid #FB3D03",
+                  backgroundColor: "#FFF8F6",
+                  padding: "14px 16px",
+                  borderRadius: 2,
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 14,
+                    color: "#333",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  For orders over 150 cookies, please contact us for a better
+                  price —{" "}
+                  <a
+                    href="tel:0211757181"
+                    style={{ color: "#0C0E58", fontWeight: 600 }}
+                  >
+                    021 175 1781
+                  </a>{" "}
+                  or{" "}
+                  <a
+                    href="mailto:cookieandme.nz@gmail.com"
+                    style={{ color: "#0C0E58", fontWeight: 600 }}
+                  >
+                    cookieandme.nz@gmail.com
+                  </a>
+                </p>
+              </div>
+            )}
+
             {/* Pricing summary */}
             {showSummary && (
               <div
@@ -400,11 +438,7 @@ export default function OrderSection() {
                     color: "#444",
                   }}
                 >
-                  <span>
-                    {qty === 24
-                      ? "24-pack flat rate"
-                      : `${qty} cookies @ $${priceEach} each`}
-                  </span>
+                  <span>{qty} cookies @ ${priceEach} each</span>
                   <span style={{ fontWeight: 600, color: "#0C0E58" }}>
                     {fmt(total)}
                   </span>
@@ -468,13 +502,14 @@ export default function OrderSection() {
 
             <button
               onClick={handleSubmit}
-              disabled={loading}
+              disabled={loading || overLimit}
               className="btn-navy"
               style={{
                 width: "100%",
                 padding: "15px",
                 fontSize: 15,
-                opacity: loading ? 0.7 : 1,
+                opacity: loading || overLimit ? 0.5 : 1,
+                cursor: overLimit ? "not-allowed" : "pointer",
               }}
             >
               {loading
