@@ -2,36 +2,28 @@ import Image from "next/image";
 
 const pricingTiers = [
   {
-    label: "24 Pack",
-    price: "$110",
-    strikethrough: "$120",
-    perUnit: null,
-    note: "",
-    highlight: false,
-  },
-  {
-    label: "25–99 Cookies",
+    label: "24–50 Cookies",
     price: "$5.00",
-    strikethrough: null,
     perUnit: "per cookie",
     note: "",
     highlight: false,
+    inquiry: false,
   },
   {
-    label: "100–499 Cookies",
+    label: "51–150 Cookies",
     price: "$4.50",
-    strikethrough: null,
     perUnit: "per cookie",
-    note: "Most popular",
+    note: "",
     highlight: true,
+    inquiry: false,
   },
   {
-    label: "500+ Cookies",
-    price: "$4.00",
-    strikethrough: null,
-    perUnit: "per cookie",
-    note: "Best value",
+    label: "150+ Cookies",
+    price: null,
+    perUnit: null,
+    note: "Contact us for a custom quote",
     highlight: false,
+    inquiry: true,
   },
 ];
 
@@ -231,50 +223,52 @@ export default function CorporateSection() {
                 >
                   {tier.label}
                 </p>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "center",
-                    gap: 6,
-                    marginBottom: 4,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <span
+                {tier.inquiry ? (
+                  <p
                     style={{
                       fontFamily: "'Nunito', sans-serif",
-                      fontWeight: 900,
-                      fontSize: 32,
+                      fontWeight: 800,
+                      fontSize: 20,
                       color: "#0C0E58",
+                      marginBottom: 4,
                     }}
                   >
-                    {tier.price}
-                  </span>
-                  {tier.strikethrough && (
+                    Price on inquiry
+                  </p>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "center",
+                      gap: 6,
+                      marginBottom: 4,
+                      flexWrap: "wrap",
+                    }}
+                  >
                     <span
                       style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: 14,
-                        color: "#BBB",
-                        textDecoration: "line-through",
+                        fontFamily: "'Nunito', sans-serif",
+                        fontWeight: 900,
+                        fontSize: 32,
+                        color: "#0C0E58",
                       }}
                     >
-                      {tier.strikethrough}
+                      {tier.price}
                     </span>
-                  )}
-                  {tier.perUnit && (
-                    <span
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: 12,
-                        color: "#666",
-                      }}
-                    >
-                      {tier.perUnit}
-                    </span>
-                  )}
-                </div>
+                    {tier.perUnit && (
+                      <span
+                        style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: 12,
+                          color: "#666",
+                        }}
+                      >
+                        {tier.perUnit}
+                      </span>
+                    )}
+                  </div>
+                )}
                 {tier.note && (
                   <p
                     style={{
@@ -298,20 +292,9 @@ export default function CorporateSection() {
               fontFamily: "'Inter', sans-serif",
               fontSize: 13,
               color: "#666",
-              marginBottom: 6,
             }}
           >
-            Orders under 100 cookies require full payment upfront. Orders of
-            100 or more require a 50% deposit.
-          </p>
-          <p
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: 13,
-              color: "#666",
-            }}
-          >
-            Free pickup or delivery in Lower Hutt. Nationwide shipping from $8.
+            Orders under 100 cookies require full payment upfront. Orders of 100 or more require a 50% deposit. Free pickup or delivery in Lower Hutt. Nationwide shipping from $8.
           </p>
         </div>
 
