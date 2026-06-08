@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 const navLinks = [
   { label: "Gallery", href: "#gallery" },
@@ -60,15 +59,14 @@ export default function Footer() {
               aria-label="Cookie and Me home"
               style={{ display: "inline-block", marginBottom: 16 }}
             >
-              <Image
-                src="/images/cookieandme-logo-h.png"
+              <img
+                src="/images/cookieandme-logo-h.svg"
                 alt="Cookie and Me"
-                width={220}
-                height={64}
                 style={{
                   width: 160,
                   height: "auto",
                   display: "block",
+                  filter: "brightness(0) invert(1)",
                 }}
               />
             </a>

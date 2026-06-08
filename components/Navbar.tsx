@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 
 const navLinks = [
   { label: "Gallery", href: "#gallery" },
@@ -47,12 +46,9 @@ export default function Navbar() {
         }}
       >
         <a href="/" aria-label="Cookie and Me home" style={{ flexShrink: 0 }}>
-          <Image
-            src="/images/cookieandme-logo-h.png"
+          <img
+            src="/images/cookieandme-logo-h.svg"
             alt="Cookie and Me"
-            width={220}
-            height={64}
-            priority
             style={{ width: 180, height: "auto", display: "block" }}
           />
         </a>
