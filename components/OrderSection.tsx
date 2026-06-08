@@ -405,7 +405,7 @@ export default function OrderSection() {
                     href="tel:0211757181"
                     style={{ color: "#0C0E58", fontWeight: 600 }}
                   >
-                    021 175 1781
+                    021 175 7181
                   </a>{" "}
                   or{" "}
                   <a

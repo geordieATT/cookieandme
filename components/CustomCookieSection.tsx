@@ -244,7 +244,7 @@ export default function CustomCookieSection() {
                 <div style={{ borderLeft: "4px solid #FB3D03", backgroundColor: "#FFF8F6", padding: "12px 14px", borderRadius: 4, marginTop: 8 }}>
                   <p style={{ fontSize: 13, color: "#333", fontWeight: 600, lineHeight: 1.6 }}>
                     For orders over 150 cookies, please contact us for a better price —{" "}
-                    <a href="tel:0211751781" style={{ color: "#0C0E58", fontWeight: 700 }}>021 175 1781</a>{" "}
+                    <a href="tel:0211757181" style={{ color: "#0C0E58", fontWeight: 700 }}>021 175 7181</a>{" "}
                     or{" "}
                     <a href="mailto:cookieandme.nz@gmail.com" style={{ color: "#0C0E58", fontWeight: 700 }}>cookieandme.nz@gmail.com</a>
                   </p>
