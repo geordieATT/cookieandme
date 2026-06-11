@@ -30,6 +30,7 @@ export default function OrderSection() {
   const [companyName, setCompanyName] = useState("");
   const [logoName, setLogoName] = useState("");
   const [designBrief, setDesignBrief] = useState("");
+  const [fulfillment, setFulfillment] = useState<"pickup" | "delivery">("pickup");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -73,6 +74,7 @@ export default function OrderSection() {
           phone,
           subtotal: deposit,
           description,
+          fulfillment,
           quantity: qty,
           priceEach,
           flavour,
@@ -486,6 +488,24 @@ export default function OrderSection() {
                 )}
               </div>
             )}
+
+            {/* Pickup / Delivery */}
+            <div>
+              <label className="form-label">Collection</label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {(["pickup", "delivery"] as const).map((opt) => (
+                  <button key={opt} type="button" onClick={() => setFulfillment(opt)}
+                    style={{ border: fulfillment === opt ? "2px solid #0C0E58" : "1.5px solid #D0CFCD", borderRadius: 2, padding: "14px 8px", cursor: "pointer", backgroundColor: fulfillment === opt ? "#F4F5FB" : "#FAFAF8", textAlign: "center", fontFamily: "'Inter', sans-serif" }}>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: "#0C0E58" }}>
+                      {opt === "pickup" ? "Free Pickup" : "Free Delivery"}
+                    </div>
+                    <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>
+                      {opt === "pickup" ? "Lower Hutt" : "Wellington & Hutt Valley"}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {error && (
               <p

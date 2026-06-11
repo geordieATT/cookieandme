@@ -72,6 +72,7 @@ export default function GiftBoxSection() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [fulfillment, setFulfillment] = useState<"pickup" | "delivery">("pickup");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
@@ -98,7 +99,7 @@ export default function GiftBoxSection() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderType: "giftbox", name, email, phone, packSize: selectedPack, theme, flavour, addCard, cardMessage: addCard ? cardMessage.trim() : "", subtotal: pack.price, description: `Cookie and Me ${selectedPack} Pack - ${theme} - ${flavour}` }),
+        body: JSON.stringify({ orderType: "giftbox", name, email, phone, fulfillment, packSize: selectedPack, theme, flavour, addCard, cardMessage: addCard ? cardMessage.trim() : "", subtotal: pack.price, description: `Cookie and Me ${selectedPack} Pack - ${theme} - ${flavour}` }),
       });
       const data = await res.json();
       if (data.url) { window.location.href = data.url; }
@@ -170,13 +171,30 @@ export default function GiftBoxSection() {
               <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} style={{ ...inputStyle, maxWidth: 320 }} className="full-mobile" />
             </div>
 
+            <div>
+              <label style={labelStyle}>Collection</label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {(["pickup", "delivery"] as const).map((opt) => (
+                  <button key={opt} type="button" onClick={() => setFulfillment(opt)}
+                    style={{ border: fulfillment === opt ? "2.5px solid #6A3EA2" : "2px solid #E0DCF0", borderRadius: 18, padding: "14px 8px", cursor: "pointer", backgroundColor: fulfillment === opt ? "#F3F0FC" : "#fff", textAlign: "center" }}>
+                    <div style={{ fontWeight: 900, fontSize: 15, color: "#0C0E58" }}>
+                      {opt === "pickup" ? "Free Pickup" : "Free Delivery"}
+                    </div>
+                    <div style={{ fontWeight: 600, fontSize: 12, color: "#666", marginTop: 2 }}>
+                      {opt === "pickup" ? "Lower Hutt" : "Wellington & Hutt Valley"}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {error && <p style={{ color: "#FB3D03", fontWeight: 700, fontSize: 14, marginBottom: 12 }}>{error}</p>}
 
             <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", backgroundColor: loading ? "#aaa" : "#FB3D03", color: "#fff", fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 18, padding: "18px 0", borderRadius: 50, border: "none", cursor: loading ? "not-allowed" : "pointer" }}>
               {loading ? "Processing..." : `Pay $${pack.price.toFixed(2)} NZD`}
             </button>
             <p style={{ fontSize: 12, color: "#999", fontWeight: 600, marginTop: 10, textAlign: "center" }}>
-              Shipping or free pickup selected at checkout. Free delivery on orders over $119.
+              Free pickup in Lower Hutt or free delivery in Wellington & Hutt Valley.
             </p>
           </div>
         </div>

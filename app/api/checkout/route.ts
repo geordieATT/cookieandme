@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       phone,
       subtotal,
       description,
+      fulfillment,
       packSize,
       theme,
       flavour,
@@ -30,6 +31,8 @@ export async function POST(req: NextRequest) {
       companyName,
     } = body;
 
+    const fulfillmentType: "pickup" | "delivery" = fulfillment === "delivery" ? "delivery" : "pickup";
+
     if (!orderType || !name || !email || subtotal === undefined || subtotal === null) {
       return NextResponse.json({ error: "Missing required checkout fields." }, { status: 400 });
     }
@@ -40,30 +43,15 @@ export async function POST(req: NextRequest) {
     }
 
     const subtotalCents = Math.round(subtotalNumber * 100);
-    const freeShippingThreshold = 11900;
 
     const shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [
       {
         shipping_rate_data: {
           type: "fixed_amount",
           fixed_amount: { amount: 0, currency: "nzd" },
-          display_name: "Free Pickup — Lower Hutt",
-          delivery_estimate: {
-            minimum: { unit: "business_day", value: 3 },
-            maximum: { unit: "business_day", value: 7 },
-          },
-        },
-      },
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: subtotalCents >= freeShippingThreshold ? 0 : 1000,
-            currency: "nzd",
-          },
-          display_name: subtotalCents >= freeShippingThreshold
-            ? "Free Delivery — Wellington Region"
-            : "Delivery — Wellington Region ($10.00)",
+          display_name: fulfillmentType === "pickup"
+            ? "Free Pickup — Lower Hutt"
+            : "Free Delivery — Wellington & Hutt Valley",
           delivery_estimate: {
             minimum: { unit: "business_day", value: 3 },
             maximum: { unit: "business_day", value: 7 },
@@ -91,9 +79,12 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      shipping_address_collection: { allowed_countries: ["NZ"] },
+      ...(fulfillmentType === "delivery" && {
+        shipping_address_collection: { allowed_countries: ["NZ"] },
+      }),
       shipping_options: shippingOptions,
       metadata: {
+        fulfillment: fulfillmentType,
         orderType,
         customerName: String(name),
         customerEmail: String(email),
