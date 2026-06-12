@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     const meta = session.metadata ?? {};
 
     try {
-      await resend.emails.send({
+      const { error: emailError } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
         subject: `New paid order – ${meta.orderType === "giftbox" ? "Gift Box" : "Custom Cookies"}`,
@@ -87,6 +87,10 @@ export async function POST(req: Request) {
           }
         `,
       });
+      if (emailError) {
+        console.error("Failed to send webhook email:", emailError);
+        return new Response("Email send failed", { status: 500 });
+      }
     } catch (err) {
       console.error("Failed to send webhook email:", err);
       return new Response("Email send failed", { status: 500 });
