@@ -34,8 +34,8 @@ export async function POST(req: Request) {
     } = body;
 
     if (orderType === "contact") {
-      await resend.emails.send({
-       from: "Cookie & Me <orders@cookieandme.nz>",
+      const { error } = await resend.emails.send({
+        from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
         subject: `New Cookie & Me enquiry: ${subject}`,
         html: `
@@ -47,12 +47,15 @@ export async function POST(req: Request) {
           <p>${message?.replace(/\n/g, "<br />")}</p>
         `,
       });
-
+      if (error) {
+        console.error("Resend error (contact):", error);
+        return Response.json({ error: "Failed to send message." }, { status: 500 });
+      }
       return Response.json({ success: true });
     }
 
     if (orderType === "giftbox") {
-      await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
         subject: `New Gift Box Order from ${name}`,
@@ -70,12 +73,15 @@ export async function POST(req: Request) {
           <p><strong>Subtotal:</strong> $${subtotal}</p>
         `,
       });
-
+      if (error) {
+        console.error("Resend error (giftbox):", error);
+        return Response.json({ error: "Failed to send message." }, { status: 500 });
+      }
       return Response.json({ success: true });
     }
 
     if (orderType === "custom") {
-      await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
         subject: `New Custom Cookie Order from ${name}`,
@@ -97,7 +103,10 @@ export async function POST(req: Request) {
           <p><strong>Subtotal:</strong> $${subtotal}</p>
         `,
       });
-
+      if (error) {
+        console.error("Resend error (custom):", error);
+        return Response.json({ error: "Failed to send message." }, { status: 500 });
+      }
       return Response.json({ success: true });
     }
 
