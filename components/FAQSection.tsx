@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const faqs = [
   {
-    q: "What is the minimum order?",
+    q: "What is the minimum order quantity?",
     a: "Our minimum order is 24 cookies.",
   },
   {
@@ -13,15 +13,15 @@ const faqs = [
   },
   {
     q: "Where do you deliver?",
-    a: "Free pickup or delivery in Lower Hutt. Nationwide courier from $8.",
+    a: "Free pickup or delivery in Lower Hutt. Nationwide courier — get in touch.",
   },
   {
     q: "How long do the cookies last?",
-    a: "Our cookies stay fresh for up to 4 weeks from their production date in sealed packaging.",
+    a: "Our cookies stay fresh for up to 4 weeks from their production date.",
   },
   {
     q: "What flavours do you offer?",
-    a: "Classic Vanilla, Vanilla Chocolate Chip, Dark Salted Chocolate, Ginger, and Spice.",
+    a: "Classic Vanilla, Vanilla Chocolate Chip, Dark Salted Chocolate, Ginger, and Spiced.",
   },
 ];
 
