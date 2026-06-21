@@ -571,50 +571,7 @@ export default function OrderSection() {
                 : "Pay Deposit via Stripe"}
             </button>
 
-            {/* TEST BUTTON — remove before launch */}
-            <button
-              onClick={async () => {
-                const res = await fetch("/api/checkout", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    orderType: "custom",
-                    name: "Test User",
-                    email: "test@test.com",
-                    phone: "000",
-                    subtotal: 0.5,
-                    description: "TEST PAYMENT $0.50",
-                    fulfillment: "pickup",
-                    quantity: 24,
-                    priceEach: "0.02",
-                    cookieShape: "circle",
-                    flavour: "Classic Vanilla",
-                    colour: "#ffffff",
-                    designBrief: "Test order",
-                    latestNeededDate: "2026-12-31",
-                    companyName: "",
-                    logoUrl: "",
-                  }),
-                });
-                const data = await res.json();
-                if (data.url) window.location.href = data.url;
-              }}
-              style={{
-                width: "100%",
-                padding: "10px",
-                fontSize: 12,
-                fontFamily: "'Inter', sans-serif",
-                background: "#f0f0f0",
-                border: "1.5px dashed #aaa",
-                borderRadius: 2,
-                cursor: "pointer",
-                color: "#888",
-              }}
-            >
-              [DEV] Test $0.50 payment
-            </button>
-
-            <p
+<p
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize: 13,
