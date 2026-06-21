@@ -26,6 +26,7 @@ export default function OrderSection() {
   const [dateNeeded, setDateNeeded] = useState("");
   const [quantity, setQuantity] = useState<number | "">(24);
   const [flavour, setFlavour] = useState("Classic Vanilla");
+  const [cookieShape, setCookieShape] = useState<"circle" | "rounded-square" | "custom">("circle");
   const [colour, setColour] = useState("#ffffff");
   const [companyName, setCompanyName] = useState("");
   const [logoName, setLogoName] = useState("");
@@ -78,6 +79,7 @@ export default function OrderSection() {
           quantity: qty,
           priceEach,
           flavour,
+          cookieShape,
           colour,
           logoUrl: logoName,
           designBrief,
@@ -219,8 +221,38 @@ export default function OrderSection() {
                   <option>Vanilla Chocolate Chip</option>
                   <option>Dark Salted Chocolate</option>
                   <option>Ginger</option>
-                  <option>Spice</option>
+                  <option>Spiced</option>
                 </select>
+              </div>
+            </div>
+
+            {/* Cookie shape */}
+            <div>
+              <label className="form-label">Cookie Shape *</label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+                {([
+                  { value: "circle", label: "Circle", sub: "65mm" },
+                  { value: "rounded-square", label: "Rounded Square", sub: "Same size as circle" },
+                  { value: "custom", label: "Custom Shape", sub: "Describe in brief" },
+                ] as const).map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setCookieShape(opt.value)}
+                    style={{
+                      border: cookieShape === opt.value ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                      borderRadius: 2,
+                      padding: "14px 8px",
+                      cursor: "pointer",
+                      backgroundColor: cookieShape === opt.value ? "#F4F5FB" : "#FAFAF8",
+                      textAlign: "center",
+                      fontFamily: "'Inter', sans-serif",
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, fontSize: 14, color: "#0C0E58" }}>{opt.label}</div>
+                    <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>{opt.sub}</div>
+                  </button>
+                ))}
               </div>
             </div>
 

@@ -78,6 +78,7 @@ export async function POST(req: Request) {
                 <h3>Custom cookie details</h3>
                 <p><strong>Quantity:</strong> ${meta.quantity ?? ""}</p>
                 <p><strong>Price each:</strong> ${meta.priceEach ?? ""}</p>
+                <p><strong>Cookie shape:</strong> ${meta.cookieShape ?? ""}</p>
                 <p><strong>Colour:</strong> ${meta.colour ?? ""}</p>
                 <p><strong>Logo URL:</strong> ${meta.logoUrl ?? ""}</p>
                 <p><strong>Needed by:</strong> ${meta.latestNeededDate ?? ""}</p>
