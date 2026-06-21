@@ -53,12 +53,12 @@ export async function POST(req: Request) {
           <p><strong>Amount paid:</strong> $${((session.amount_total ?? 0) / 100).toFixed(2)} NZD</p>
           <p><strong>Collection:</strong> ${meta.fulfillment === "delivery" ? "Delivery" : "Pickup — Lower Hutt"}</p>
           ${
-            meta.fulfillment === "delivery" && session.shipping_details?.address
+            meta.fulfillment === "delivery" && (session as any).shipping_details?.address
               ? `<p><strong>Delivery address:</strong> ${[
-                  session.shipping_details.address.line1,
-                  session.shipping_details.address.line2,
-                  session.shipping_details.address.city,
-                  session.shipping_details.address.postal_code,
+                  (session as any).shipping_details.address.line1,
+                  (session as any).shipping_details.address.line2,
+                  (session as any).shipping_details.address.city,
+                  (session as any).shipping_details.address.postal_code,
                 ].filter(Boolean).join(", ")}</p>`
               : ""
           }
