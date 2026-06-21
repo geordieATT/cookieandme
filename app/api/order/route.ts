@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       });
       if (error) {
         console.error("Resend error (contact):", error);
-        return Response.json({ error: "Failed to send message." }, { status: 500 });
+        return Response.json({ error: `Resend error: ${JSON.stringify(error)}` }, { status: 500 });
       }
       return Response.json({ success: true });
     }
