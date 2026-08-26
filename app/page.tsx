@@ -25,8 +25,8 @@ export default function Home() {
         <CorporateSection />
         <GallerySection />
         <GiftBoxSection />
-        <HowItWorksSection />
         <OurStorySection />
+        <HowItWorksSection />
         <OrderSection />
         <FAQSection />
         <ContactSection />

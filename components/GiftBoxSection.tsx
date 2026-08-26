@@ -51,11 +51,7 @@ function isValidEmail(value: string): boolean {
 }
 
 export default function GiftBoxSection() {
-  // The pack size and quantity currently being chosen, before it is added to the cart.
-  const [packSize, setPackSize] = useState<PackSize>(6);
-  const [boxQty, setBoxQty] = useState(1);
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [justAdded, setJustAdded] = useState(false);
   const [fulfillment, setFulfillment] = useState<Fulfillment>("pickup");
   const [confirmUrban, setConfirmUrban] = useState(false);
   const [name, setName] = useState("");
@@ -155,43 +151,23 @@ export default function GiftBoxSection() {
   const isCourier = COURIER_OPTIONS.includes(fulfillment);
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
-  // Adding a size already in the cart bumps its quantity rather than creating a second line.
-  const addToCart = () => {
+  const qtyFor = (size: PackSize) => cart.find((item) => item.packSize === size)?.qty ?? 0;
+
+  // Derives the new quantity from the previous state rather than a captured value, so
+  // rapid taps on + don't collapse into a single increment. Zero drops the pack entirely.
+  const adjustQty = (size: PackSize, delta: number) => {
     setError("");
     setCart((prev) => {
-      const existing = prev.find((item) => item.packSize === packSize);
-      if (existing) {
-        return prev.map((item) =>
-          item.packSize === packSize
-            ? { ...item, qty: Math.min(MAX_QTY_PER_LINE, item.qty + boxQty) }
-            : item
-        );
+      const current = prev.find((item) => item.packSize === size)?.qty ?? 0;
+      const next = Math.max(0, Math.min(MAX_QTY_PER_LINE, current + delta));
+      if (next === 0) return prev.filter((item) => item.packSize !== size);
+      if (prev.some((item) => item.packSize === size)) {
+        return prev.map((item) => (item.packSize === size ? { ...item, qty: next } : item));
       }
-      return [...prev, { packSize, qty: boxQty }];
+      // Keep the order stable so rows don't jump around as packs are added.
+      return [...prev, { packSize: size, qty: next }].sort((a, b) => a.packSize - b.packSize);
     });
-    setBoxQty(1);
-    setJustAdded(true);
   };
-
-  const updateCartQty = (size: PackSize, qty: number) => {
-    if (qty < 1) {
-      setCart((prev) => prev.filter((item) => item.packSize !== size));
-      return;
-    }
-    setCart((prev) =>
-      prev.map((item) => (item.packSize === size ? { ...item, qty: Math.min(MAX_QTY_PER_LINE, qty) } : item))
-    );
-  };
-
-  const removeFromCart = (size: PackSize) =>
-    setCart((prev) => prev.filter((item) => item.packSize !== size));
-
-  // Clear the "Added" confirmation shortly after it appears.
-  useEffect(() => {
-    if (!justAdded) return;
-    const id = setTimeout(() => setJustAdded(false), 2000);
-    return () => clearTimeout(id);
-  }, [justAdded]);
 
   const handleSubmit = async () => {
     setError("");
@@ -352,136 +328,49 @@ export default function GiftBoxSection() {
 
             {/* Product panel */}
             <div>
-              {/* Pack size */}
-              <div style={{ marginBottom: 22 }}>
-                <label className="form-label">Pack Size</label>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  {PACKS.map((p) => (
-                    <button
-                      key={p.size}
-                      type="button"
-                      onClick={() => setPackSize(p.size)}
-                      style={{
-                        border: packSize === p.size ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
-                        borderRadius: 2, padding: "16px 8px", cursor: "pointer", minHeight: 64,
-                        backgroundColor: packSize === p.size ? "#fff" : "#FAFAF8",
-                        textAlign: "center", fontFamily: "'Inter', sans-serif",
-                      }}
-                    >
-                      <div style={{ fontWeight: 700, fontSize: 15, color: "#0C0E58" }}>{p.label}</div>
-                      <div style={{ fontWeight: 600, fontSize: 14, color: "#FB3D03", marginTop: 3 }}>{fmt(p.price)}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quantity + add to cart */}
-              <div style={{ marginBottom: 26 }}>
-                <label className="form-label">How Many Boxes?</label>
-                <div className="giftbox-add-row">
-                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                    <button
-                      type="button"
-                      onClick={() => setBoxQty((q) => Math.max(1, q - 1))}
-                      aria-label="Decrease quantity"
-                      className="giftbox-qty-btn"
-                    >
-                      −
-                    </button>
-                    <span style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 20, color: "#0C0E58", minWidth: 28, textAlign: "center" }}>
-                      {boxQty}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setBoxQty((q) => Math.min(MAX_QTY_PER_LINE, q + 1))}
-                      aria-label="Increase quantity"
-                      className="giftbox-qty-btn"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={addToCart}
-                    className="giftbox-add-btn"
-                  >
-                    {justAdded ? "Added ✓" : `Add ${boxQty} × ${packSize} Pack to Cart`}
-                  </button>
-                </div>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#888", marginTop: 8 }}>
-                  Want both sizes? Add one, then switch the pack size and add the other.
-                </p>
-              </div>
-
-              {/* Cart */}
+              {/* Choose boxes */}
               <div style={{ marginBottom: 26 }}>
                 <label className="form-label">
-                  Your Cart{cartCount > 0 ? ` (${cartCount} ${cartCount === 1 ? "box" : "boxes"})` : ""}
+                  Choose Your Boxes{cartCount > 0 ? ` (${cartCount} ${cartCount === 1 ? "box" : "boxes"})` : ""}
                 </label>
-                {cart.length === 0 ? (
-                  <p
-                    style={{
-                      fontFamily: "'Inter', sans-serif", fontSize: 13, color: "#888",
-                      backgroundColor: "#FAFAF8", border: "1.5px dashed #D0CFCD", borderRadius: 2,
-                      padding: "16px 14px", margin: 0, textAlign: "center",
-                    }}
-                  >
-                    Your cart is empty — pick a pack size above and add it.
-                  </p>
-                ) : (
-                  <div style={{ border: "1.5px solid #D0CFCD", borderRadius: 2, backgroundColor: "#fff" }}>
-                    {cart.map((item, i) => (
-                      <div
-                        key={item.packSize}
-                        className="giftbox-cart-row"
-                        style={{ borderTop: i === 0 ? "none" : "1px solid #EDEDEB" }}
-                      >
+                <div className="giftbox-packs">
+                  {PACKS.map((p) => {
+                    const qty = qtyFor(p.size);
+                    return (
+                      <div key={p.size} className={`giftbox-pack-row${qty > 0 ? " is-selected" : ""}`}>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 14, color: "#0C0E58" }}>
-                            {item.packSize} Pack
-                          </div>
-                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#888", marginTop: 2 }}>
-                            {fmt(priceFor(item.packSize))} each
-                          </div>
+                          <div className="giftbox-pack-name">{p.label}</div>
+                          <div className="giftbox-pack-price">{fmt(p.price)} each</div>
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <div className="giftbox-stepper">
                           <button
                             type="button"
-                            onClick={() => updateCartQty(item.packSize, item.qty - 1)}
-                            aria-label={`Decrease ${item.packSize} Pack quantity`}
+                            onClick={() => adjustQty(p.size, -1)}
+                            disabled={qty === 0}
+                            aria-label={`Decrease ${p.label} quantity`}
                             className="giftbox-cart-qty-btn"
+                            style={{ opacity: qty === 0 ? 0.4 : 1, cursor: qty === 0 ? "not-allowed" : "pointer" }}
                           >
                             −
                           </button>
-                          <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 14, color: "#0C0E58", minWidth: 20, textAlign: "center" }}>
-                            {item.qty}
-                          </span>
+                          <span className="giftbox-stepper-value" aria-live="polite">{qty}</span>
                           <button
                             type="button"
-                            onClick={() => updateCartQty(item.packSize, item.qty + 1)}
-                            aria-label={`Increase ${item.packSize} Pack quantity`}
+                            onClick={() => adjustQty(p.size, 1)}
+                            aria-label={`Increase ${p.label} quantity`}
                             className="giftbox-cart-qty-btn"
                           >
                             +
                           </button>
                         </div>
-                        <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 14, color: "#0C0E58", minWidth: 56, textAlign: "right" }}>
-                          {fmt(priceFor(item.packSize) * item.qty)}
+                        <div className="giftbox-pack-total">
+                          {qty > 0 ? fmt(p.price * qty) : "—"}
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => removeFromCart(item.packSize)}
-                          aria-label={`Remove ${item.packSize} Pack from cart`}
-                          className="giftbox-cart-remove"
-                        >
-                          ×
-                        </button>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    );
+                  })}
+                </div>
               </div>
-
               {/* Printed note */}
               <div style={{ marginBottom: 26 }}>
                 <label className="form-label">Personalised Note</label>
