@@ -16,7 +16,7 @@ const images: GalleryImage[] = [
     alt: "60th birthday cookies in gift box with gold ribbon",
   },
   {
-    src: "/images/csl-long-service-dinner-branded-cookie-place-setting.jfif",
+    src: "/images/csl-long-service-dinner-branded-cookie-place-setting.jpg",
     alt: "CSL branded cookie at a Long Service Dinner place setting",
   },
   {
@@ -32,7 +32,7 @@ const images: GalleryImage[] = [
     alt: "Mother's Day cookies with candle outdoors",
   },
   {
-    src: "/images/matariki-cookies-tray-pink-blue-yellow.jfif",
+    src: "/images/matariki-cookies-tray-pink-blue-yellow.jpg",
     alt: "Matariki collection cookies in pink, blue, and yellow on a tray",
   },
   {

@@ -66,8 +66,7 @@ export async function POST(req: Request) {
         ? `
           <h3>Gift box details</h3>
           <p><strong>Occasion:</strong> ${esc(meta.occasion)}</p>
-          <p><strong>Pack size:</strong> ${esc(meta.packSize)}</p>
-          <p><strong>Number of boxes:</strong> ${esc(meta.boxQty)}</p>
+          <p><strong>Boxes ordered:</strong> ${esc(meta.items)}</p>
           <p><strong>Shipping fee:</strong> $${esc(meta.shippingFee ?? "0")}</p>
           <p><strong>Printed note:</strong> ${printedNote ? "Yes" : "No"}</p>
           ${printedNoteHtml}

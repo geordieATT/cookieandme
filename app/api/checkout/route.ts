@@ -17,9 +17,8 @@ export async function POST(req: NextRequest) {
       subtotal,
       description,
       fulfillment,
-      packSize,
+      items,
       occasion,
-      boxQty,
       address,
       postcode,
       theme,
@@ -65,13 +64,54 @@ export async function POST(req: NextRequest) {
     const printedNote = String(cardMessage ?? "").trim().slice(0, 250);
     const wantsPrintedNote = Boolean(addCard) && printedNote !== "";
 
-    if (!orderType || !name || !email || subtotal === undefined || subtotal === null) {
+    if (!orderType || !name || !email) {
       return NextResponse.json({ error: "Missing required checkout fields." }, { status: 400 });
     }
 
-    const subtotalNumber = Number(subtotal);
-    if (Number.isNaN(subtotalNumber) || subtotalNumber <= 0) {
-      return NextResponse.json({ error: "Subtotal must be a valid number greater than zero." }, { status: 400 });
+    // Gift box pricing is authoritative here: the cart's totals are recomputed from these
+    // rather than trusted from the request body.
+    const PACK_PRICES: Record<number, number> = { 6: 20, 12: 38 };
+    const MAX_QTY_PER_LINE = 20;
+
+    let subtotalNumber: number;
+    let itemsSummary = "";
+
+    if (orderType === "giftbox") {
+      if (!Array.isArray(items) || items.length === 0) {
+        return NextResponse.json({ error: "Your cart is empty." }, { status: 400 });
+      }
+
+      let computed = 0;
+      const seen = new Set<number>();
+      const parts: string[] = [];
+
+      for (const item of items) {
+        const size = Number(item?.packSize);
+        const qty = Number(item?.qty);
+        const price = PACK_PRICES[size];
+
+        if (!price) {
+          return NextResponse.json({ error: "That pack size isn't available." }, { status: 400 });
+        }
+        if (!Number.isInteger(qty) || qty < 1 || qty > MAX_QTY_PER_LINE) {
+          return NextResponse.json({ error: "Please choose a quantity between 1 and 20 per pack size." }, { status: 400 });
+        }
+        if (seen.has(size)) {
+          return NextResponse.json({ error: "Each pack size can only appear once in the cart." }, { status: 400 });
+        }
+        seen.add(size);
+
+        computed += price * qty;
+        parts.push(`${qty} × ${size} Pack`);
+      }
+
+      subtotalNumber = computed;
+      itemsSummary = parts.join(", ");
+    } else {
+      subtotalNumber = Number(subtotal);
+      if (Number.isNaN(subtotalNumber) || subtotalNumber <= 0) {
+        return NextResponse.json({ error: "Subtotal must be a valid number greater than zero." }, { status: 400 });
+      }
     }
 
     const subtotalCents = Math.round(subtotalNumber * 100);
@@ -148,9 +188,8 @@ export async function POST(req: NextRequest) {
         deliveryAddress: formattedAddress,
         subtotal: String(subtotalNumber),
         description: String(description || ""),
-        packSize: String(packSize || ""),
+        items: itemsSummary,
         occasion: String(occasion || ""),
-        boxQty: String(boxQty || ""),
         shippingFee: String(serverShippingFee),
         theme: String(theme || ""),
         flavour: String(flavour || ""),

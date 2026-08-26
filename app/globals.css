@@ -386,6 +386,70 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   .countdown-cta { width: 100%; text-align: center; }
 }
 
+/* --- Gift box cart --- */
+.giftbox-add-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.giftbox-add-btn {
+  flex: 1;
+  min-width: 200px;
+  min-height: 46px;
+  padding: 12px 20px;
+  border: 2px solid #0C0E58;
+  border-radius: 2px;
+  background: #0C0E58;
+  color: #FAFAF8;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.giftbox-add-btn:hover { background: #16197a; }
+
+.giftbox-cart-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.giftbox-cart-qty-btn {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #D0CFCD;
+  border-radius: 2px;
+  background: #FAFAF8;
+  color: #0C0E58;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.giftbox-cart-qty-btn:hover { border-color: #0C0E58; }
+
+.giftbox-cart-remove {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  color: #AAA;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.giftbox-cart-remove:hover { color: #FB3D03; }
+
+@media (max-width: 480px) {
+  .giftbox-add-btn { min-width: 0; width: 100%; }
+  .giftbox-cart-row { gap: 8px; padding: 12px 10px; }
+}
+
 /* --- Address autocomplete --- */
 .address-suggestions {
   position: absolute;
