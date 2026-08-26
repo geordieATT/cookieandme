@@ -9,8 +9,8 @@ const PACKS = [
 ] as const;
 
 const FULFILLMENT_OPTIONS = [
-  { value: "pickup", label: "Free Pickup — Lower Hutt", fee: 0, needsAddress: false },
-  { value: "delivery", label: "Free Delivery — Hutt Valley", fee: 0, needsAddress: true },
+  { value: "pickup", label: "Pickup from Lower Hutt", fee: 0, needsAddress: false },
+  { value: "delivery", label: "Delivery in the Hutt Valley", fee: 0, needsAddress: true },
   { value: "northIsland", label: "North Island Courier", fee: 8.5, needsAddress: true },
   { value: "southIsland", label: "South Island Courier", fee: 12.5, needsAddress: true },
 ] as const;
@@ -176,7 +176,7 @@ export default function GiftBoxSection() {
       return;
     }
     if (!name.trim() || !email.trim() || !phone.trim()) {
-      setError("Please fill in your name, email, and phone number — all three are required.");
+      setError("Please fill in your name, email and phone number. All three are required.");
       return;
     }
     if (!isValidEmail(email.trim())) {
@@ -364,7 +364,7 @@ export default function GiftBoxSection() {
                           </button>
                         </div>
                         <div className="giftbox-pack-total">
-                          {qty > 0 ? fmt(p.price * qty) : "—"}
+                          {qty > 0 ? fmt(p.price * qty) : "-"}
                         </div>
                       </div>
                     );
@@ -392,7 +392,7 @@ export default function GiftBoxSection() {
                   <span>
                     <strong style={{ fontWeight: 700 }}>Include a printed personalised note</strong>
                     <span style={{ display: "block", fontSize: 13, color: "#666", marginTop: 2 }}>
-                      Free — we&apos;ll print it and pop it in the box.
+                      Free. We&apos;ll print it and pop it in the box.
                     </span>
                   </span>
                 </label>
@@ -407,7 +407,7 @@ export default function GiftBoxSection() {
                       onChange={(e) => setNote(e.target.value.slice(0, NOTE_MAX))}
                       maxLength={NOTE_MAX}
                       rows={4}
-                      placeholder="Happy Father's Day, Dad — thanks for everything. Love, the kids."
+                      placeholder="Happy Father's Day, Dad. Thanks for everything. Love, the kids."
                       style={{ resize: "vertical", minHeight: 96, lineHeight: 1.5 }}
                     />
                     <div
@@ -427,7 +427,7 @@ export default function GiftBoxSection() {
                 Your Details
               </h3>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "#888", marginBottom: 12 }}>
-                All fields required — we use these to confirm your order.
+                All fields required so we can confirm your order.
               </p>
               <div className="form-two-col" style={{ marginBottom: 16 }}>
                 <div>
@@ -455,7 +455,7 @@ export default function GiftBoxSection() {
                 >
                   {FULFILLMENT_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
-                      {opt.label} — {opt.fee === 0 ? "Free" : fmt(opt.fee)}
+                      {opt.label} ({opt.fee === 0 ? "Free" : fmt(opt.fee)})
                     </option>
                   ))}
                 </select>
@@ -547,7 +547,7 @@ export default function GiftBoxSection() {
                   {isCourier && (
                     <>
                       <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, lineHeight: 1.6, color: "#888", marginBottom: 10 }}>
-                        Courier delivery is available to urban addresses only — we can&apos;t currently
+                        Courier delivery is available to urban addresses only. We can&apos;t currently
                         deliver to rural addresses. If you&apos;re unsure or your address is rural, please
                         choose pickup or <a href="#contact" style={{ color: "#0C0E58" }}>contact us</a> instead.
                       </p>
@@ -578,7 +578,7 @@ export default function GiftBoxSection() {
                 {cart.length === 0 ? (
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#888", marginBottom: 6 }}>
                     <span>No boxes added yet</span>
-                    <span>—</span>
+                    <span>-</span>
                   </div>
                 ) : (
                   cart.map((item) => (

@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     q: "Where do you deliver?",
-    a: "Free pickup or delivery in Lower Hutt. Nationwide courier — get in touch.",
+    a: "Free pickup or delivery in Lower Hutt. Nationwide courier, just get in touch.",
   },
   {
     q: "How long do the cookies last?",

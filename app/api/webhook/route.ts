@@ -53,8 +53,8 @@ export async function POST(req: Request) {
       : "";
 
     const collectionLabel =
-      meta.fulfillment === "pickup" ? "Pickup — Lower Hutt"
-      : meta.fulfillment === "delivery" ? "Free Delivery — Hutt Valley"
+      meta.fulfillment === "pickup" ? "Pickup from Lower Hutt"
+      : meta.fulfillment === "delivery" ? "Delivery in the Hutt Valley"
       : meta.fulfillment === "northIsland" ? "North Island Courier"
       : meta.fulfillment === "southIsland" ? "South Island Courier"
       : (meta.fulfillment ?? "");
@@ -135,7 +135,7 @@ export async function POST(req: Request) {
             ${orderDetailsHtml}
 
             <p>If you have any questions, just reply to this email.</p>
-            <p>— Cookie &amp; Me</p>
+            <p>Thanks,<br />Cookie &amp; Me</p>
           `,
         });
         if (customerEmailError) {

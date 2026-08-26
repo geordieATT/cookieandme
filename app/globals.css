@@ -386,6 +386,20 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   .countdown-cta { width: 100%; text-align: center; }
 }
 
+/* --- Hero call-to-action buttons --- */
+/* Fixed width keeps the three buttons aligned regardless of label length. */
+.hero-cta {
+  font-size: 15px;
+  padding: 14px 20px;
+  width: 190px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .hero-cta { width: 100%; max-width: 280px; }
+}
+
 /* --- Gift box pack picker --- */
 .giftbox-packs {
   border: 1.5px solid #D0CFCD;

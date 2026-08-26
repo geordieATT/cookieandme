@@ -79,7 +79,7 @@ export default function FathersDayCountdown() {
                 margin: "4px 0 0",
               }}
             >
-              Get in quick — we sold out last year.
+              Get in quick before we sell out again.
             </p>
           </div>
 

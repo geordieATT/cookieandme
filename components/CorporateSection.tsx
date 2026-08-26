@@ -87,36 +87,13 @@ export default function CorporateSection() {
                   fontSize: 15,
                   color: "#333",
                   lineHeight: 1.8,
-                  marginBottom: 8,
-                }}
-              >
-                Whether you&apos;re:
-              </p>
-              <ul
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 15,
-                  color: "#333",
-                  lineHeight: 1.8,
                   marginBottom: 16,
-                  paddingLeft: 20,
-                  listStyleType: "disc",
                 }}
               >
-                <li style={{ marginBottom: 8 }}>
-                  planning a birthday, baby shower, anniversary, or another
-                  special celebration,
-                </li>
-                <li style={{ marginBottom: 8 }}>
-                  an event organiser looking to add value to a wedding bundle or
-                  catering package,
-                </li>
-                <li>
-                  a business looking for a unique, memorable gift for clients, a
-                  way to celebrate milestone achievements, or something to hand
-                  out at expos and events,
-                </li>
-              </ul>
+                We bake for birthdays, baby showers, anniversaries and every other
+                celebration worth marking. Event organisers come to us to add
+                something extra to a wedding bundle or catering package.
+              </p>
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
@@ -126,7 +103,9 @@ export default function CorporateSection() {
                   marginBottom: 32,
                 }}
               >
-                You&apos;ve come to the right place!
+                Businesses use them as client gifts, to celebrate a milestone, or
+                as something memorable to hand out at expos and events. Whatever
+                the occasion, we would love to help.
               </p>
               <div>
                 <a href="#order" className="btn-navy">

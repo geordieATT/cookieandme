@@ -71,25 +71,13 @@ export default function HeroSection() {
             flexWrap: "wrap",
           }}
         >
-          <a
-            href="#order"
-            className="btn-red"
-            style={{ fontSize: 15, padding: "14px 32px" }}
-          >
+          <a href="#order" className="btn-red hero-cta">
             Order Now
           </a>
-          <a
-            href="#gift-boxes"
-            className="btn-outline-white"
-            style={{ fontSize: 15, padding: "14px 32px" }}
-          >
+          <a href="#gift-boxes" className="btn-red hero-cta">
             Shop Gift Boxes
           </a>
-          <a
-            href="#gallery"
-            className="btn-outline-white"
-            style={{ fontSize: 15, padding: "14px 32px" }}
-          >
+          <a href="#gallery" className="btn-outline-white hero-cta">
             See Our Work
           </a>
         </div>

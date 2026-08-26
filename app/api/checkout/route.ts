@@ -140,8 +140,8 @@ export async function POST(req: NextRequest) {
             type: "fixed_amount",
             fixed_amount: { amount: 0, currency: "nzd" },
             display_name: fulfillmentType === "pickup"
-              ? "Free Pickup — Lower Hutt"
-              : "Free Delivery — Hutt Valley",
+              ? "Pickup from Lower Hutt"
+              : "Delivery in the Hutt Valley",
             delivery_estimate: {
               minimum: { unit: "business_day", value: 3 },
               maximum: { unit: "business_day", value: 7 },

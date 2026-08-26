@@ -410,7 +410,7 @@ export default function OrderSection() {
                 value={designBrief}
                 onChange={(e) => setDesignBrief(e.target.value)}
                 rows={5}
-                placeholder="Describe your design — colours, theme, logo details, text, packaging preferences, event details..."
+                placeholder="Describe your design: colours, theme, logo details, text, packaging preferences, event details..."
                 style={{ resize: "vertical" }}
               />
             </div>
@@ -434,7 +434,7 @@ export default function OrderSection() {
                   }}
                 >
                   For orders over 150 cookies, please contact us for a better
-                  price —{" "}
+                  price on{" "}
                   <a
                     href="tel:0211757181"
                     style={{ color: "#0C0E58", fontWeight: 600 }}

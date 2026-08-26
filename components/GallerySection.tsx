@@ -93,7 +93,7 @@ export default function GallerySection() {
               margin: "0 auto 16px",
             }}
           >
-            There&apos;s plenty more where these came from — check out our Instagram
+            There&apos;s plenty more where these came from. Check out our Instagram
             for the full collection.
           </p>
           <a
