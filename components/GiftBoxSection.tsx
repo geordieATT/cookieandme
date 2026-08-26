@@ -229,11 +229,13 @@ export default function GiftBoxSection() {
               marginBottom: 10,
             }}
           >
-            Father&apos;s Day Gift Boxes
+            The Perfect Father&apos;s Day Gift
           </h2>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#666", marginBottom: 36, maxWidth: 640 }}>
-            No design brief needed — just pick a size, choose how many, and we&apos;ll do the
-            rest. More occasions (birthdays, thank yous, and more) are on the way.
+          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.7, color: "#555", marginBottom: 36, maxWidth: 680 }}>
+            Give Dad something sweet this Father&apos;s Day. Each box includes your choice of 6 or
+            12 buttery vanilla chocolate chip cookies, topped with a thin, intricately stamped
+            layer of icing in Father&apos;s Day themed designs. Neatly wrapped and ready to gift,
+            it&apos;s the perfect way to say thank you.
           </p>
 
           <div className="two-col" style={{ alignItems: "start", gap: 56 }}>
@@ -298,26 +300,6 @@ export default function GiftBoxSection() {
 
             {/* Product panel */}
             <div>
-              {/* What's in the box */}
-              <div
-                style={{
-                  backgroundColor: "#fff",
-                  border: "1.5px solid #E2E1DF",
-                  borderRadius: 2,
-                  padding: "16px 18px",
-                  marginBottom: 24,
-                }}
-              >
-                <h3 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 16, color: "#0C0E58", marginBottom: 6 }}>
-                  What&apos;s in the box
-                </h3>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.6, color: "#555", margin: 0 }}>
-                  Hand-stamped vanilla cookies topped with food-safe fondant, each one a different
-                  Father&apos;s Day design. They arrive packed and gift-ready in a white box, so you can
-                  hand it straight over.
-                </p>
-              </div>
-
               {/* Pack size */}
               <div style={{ marginBottom: 22 }}>
                 <label className="form-label">Pack Size</label>

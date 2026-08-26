@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import FathersDayCountdown from "@/components/FathersDayCountdown";
 import SocialProofBar from "@/components/SocialProofBar";
 import CorporateSection from "@/components/CorporateSection";
 import GallerySection from "@/components/GallerySection";
@@ -19,6 +20,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
+        <FathersDayCountdown />
         <SocialProofBar />
         <CorporateSection />
         <GallerySection />

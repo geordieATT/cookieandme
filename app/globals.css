@@ -330,6 +330,62 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   background-color: var(--dot-color, #D0CFCD);
 }
 
+/* --- Father's Day countdown banner --- */
+.countdown-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.countdown-units {
+  display: flex;
+  gap: 10px;
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 56px;
+  padding: 8px 6px;
+  border-radius: 2px;
+  background: rgba(250, 250, 248, 0.1);
+}
+
+.countdown-value {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1;
+  color: #FAFAF8;
+  /* Keeps the digits from jittering as the seconds tick over. */
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(250, 250, 248, 0.7);
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .countdown-inner { justify-content: center; text-align: center; }
+  .countdown-copy { flex-basis: 100%; }
+}
+
+@media (max-width: 480px) {
+  .countdown-units { gap: 8px; }
+  .countdown-unit { min-width: 0; flex: 1; padding: 8px 2px; }
+  .countdown-value { font-size: 20px; }
+  .countdown-cta { width: 100%; text-align: center; }
+}
+
 /* --- Address autocomplete --- */
 .address-suggestions {
   position: absolute;
