@@ -79,6 +79,13 @@ export default function HeroSection() {
             Order Now
           </a>
           <a
+            href="#gift-boxes"
+            className="btn-outline-white"
+            style={{ fontSize: 15, padding: "14px 32px" }}
+          >
+            Shop Gift Boxes
+          </a>
+          <a
             href="#gallery"
             className="btn-outline-white"
             style={{ fontSize: 15, padding: "14px 32px" }}

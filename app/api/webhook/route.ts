@@ -39,6 +39,51 @@ export async function POST(req: Request) {
 
     const meta = session.metadata ?? {};
 
+    // Metadata is customer-supplied, so escape it before it goes into the HTML emails.
+    const esc = (value: unknown) =>
+      String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+
+    const printedNote = meta.addCard === "true" ? String(meta.cardMessage ?? "").trim() : "";
+    const printedNoteHtml = printedNote
+      ? `<h3>Printed personalised note</h3><p style="white-space:pre-wrap;border-left:3px solid #FB3D03;padding-left:12px;">${esc(printedNote)}</p>`
+      : "";
+
+    const collectionLabel =
+      meta.fulfillment === "pickup" ? "Pickup — Lower Hutt"
+      : meta.fulfillment === "delivery" ? "Free Delivery — Hutt Valley"
+      : meta.fulfillment === "northIsland" ? "North Island Courier"
+      : meta.fulfillment === "southIsland" ? "South Island Courier"
+      : (meta.fulfillment ?? "");
+
+    const addressLine = meta.deliveryAddress ?? "";
+
+    const orderDetailsHtml =
+      meta.orderType === "giftbox"
+        ? `
+          <h3>Gift box details</h3>
+          <p><strong>Occasion:</strong> ${esc(meta.occasion)}</p>
+          <p><strong>Pack size:</strong> ${esc(meta.packSize)}</p>
+          <p><strong>Number of boxes:</strong> ${esc(meta.boxQty)}</p>
+          <p><strong>Shipping fee:</strong> $${esc(meta.shippingFee ?? "0")}</p>
+          <p><strong>Printed note:</strong> ${printedNote ? "Yes" : "No"}</p>
+          ${printedNoteHtml}
+        `
+        : `
+          <h3>Custom cookie details</h3>
+          <p><strong>Quantity:</strong> ${esc(meta.quantity)}</p>
+          <p><strong>Price each:</strong> ${esc(meta.priceEach)}</p>
+          <p><strong>Cookie shape:</strong> ${esc(meta.cookieShape)}</p>
+          <p><strong>Colour:</strong> ${esc(meta.colour)}</p>
+          <p><strong>Logo URL:</strong> ${esc(meta.logoUrl)}</p>
+          <p><strong>Needed by:</strong> ${esc(meta.latestNeededDate)}</p>
+          <p><strong>Company name:</strong> ${esc(meta.companyName)}</p>
+          <p><strong>Design brief:</strong> ${esc(meta.designBrief)}</p>
+        `;
+
     try {
       const { error: emailError } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
@@ -46,46 +91,15 @@ export async function POST(req: Request) {
         subject: `New paid order – ${meta.orderType === "giftbox" ? "Gift Box" : "Custom Cookies"}`,
         html: `
           <h2>New paid order ✅</h2>
-          <p><strong>Order type:</strong> ${meta.orderType ?? ""}</p>
-          <p><strong>Name:</strong> ${meta.customerName ?? ""}</p>
-          <p><strong>Email:</strong> ${meta.customerEmail ?? ""}</p>
-          <p><strong>Phone:</strong> ${meta.customerPhone ?? ""}</p>
+          <p><strong>Order type:</strong> ${esc(meta.orderType)}</p>
+          <p><strong>Name:</strong> ${esc(meta.customerName)}</p>
+          <p><strong>Email:</strong> ${esc(meta.customerEmail)}</p>
+          <p><strong>Phone:</strong> ${esc(meta.customerPhone)}</p>
           <p><strong>Amount paid:</strong> $${((session.amount_total ?? 0) / 100).toFixed(2)} NZD</p>
-          <p><strong>Collection:</strong> ${meta.fulfillment === "delivery" ? "Delivery" : "Pickup — Lower Hutt"}</p>
-          ${
-            meta.fulfillment === "delivery" && (session as any).shipping_details?.address
-              ? `<p><strong>Delivery address:</strong> ${[
-                  (session as any).shipping_details.address.line1,
-                  (session as any).shipping_details.address.line2,
-                  (session as any).shipping_details.address.city,
-                  (session as any).shipping_details.address.postal_code,
-                ].filter(Boolean).join(", ")}</p>`
-              : ""
-          }
+          <p><strong>Collection:</strong> ${esc(collectionLabel)}</p>
+          ${addressLine ? `<p><strong>Delivery address:</strong> ${esc(addressLine)}</p>` : ""}
 
-          ${
-            meta.orderType === "giftbox"
-              ? `
-                <h3>Gift box details</h3>
-                <p><strong>Pack size:</strong> ${meta.packSize ?? ""}</p>
-                <p><strong>Theme:</strong> ${meta.theme ?? ""}</p>
-                <p><strong>Flavour:</strong> ${meta.flavour ?? ""}</p>
-                <p><strong>Add card:</strong> ${meta.addCard ?? ""}</p>
-                <p><strong>Card message:</strong> ${meta.cardMessage ?? ""}</p>
-                <p><strong>Date needed by:</strong> ${meta.latestNeededDate ?? ""}</p>
-              `
-              : `
-                <h3>Custom cookie details</h3>
-                <p><strong>Quantity:</strong> ${meta.quantity ?? ""}</p>
-                <p><strong>Price each:</strong> ${meta.priceEach ?? ""}</p>
-                <p><strong>Cookie shape:</strong> ${meta.cookieShape ?? ""}</p>
-                <p><strong>Colour:</strong> ${meta.colour ?? ""}</p>
-                <p><strong>Logo URL:</strong> ${meta.logoUrl ?? ""}</p>
-                <p><strong>Needed by:</strong> ${meta.latestNeededDate ?? ""}</p>
-                <p><strong>Company name:</strong> ${meta.companyName ?? ""}</p>
-                <p><strong>Design brief:</strong> ${meta.designBrief ?? ""}</p>
-              `
-          }
+          ${orderDetailsHtml}
         `,
       });
       if (emailError) {
@@ -95,6 +109,42 @@ export async function POST(req: Request) {
     } catch (err) {
       console.error("Failed to send webhook email:", err);
       return new Response("Email send failed", { status: 500 });
+    }
+
+    const customerEmail = meta.customerEmail || session.customer_details?.email;
+    if (customerEmail) {
+      const collectionNote =
+        meta.fulfillment === "pickup"
+          ? "We'll be in touch soon to arrange a time for you to come by and pick them up."
+          : meta.fulfillment === "delivery"
+          ? "We'll deliver your order to the address you provided."
+          : `Your order will be sent by courier to the address you provided (${collectionLabel}).`;
+
+      try {
+        const { error: customerEmailError } = await resend.emails.send({
+          from: "Cookie & Me <orders@cookieandme.nz>",
+          to: customerEmail,
+          subject: "Your Cookie & Me order is confirmed!",
+          html: `
+            <h2>Thanks for your order, ${esc(meta.customerName)}! 🍪</h2>
+            <p>We've received your payment and your order is confirmed.</p>
+            <p><strong>Amount paid:</strong> $${((session.amount_total ?? 0) / 100).toFixed(2)} NZD</p>
+            <p><strong>Collection:</strong> ${esc(collectionLabel)}</p>
+            ${addressLine ? `<p><strong>Delivery address:</strong> ${esc(addressLine)}</p>` : ""}
+            <p>${collectionNote}</p>
+
+            ${orderDetailsHtml}
+
+            <p>If you have any questions, just reply to this email.</p>
+            <p>— Cookie &amp; Me</p>
+          `,
+        });
+        if (customerEmailError) {
+          console.error("Failed to send customer confirmation email:", customerEmailError);
+        }
+      } catch (err) {
+        console.error("Failed to send customer confirmation email:", err);
+      }
     }
   }
 
