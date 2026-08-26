@@ -16,8 +16,8 @@ const images: GalleryImage[] = [
     alt: "60th birthday cookies in gift box with gold ribbon",
   },
   {
-    src: "/images/gem-homestay-welcome-cookies-blue-purple.jpg",
-    alt: "Gem Homestay welcome cookies in blue and purple",
+    src: "/images/csl-long-service-dinner-branded-cookie-place-setting.jfif",
+    alt: "CSL branded cookie at a Long Service Dinner place setting",
   },
   {
     src: "/images/steves-70th-on-bench.jpg",
@@ -32,8 +32,8 @@ const images: GalleryImage[] = [
     alt: "Mother's Day cookies with candle outdoors",
   },
   {
-    src: "/images/timedock-branded-cookies-production-bench.jpg",
-    alt: "TimeDock branded cookies on production bench",
+    src: "/images/matariki-cookies-tray-pink-blue-yellow.jfif",
+    alt: "Matariki collection cookies in pink, blue, and yellow on a tray",
   },
   {
     src: "/images/guide-dog-day-orange-cookies-cooling-rack.jpg",
@@ -80,6 +80,42 @@ export default function GallerySection() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: 40 }}>
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 15,
+              lineHeight: 1.6,
+              color: "#666",
+              maxWidth: 420,
+              margin: "0 auto 16px",
+            }}
+          >
+            There&apos;s plenty more where these came from — check out our Instagram
+            for the full collection.
+          </p>
+          <a
+            href="https://instagram.com/cookieandme_nz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-red"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 15,
+              padding: "14px 28px",
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+            See More on Instagram
+          </a>
         </div>
       </div>
     </section>
