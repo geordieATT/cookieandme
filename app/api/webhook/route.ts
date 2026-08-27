@@ -52,12 +52,10 @@ export async function POST(req: Request) {
       ? `<h3>Printed personalised note</h3><p style="white-space:pre-wrap;border-left:3px solid #FB3D03;padding-left:12px;">${esc(printedNote)}</p>`
       : "";
 
-    const collectionLabel =
-      meta.fulfillment === "pickup" ? "Pickup from Lower Hutt"
-      : meta.fulfillment === "delivery" ? "Delivery in the Hutt Valley"
-      : meta.fulfillment === "northIsland" ? "North Island Courier"
-      : meta.fulfillment === "southIsland" ? "South Island Courier"
-      : (meta.fulfillment ?? "");
+    // The checkout route already resolved this into readable text.
+    const collectionLabel = meta.shippingLabel || meta.fulfillment || "";
+    const shippingBreakdown = meta.shippingBreakdown || "";
+    const isCollectionPoint = meta.collectionPoint === "true";
 
     const addressLine = meta.deliveryAddress ?? "";
 
@@ -68,6 +66,8 @@ export async function POST(req: Request) {
           <p><strong>Occasion:</strong> ${esc(meta.occasion)}</p>
           <p><strong>Boxes ordered:</strong> ${esc(meta.items)}</p>
           <p><strong>Shipping fee:</strong> $${esc(meta.shippingFee ?? "0")}</p>
+          ${shippingBreakdown ? `<p><strong>Shipping breakdown:</strong> ${esc(shippingBreakdown)}</p>` : ""}
+          ${isCollectionPoint ? `<p><strong>⚠ Send to an NZ Post collection point, not the door.</strong></p>` : ""}
           <p><strong>Printed note:</strong> ${printedNote ? "Yes" : "No"}</p>
           ${printedNoteHtml}
         `
@@ -119,7 +119,9 @@ export async function POST(req: Request) {
           ? "We'll be in touch soon to arrange a time for you to come by and pick them up."
           : meta.fulfillment === "delivery"
           ? "We'll deliver your order to the address you provided."
-          : `Your order will be sent by courier to the address you provided (${collectionLabel}).`;
+          : isCollectionPoint
+          ? "We'll send your order to an NZ Post shop for collection. Remember to bring photo ID when you pick it up."
+          : `Your order will be sent by NZ Post to the address you provided (${collectionLabel}).`;
 
       try {
         const { error: customerEmailError } = await resend.emails.send({

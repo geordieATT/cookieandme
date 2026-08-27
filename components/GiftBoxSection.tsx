@@ -3,21 +3,25 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { cutoffState, formatCutoff } from "@/lib/fathersDay";
+import {
+  DELIVERY_METHODS,
+  ADDONS,
+  calculateShipping,
+  isNzPost,
+  type DeliveryMethod,
+} from "@/lib/shipping";
 
 const PACKS = [
   { size: 6, label: "6 Pack", price: 20 },
   { size: 12, label: "12 Pack", price: 38 },
 ] as const;
 
-const FULFILLMENT_OPTIONS = [
-  { value: "pickup", label: "Pickup from Lower Hutt", fee: 0, needsAddress: false },
-  { value: "delivery", label: "Delivery in the Hutt Valley", fee: 0, needsAddress: true },
-  { value: "northIsland", label: "North Island Courier", fee: 8.5, needsAddress: true },
-  { value: "southIsland", label: "South Island Courier", fee: 12.5, needsAddress: true },
-] as const;
-
-type Fulfillment = (typeof FULFILLMENT_OPTIONS)[number]["value"];
-const COURIER_OPTIONS: Fulfillment[] = ["northIsland", "southIsland"];
+const DELIVERY_ORDER: DeliveryMethod[] = [
+  "pickup",
+  "huttDelivery",
+  "nzPostEconomy",
+  "nzPostOvernight",
+];
 
 const NOTE_MAX = 250;
 
@@ -38,10 +42,6 @@ function priceFor(size: PackSize): number {
   return PACKS.find((p) => p.size === size)!.price;
 }
 
-function optionFor(value: Fulfillment) {
-  return FULFILLMENT_OPTIONS.find((o) => o.value === value)!;
-}
-
 function fmt(n: number): string {
   return "$" + n.toFixed(2).replace(/\.00$/, "");
 }
@@ -54,8 +54,10 @@ export default function GiftBoxSection() {
   const [cart, setCart] = useState<CartItem[]>([]);
   // Resolved after mount so the server and client markup agree on the date.
   const [ordering, setOrdering] = useState<{ state: string; label: string } | null>(null);
-  const [fulfillment, setFulfillment] = useState<Fulfillment>("pickup");
-  const [confirmUrban, setConfirmUrban] = useState(false);
+  const [fulfillment, setFulfillment] = useState<DeliveryMethod>("pickup");
+  const [toCollectionPoint, setToCollectionPoint] = useState(false);
+  const [signatureRequired, setSignatureRequired] = useState(false);
+  const [ruralAddress, setRuralAddress] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -88,7 +90,7 @@ export default function GiftBoxSection() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
-  const selected = optionFor(fulfillment);
+  const selected = DELIVERY_METHODS[fulfillment];
   const needsAddress = selected.needsAddress;
 
   // Debounced address lookup.
@@ -153,9 +155,16 @@ export default function GiftBoxSection() {
   const nextSlide = () => setActiveSlide((prev) => (prev + 1) % GALLERY_IMAGES.length);
 
   const subtotal = cart.reduce((sum, item) => sum + priceFor(item.packSize) * item.qty, 0);
-  const shippingFee = selected.fee;
+  const nzPost = isNzPost(fulfillment);
+  // Collection point ignores the add-ons entirely, so pass them through as chosen
+  // and let calculateShipping decide what actually applies.
+  const shipping = calculateShipping(fulfillment, {
+    toCollectionPoint,
+    signatureRequired,
+    ruralAddress,
+  });
+  const shippingFee = shipping.total;
   const total = subtotal + shippingFee;
-  const isCourier = COURIER_OPTIONS.includes(fulfillment);
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
   const qtyFor = (size: PackSize) => cart.find((item) => item.packSize === size)?.qty ?? 0;
@@ -194,10 +203,6 @@ export default function GiftBoxSection() {
       setError("Please enter your delivery address and postcode.");
       return;
     }
-    if (isCourier && !confirmUrban) {
-      setError("Please confirm your address is an urban (non-rural) address before continuing.");
-      return;
-    }
     if (includeNote && !note.trim()) {
       setError("Please write your personalised note, or untick the printed note option.");
       return;
@@ -220,6 +225,9 @@ export default function GiftBoxSection() {
           description,
           address: needsAddress ? address.trim() : "",
           postcode: needsAddress ? postcode.trim() : "",
+          toCollectionPoint: nzPost ? toCollectionPoint : false,
+          signatureRequired: nzPost && !toCollectionPoint ? signatureRequired : false,
+          ruralAddress: nzPost && !toCollectionPoint ? ruralAddress : false,
           addCard: includeNote,
           cardMessage: includeNote ? note.trim() : "",
         }),
@@ -497,13 +505,22 @@ export default function GiftBoxSection() {
                   id="gb-fulfillment"
                   className="form-field form-select"
                   value={fulfillment}
-                  onChange={(e) => { setFulfillment(e.target.value as Fulfillment); setConfirmUrban(false); }}
+                  onChange={(e) => {
+                    setFulfillment(e.target.value as DeliveryMethod);
+                    // Leaving NZ Post clears anything only it can offer.
+                    setToCollectionPoint(false);
+                    setSignatureRequired(false);
+                    setRuralAddress(false);
+                  }}
                 >
-                  {FULFILLMENT_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label} ({opt.fee === 0 ? "Free" : fmt(opt.fee)})
-                    </option>
-                  ))}
+                  {DELIVERY_ORDER.map((key) => {
+                    const opt = DELIVERY_METHODS[key];
+                    return (
+                      <option key={key} value={key}>
+                        {opt.label} ({opt.price === 0 ? "Free" : fmt(opt.price)})
+                      </option>
+                    );
+                  })}
                 </select>
 
                 {fulfillment === "pickup" && (
@@ -518,6 +535,101 @@ export default function GiftBoxSection() {
                   </p>
                 )}
               </div>
+
+              {/* Where the NZ Post parcel goes */}
+              {nzPost && (
+                <div style={{ marginBottom: 22 }}>
+                  <label className="form-label">Where should we send it? *</label>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="form-two-col">
+                    {([
+                      { value: false, label: "To your door", sub: "Delivered to your address" },
+                      { value: true, label: "To an NZ Post shop", sub: "Collect it yourself" },
+                    ] as const).map((opt) => (
+                      <button
+                        key={String(opt.value)}
+                        type="button"
+                        onClick={() => {
+                          setToCollectionPoint(opt.value);
+                          // Add-ons never apply to a collection point.
+                          if (opt.value) { setSignatureRequired(false); setRuralAddress(false); }
+                        }}
+                        style={{
+                          border: toCollectionPoint === opt.value ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                          borderRadius: 2, padding: "14px 10px", cursor: "pointer", minHeight: 64,
+                          backgroundColor: toCollectionPoint === opt.value ? "#fff" : "#FAFAF8",
+                          textAlign: "center", fontFamily: "'Inter', sans-serif",
+                        }}
+                      >
+                        <div style={{ fontWeight: 700, fontSize: 14, color: "#0C0E58" }}>{opt.label}</div>
+                        <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 3 }}>{opt.sub}</div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {toCollectionPoint ? (
+                    <div
+                      style={{
+                        fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.65, color: "#444",
+                        backgroundColor: "#fff", border: "1.5px solid #D4D9EE", borderRadius: 2,
+                        padding: "14px 16px", marginTop: 12,
+                      }}
+                    >
+                      <strong style={{ color: "#0C0E58" }}>Collecting from an NZ Post shop</strong>
+                      <p style={{ margin: "6px 0 0" }}>
+                        You&apos;ll need photo ID to pick up your parcel. Not sure which shop is
+                        closest? Head to{" "}
+                        <a
+                          href="https://www.nzpost.co.nz/tools/find-nz-post"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "#0C0E58", fontWeight: 600 }}
+                        >
+                          nzpost.co.nz/tools/find-nz-post
+                        </a>
+                        , enter your postcode, and filter by &quot;Collect a parcel&quot; to find your
+                        nearest option.
+                      </p>
+                    </div>
+                  ) : (
+                    <div style={{ marginTop: 12, display: "grid", gap: 10 }}>
+                      {([
+                        { key: "signature", checked: signatureRequired, set: setSignatureRequired,
+                          label: ADDONS.signature.label, price: ADDONS.signature.price,
+                          hint: "Someone must sign for the parcel on delivery." },
+                        { key: "rural", checked: ruralAddress, set: setRuralAddress,
+                          label: ADDONS.rural.label, price: ADDONS.rural.price,
+                          hint: "NZ Post charges extra to deliver to rural addresses." },
+                      ] as const).map((addon) => (
+                        <label
+                          key={addon.key}
+                          style={{
+                            display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer",
+                            backgroundColor: addon.checked ? "#fff" : "#FAFAF8",
+                            border: addon.checked ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                            borderRadius: 2, padding: "12px 14px",
+                            fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.5, color: "#0C0E58",
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={addon.checked}
+                            onChange={(e) => addon.set(e.target.checked)}
+                            style={{ width: 20, height: 20, marginTop: 1, flexShrink: 0 }}
+                          />
+                          <span>
+                            <strong style={{ fontWeight: 700 }}>
+                              {addon.label} (+{fmt(addon.price)})
+                            </strong>
+                            <span style={{ display: "block", fontSize: 12.5, color: "#666", marginTop: 2 }}>
+                              {addon.hint}
+                            </span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Delivery address */}
               {needsAddress && (
@@ -590,24 +702,6 @@ export default function GiftBoxSection() {
                     />
                   </div>
 
-                  {isCourier && (
-                    <>
-                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, lineHeight: 1.6, color: "#888", marginBottom: 10 }}>
-                        Courier delivery is available to urban addresses only. We can&apos;t currently
-                        deliver to rural addresses. If you&apos;re unsure or your address is rural, please
-                        choose pickup or <a href="/contact" style={{ color: "#0C0E58" }}>contact us</a> instead.
-                      </p>
-                      <label style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.5, color: "#444", cursor: "pointer" }}>
-                        <input
-                          type="checkbox"
-                          checked={confirmUrban}
-                          onChange={(e) => setConfirmUrban(e.target.checked)}
-                          style={{ width: 20, height: 20, marginTop: 1, flexShrink: 0 }}
-                        />
-                        This is an urban (non-rural) delivery address.
-                      </label>
-                    </>
-                  )}
                 </div>
               )}
 
@@ -640,10 +734,25 @@ export default function GiftBoxSection() {
                     <span style={{ fontWeight: 600, color: "#0C0E58" }}>Free</span>
                   </div>
                 )}
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#444", marginBottom: 10 }}>
-                  <span>{fulfillment === "pickup" ? "Pickup" : "Shipping"}</span>
-                  <span style={{ fontWeight: 600, color: "#0C0E58" }}>{shippingFee === 0 ? "Free" : fmt(shippingFee)}</span>
-                </div>
+                {/* Each shipping line is itemised so the total is never a mystery. */}
+                {shipping.breakdown.map((line, i) => (
+                  <div
+                    key={line.label}
+                    style={{
+                      display: "flex", justifyContent: "space-between", gap: 12,
+                      fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#444",
+                      marginBottom: i === shipping.breakdown.length - 1 ? 10 : 6,
+                    }}
+                  >
+                    <span>
+                      {line.label}
+                      {toCollectionPoint && i === 0 ? " (collect in store)" : ""}
+                    </span>
+                    <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                      {line.price === 0 ? "Free" : fmt(line.price)}
+                    </span>
+                  </div>
+                ))}
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 15, fontWeight: 700, color: "#0C0E58", borderTop: "1px solid #C8CCE0", paddingTop: 10 }}>
                   <span>Total</span>
                   <span style={{ fontSize: 20, fontFamily: "'Nunito', sans-serif", fontWeight: 900 }}>{fmt(total)}</span>

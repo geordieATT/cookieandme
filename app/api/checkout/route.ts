@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import {
+  DELIVERY_METHODS,
+  calculateShipping,
+  isDeliveryMethod,
+  isNzPost,
+} from "@/lib/shipping";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2026-02-25.clover",
@@ -21,6 +27,9 @@ export async function POST(req: NextRequest) {
       occasion,
       address,
       postcode,
+      toCollectionPoint,
+      signatureRequired,
+      ruralAddress,
       theme,
       flavour,
       addCard,
@@ -35,19 +44,19 @@ export async function POST(req: NextRequest) {
       companyName,
     } = body;
 
-    type FulfillmentType = "pickup" | "delivery" | "northIsland" | "southIsland";
-    const fulfillmentType: FulfillmentType = ["delivery", "northIsland", "southIsland"].includes(fulfillment)
-      ? fulfillment
-      : "pickup";
+    // Falls back to pickup rather than trusting an unknown value.
+    const fulfillmentType = isDeliveryMethod(fulfillment) ? fulfillment : "pickup";
+    const method = DELIVERY_METHODS[fulfillmentType];
+    const nzPost = isNzPost(fulfillmentType);
 
-    const COURIER_RATES: Record<string, number> = {
-      northIsland: 8.5,
-      southIsland: 12.5,
-    };
-    const COURIER_LABELS: Record<string, string> = {
-      northIsland: "North Island Courier",
-      southIsland: "South Island Courier",
-    };
+    // Add-ons only exist for NZ Post door delivery; anything else is forced off so a
+    // crafted request cannot bolt charges onto a pickup.
+    const collecting = nzPost && Boolean(toCollectionPoint);
+    const shipping = calculateShipping(fulfillmentType, {
+      toCollectionPoint: collecting,
+      signatureRequired: nzPost && !collecting && Boolean(signatureRequired),
+      ruralAddress: nzPost && !collecting && Boolean(ruralAddress),
+    });
 
     // The address is collected in our own form, so Stripe does not ask for it again.
     const formattedAddress = [address, postcode]
@@ -56,7 +65,7 @@ export async function POST(req: NextRequest) {
       .join(", ")
       .slice(0, 500);
 
-    if (fulfillmentType !== "pickup" && (!String(address ?? "").trim() || !String(postcode ?? "").trim())) {
+    if (method.needsAddress && (!String(address ?? "").trim() || !String(postcode ?? "").trim())) {
       return NextResponse.json({ error: "A delivery address and postcode are required for this delivery method." }, { status: 400 });
     }
 
@@ -116,42 +125,35 @@ export async function POST(req: NextRequest) {
 
     const subtotalCents = Math.round(subtotalNumber * 100);
 
-    let shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[];
+    // One Stripe shipping rate covering the method plus any add-ons, so the amount
+    // charged always matches what calculateShipping produced.
+    const shippingLabel = [
+      shipping.breakdown[0]?.label ?? method.label,
+      collecting ? "collect in store" : null,
+      ...shipping.breakdown.slice(1).map((line) => line.label.toLowerCase()),
+    ]
+      .filter(Boolean)
+      .join(", ")
+      .slice(0, 100);
 
-    if (fulfillmentType in COURIER_RATES) {
-      const shippingFeeCents = Math.round(COURIER_RATES[fulfillmentType] * 100);
-      shippingOptions = [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: shippingFeeCents, currency: "nzd" },
-            display_name: COURIER_LABELS[fulfillmentType],
-            delivery_estimate: {
-              minimum: { unit: "business_day", value: 3 },
-              maximum: { unit: "business_day", value: 5 },
-            },
-          },
-        },
-      ];
-    } else {
-      shippingOptions = [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: 0, currency: "nzd" },
-            display_name: fulfillmentType === "pickup"
-              ? "Pickup from Lower Hutt"
-              : "Delivery in the Hutt Valley",
-            delivery_estimate: {
-              minimum: { unit: "business_day", value: 3 },
-              maximum: { unit: "business_day", value: 7 },
-            },
-          },
-        },
-      ];
-    }
+    const deliveryEstimate = nzPost
+      ? fulfillmentType === "nzPostOvernight"
+        ? { minimum: { unit: "business_day" as const, value: 1 }, maximum: { unit: "business_day" as const, value: 2 } }
+        : { minimum: { unit: "business_day" as const, value: 3 }, maximum: { unit: "business_day" as const, value: 5 } }
+      : { minimum: { unit: "business_day" as const, value: 3 }, maximum: { unit: "business_day" as const, value: 7 } };
 
-    const serverShippingFee = fulfillmentType in COURIER_RATES ? COURIER_RATES[fulfillmentType] : 0;
+    const shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: { amount: Math.round(shipping.total * 100), currency: "nzd" },
+          display_name: shippingLabel,
+          delivery_estimate: deliveryEstimate,
+        },
+      },
+    ];
+
+    const serverShippingFee = shipping.total;
 
     // Send the customer back to the site they actually came from, so local testing returns to
     // localhost rather than production. Only localhost is trusted from the Origin header —
@@ -191,6 +193,12 @@ export async function POST(req: NextRequest) {
         items: itemsSummary,
         occasion: String(occasion || ""),
         shippingFee: String(serverShippingFee),
+        shippingLabel,
+        shippingBreakdown: shipping.breakdown
+          .map((line) => `${line.label} $${line.price.toFixed(2)}`)
+          .join(" + ")
+          .slice(0, 500),
+        collectionPoint: String(collecting),
         theme: String(theme || ""),
         flavour: String(flavour || ""),
         addCard: String(wantsPrintedNote),

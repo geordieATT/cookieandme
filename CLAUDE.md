@@ -39,25 +39,39 @@ There are **two separate order flows with different shipping rules.**
 
 ### 1. Gift boxes — `/gift-boxes`
 
-Ready-made Father's Day boxes, paid through Stripe Checkout. One dropdown:
+Ready-made boxes, paid through Stripe Checkout. NZ Post pricing is **flat
+nationwide**, not zone-based (confirmed with NZ Post directly), so there is no
+North/South Island split.
 
-| Value | Shown as | Fee | Address? | Rural checkbox? |
-|---|---|---|---|---|
-| `pickup` | Pickup from Lower Hutt | Free | No | No |
-| `delivery` | Delivery in the Hutt Valley | Free | Yes | No |
-| `northIsland` | North Island Courier | $8.50 | Yes | Yes |
-| `southIsland` | South Island Courier | $12.50 | Yes | Yes |
+**Step 1 — delivery method:**
 
-- The fee is **flat per order**, not per box.
-- Courier options require ticking *"This is an urban (non-rural) delivery
-  address."* This is self-declaration only — nothing validates it.
-- The address is collected in **our own form** (one autocompleted line plus a
+| Value | Shown as | Price | Address? |
+|---|---|---|---|
+| `pickup` | Pickup from Lower Hutt | Free | No |
+| `huttDelivery` | Delivery in the Hutt Valley | Free | Yes |
+| `nzPostEconomy` | NZ Post Economy (3 day) | $8.90 | Yes |
+| `nzPostOvernight` | NZ Post Overnight | $10.90 | Yes |
+
+**Step 2 — only for the two NZ Post methods:** "To your door" or "To an NZ Post
+shop". Collection point is the **same price**, not a discount.
+
+**Step 3 — only for NZ Post door delivery:** two optional add-ons, Signature
+required +$3 and Rural delivery address +$6. Choosing a collection point hides
+them entirely and voids them in pricing, since neither applies when collecting
+in person with photo ID.
+
+- Fees are **per order**, not per box.
+- Rural is a **self-declared paid add-on**, not a blocker. Nothing verifies it.
+  See the manual backstop below.
+- The address is collected in our own form (one autocompleted line plus a
   separate postcode, via `/api/address-lookup`) and passed to Stripe as
   metadata. Stripe does **not** ask for it again.
-- Stripe shows a delivery estimate: 3–5 business days courier, 3–7 for pickup
-  and local delivery.
-- Pickup shows: *"We'll be in touch soon to arrange a time for you to come by
-  and pick them up."*
+
+**Manual backstop (a process, not a feature):** whoever ships an order should
+check the real NZ Post price against what the customer paid. If it is higher
+because an undeclared rural address, contact the customer for the difference
+*before* shipping. Only affects door delivery; collection point orders cannot
+have this problem.
 
 ### 2. Custom cookies — `/order`
 
@@ -68,20 +82,23 @@ option in this flow at all.** Site copy says nationwide courier is available
 
 ### Where the numbers live
 
-Changing a rate means editing **both** of these or they drift apart:
+Rates now live in one place:
 
-- `components/GiftBoxSection.tsx` → `FULFILLMENT_OPTIONS` — what the customer sees
-- `app/api/checkout/route.ts` → `COURIER_RATES` / `COURIER_LABELS` — what is
-  actually charged, and the authority
-- `app/api/webhook/route.ts` → `collectionLabel` — wording in the order emails
+- **`lib/shipping.ts` is the single source of truth.** `DELIVERY_METHODS`,
+  `ADDONS`, and `calculateShipping()` live here. Both the form and the checkout
+  API import it, so a rate can only be changed in one place.
+- `app/api/checkout/route.ts` recomputes the shipping charge from that library
+  and ignores anything the browser sends. Add-ons are forced off for non-NZ-Post
+  methods and for collection point, so a crafted request cannot add charges.
 - `components/OrderSection.tsx` → the custom-order collection buttons
 
 ### Known gaps
 
-1. **Rates are duplicated** between the client display and the server charge.
-   Worth consolidating into `lib/` the way `lib/fathersDay.ts` handles dates.
-2. **One cutoff for every method.** Orders close 5pm the Thursday before
+1. **One cutoff for every method.** Orders close 5pm the Thursday before
    Father's Day (`lib/fathersDay.ts`), but courier takes 3–5 business days, so a
    courier order placed at the cutoff cannot arrive by Sunday. Realistically the
    Thursday cutoff only works for pickup and local delivery.
-3. **No allergen or ingredient information** anywhere on the site.
+2. **No allergen or ingredient information** anywhere on the site.
+3. **Collection point still asks for the customer's address.** Needed to book
+   the parcel, but it has not been confirmed whether NZ Post needs the shop's
+   address instead.
