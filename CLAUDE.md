@@ -53,7 +53,9 @@ North/South Island split.
 | `nzPostOvernight` | NZ Post Overnight | $10.90 | Yes |
 
 **Step 2 — only for the two NZ Post methods:** "To your door" or "To an NZ Post
-shop". Collection point is the **same price**, not a discount.
+shop". Collection point is the **same price**, not a discount. Choosing it
+relabels the address field to "NZ Post shop address": the customer enters the
+shop's address, not their own, because that is where the parcel is sent.
 
 **Step 3 — only for NZ Post door delivery:** two optional add-ons, Signature
 required +$3 and Rural delivery address +$6. Choosing a collection point hides
@@ -66,6 +68,18 @@ in person with photo ID.
 - The address is collected in our own form (one autocompleted line plus a
   separate postcode, via `/api/address-lookup`) and passed to Stripe as
   metadata. Stripe does **not** ask for it again.
+
+**Order cutoffs** live in `lib/fathersDay.ts` and differ by method, because
+Economy spends three days in transit:
+
+| Method | Father's Day cutoff |
+|---|---|
+| NZ Post Economy (3 day) | 5pm **Tuesday** before |
+| Everything else | 5pm **Thursday** before |
+
+Dates are derived from the first Sunday of September, so they stay correct every
+year without editing. When a method has closed but a faster one is still open,
+the page says so and points at the alternatives rather than just refusing.
 
 **Manual backstop (a process, not a feature):** whoever ships an order should
 check the real NZ Post price against what the customer paid. If it is higher
@@ -94,11 +108,4 @@ Rates now live in one place:
 
 ### Known gaps
 
-1. **One cutoff for every method.** Orders close 5pm the Thursday before
-   Father's Day (`lib/fathersDay.ts`), but courier takes 3–5 business days, so a
-   courier order placed at the cutoff cannot arrive by Sunday. Realistically the
-   Thursday cutoff only works for pickup and local delivery.
-2. **No allergen or ingredient information** anywhere on the site.
-3. **Collection point still asks for the customer's address.** Needed to book
-   the parcel, but it has not been confirmed whether NZ Post needs the shop's
-   address instead.
+1. **No allergen or ingredient information** anywhere on the site.

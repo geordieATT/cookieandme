@@ -53,7 +53,9 @@ function isValidEmail(value: string): boolean {
 export default function GiftBoxSection() {
   const [cart, setCart] = useState<CartItem[]>([]);
   // Resolved after mount so the server and client markup agree on the date.
-  const [ordering, setOrdering] = useState<{ state: string; label: string } | null>(null);
+  const [ordering, setOrdering] = useState<
+    { state: string; label: string; fasterStillOpen: boolean } | null
+  >(null);
   const [fulfillment, setFulfillment] = useState<DeliveryMethod>("pickup");
   const [toCollectionPoint, setToCollectionPoint] = useState(false);
   const [signatureRequired, setSignatureRequired] = useState(false);
@@ -80,9 +82,9 @@ export default function GiftBoxSection() {
   const justSelectedRef = useRef(false);
 
   useEffect(() => {
-    const { state, cutoff } = cutoffState(new Date());
-    setOrdering({ state, label: formatCutoff(cutoff) });
-  }, []);
+    const { state, cutoff, fasterStillOpen } = cutoffState(new Date(), fulfillment);
+    setOrdering({ state, label: formatCutoff(cutoff), fasterStillOpen });
+  }, [fulfillment]);
 
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -303,8 +305,20 @@ export default function GiftBoxSection() {
               <span>
                 {ordering.state === "open" ? (
                   <>
-                    <strong>Father&apos;s Day orders close {ordering.label}.</strong> Order before
-                    then to have them ready in time.
+                    <strong>
+                      Father&apos;s Day orders close {ordering.label} for{" "}
+                      {selected.label}.
+                    </strong>{" "}
+                    Order before then to have them ready in time.
+                  </>
+                ) : ordering.fasterStillOpen ? (
+                  <>
+                    <strong>
+                      {selected.label} has closed for Father&apos;s Day (orders shut{" "}
+                      {ordering.label}).
+                    </strong>{" "}
+                    Choose NZ Post Overnight, pickup, or Hutt Valley delivery and it can
+                    still arrive in time.
                   </>
                 ) : (
                   <>
@@ -576,8 +590,7 @@ export default function GiftBoxSection() {
                     >
                       <strong style={{ color: "#0C0E58" }}>Collecting from an NZ Post shop</strong>
                       <p style={{ margin: "6px 0 0" }}>
-                        You&apos;ll need photo ID to pick up your parcel. Not sure which shop is
-                        closest? Head to{" "}
+                        Head to{" "}
                         <a
                           href="https://www.nzpost.co.nz/tools/find-nz-post"
                           target="_blank"
@@ -586,8 +599,19 @@ export default function GiftBoxSection() {
                         >
                           nzpost.co.nz/tools/find-nz-post
                         </a>
-                        , enter your postcode, and filter by &quot;Collect a parcel&quot; to find your
-                        nearest option.
+                        , enter your postcode, and filter by &quot;Collect a parcel&quot; to find the
+                        address of your nearest option.
+                      </p>
+                      <p
+                        style={{
+                          margin: "10px 0 0", padding: "10px 12px", borderRadius: 2,
+                          backgroundColor: "#FFF4F0", borderLeft: "3px solid #FB3D03",
+                        }}
+                      >
+                        <strong style={{ color: "#0C0E58" }}>
+                          Enter that shop&apos;s address below, not your own.
+                        </strong>{" "}
+                        That is where we send the parcel. You&apos;ll need photo ID to pick it up.
                       </p>
                     </div>
                   ) : (
@@ -635,11 +659,13 @@ export default function GiftBoxSection() {
               {needsAddress && (
                 <div style={{ marginBottom: 26 }}>
                   <h3 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 16, color: "#0C0E58", marginBottom: 12 }}>
-                    Delivery Address
+                    {toCollectionPoint ? "NZ Post Shop Address" : "Delivery Address"}
                   </h3>
 
                   <div style={{ marginBottom: 14, position: "relative" }}>
-                    <label className="form-label" htmlFor="gb-address">Address *</label>
+                    <label className="form-label" htmlFor="gb-address">
+                      {toCollectionPoint ? "NZ Post shop address *" : "Address *"}
+                    </label>
                     <input
                       id="gb-address"
                       type="text"
@@ -682,7 +708,9 @@ export default function GiftBoxSection() {
                       </ul>
                     )}
                     <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#888", marginTop: 6 }}>
-                      Pick your address from the list, or type it in full if it isn&apos;t there.
+                      {toCollectionPoint
+                        ? "Enter the NZ Post shop you want to collect from, not your home address."
+                        : "Pick your address from the list, or type it in full if it isn't there."}
                     </p>
                   </div>
 
