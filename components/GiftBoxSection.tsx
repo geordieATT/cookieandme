@@ -557,7 +557,7 @@ export default function GiftBoxSection() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="form-two-col">
                     {([
                       { value: false, label: "To your door", sub: "Delivered to your address" },
-                      { value: true, label: "To a collection point", sub: "Collect it yourself" },
+                      { value: true, label: "To an NZ Post collection point", sub: "Collect it yourself" },
                     ] as const).map((opt) => (
                       <button
                         key={String(opt.value)}
