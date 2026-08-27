@@ -22,7 +22,6 @@ const NOTE_MAX = 250;
 
 const GALLERY_IMAGES = [
   { type: "image" as const, src: "/images/fathers-day-gift-box-open-a.jpg", alt: "Father's Day gift box open with cookies" },
-  { type: "image" as const, src: "/images/fathers-day-gift-box-open-b.jpg", alt: "Father's Day gift box open with cookies, second angle" },
   { type: "image" as const, src: "/images/fathers-day-cookies-angled.jpg", alt: "Father's Day cookies on a table" },
   { type: "image" as const, src: "/images/fathers-day-cookies-flatlay.jpg", alt: "Father's Day cookies flat lay" },
   { type: "video" as const, src: "/images/fathers-day-gift-box-video.mp4", alt: "Father's Day gift box video" },
