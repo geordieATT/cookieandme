@@ -106,7 +106,7 @@ export default function OrderSection() {
     <section id="order" style={{ padding: "96px 0" }}>
       <div className="section-container">
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
-          <h2
+          <h1
             style={{
               fontFamily: "'Nunito', sans-serif",
               fontWeight: 900,
@@ -116,7 +116,7 @@ export default function OrderSection() {
             }}
           >
             Place Your Order
-          </h2>
+          </h1>
           <p
             style={{
               fontFamily: "'Inter', sans-serif",
@@ -581,7 +581,7 @@ export default function OrderSection() {
             >
               Not sure what you need? Use the{" "}
               <a
-                href="#contact"
+                href="/contact"
                 style={{
                   color: "#0C0E58",
                   fontWeight: 600,

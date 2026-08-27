@@ -17,7 +17,7 @@ export default function OurStorySection() {
               height: "100%",
             }}
           >
-            <h2
+            <h1
               style={{
                 fontFamily: "'Nunito', sans-serif",
                 fontWeight: 900,
@@ -29,7 +29,7 @@ export default function OurStorySection() {
               }}
             >
               Our Story
-            </h2>
+            </h1>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",

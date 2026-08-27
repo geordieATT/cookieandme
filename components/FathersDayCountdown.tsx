@@ -95,7 +95,7 @@ export default function FathersDayCountdown() {
           </div>
 
           <a
-            href="#gift-boxes"
+            href="/gift-boxes"
             className="btn-red countdown-cta"
             style={{ fontSize: 15, padding: "13px 26px", whiteSpace: "nowrap" }}
           >

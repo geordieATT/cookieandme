@@ -386,6 +386,32 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   .countdown-cta { width: 100%; text-align: center; }
 }
 
+/* Inner pages start below the fixed navbar; the home hero sits behind it. */
+.page-top { padding-top: 64px; }
+
+/* --- Home page route cards --- */
+.home-path {
+  display: block;
+  background: #FAFAF8;
+  border: 1.5px solid #E0DFDD;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.home-path:hover {
+  border-color: #0C0E58;
+  box-shadow: 0 8px 22px rgba(12, 14, 88, 0.1);
+  transform: translateY(-2px);
+}
+
+.home-path-cta {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FB3D03;
+}
+.home-path:hover .home-path-cta { text-decoration: underline; }
+
 /* --- Hero call-to-action buttons --- */
 /* Fixed width keeps the three buttons aligned regardless of label length. */
 .hero-cta {

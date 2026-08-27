@@ -1,9 +1,15 @@
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from "next";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cookie & Me – Custom Designed Cookies, Lower Hutt NZ",
+  metadataBase: new URL("https://cookieandme.nz"),
+  title: {
+    default: "Cookie & Me – Custom Designed Cookies, Lower Hutt NZ",
+    template: "%s | Cookie & Me",
+  },
   description:
     "Custom-designed, handcrafted cookies for businesses, events, and every occasion worth celebrating. Based in Lower Hutt, New Zealand.",
   icons: {
@@ -45,7 +51,9 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Navbar />
         {children}
+        <Footer />
         <Analytics />
       </body>
     </html>

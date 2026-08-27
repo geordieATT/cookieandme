@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const navLinks = [
-  { label: "Gallery", href: "#gallery" },
-  { label: "What We Do", href: "#corporate" },
-  { label: "Our Story", href: "#about" },
-  { label: "Order", href: "#order" },
-  { label: "Contact", href: "#contact" },
+  { label: "Gift Boxes", href: "/gift-boxes" },
+  { label: "What We Do", href: "/what-we-do" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Our Story", href: "/our-story" },
+  { label: "Order", href: "/order" },
+  { label: "Contact", href: "/contact" },
 ];
 
 function CopyFooterButton({ text, display }: { text: string; display: string }) {
@@ -54,7 +56,7 @@ export default function Footer() {
         <div className="footer-main" style={{ marginBottom: 48 }}>
           {/* Logo + tagline */}
           <div>
-            <a
+            <Link
               href="/"
               aria-label="Cookie and Me home"
               style={{ display: "inline-block", marginBottom: 16 }}
@@ -69,7 +71,7 @@ export default function Footer() {
                   filter: "brightness(0) invert(1)",
                 }}
               />
-            </a>
+            </Link>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
@@ -91,9 +93,9 @@ export default function Footer() {
             style={{ display: "flex", flexDirection: "column", gap: 12 }}
           >
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="footer-link">
+              <Link key={link.href} href={link.href} className="footer-link">
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 

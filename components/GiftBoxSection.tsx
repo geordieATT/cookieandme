@@ -248,7 +248,7 @@ export default function GiftBoxSection() {
           >
             Ready-Made Gift Boxes
           </span>
-          <h2
+          <h1
             style={{
               fontFamily: "'Nunito', sans-serif",
               fontWeight: 900,
@@ -258,7 +258,7 @@ export default function GiftBoxSection() {
             }}
           >
             The Perfect Father&apos;s Day Gift
-          </h2>
+          </h1>
           <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.7, color: "#555", marginBottom: 36, maxWidth: 680 }}>
             Give Dad something sweet this Father&apos;s Day. Each box includes your choice of 6 or
             12 buttery vanilla chocolate chip cookies, topped with a thin, intricately stamped
@@ -549,7 +549,7 @@ export default function GiftBoxSection() {
                       <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, lineHeight: 1.6, color: "#888", marginBottom: 10 }}>
                         Courier delivery is available to urban addresses only. We can&apos;t currently
                         deliver to rural addresses. If you&apos;re unsure or your address is rural, please
-                        choose pickup or <a href="#contact" style={{ color: "#0C0E58" }}>contact us</a> instead.
+                        choose pickup or <a href="/contact" style={{ color: "#0C0E58" }}>contact us</a> instead.
                       </p>
                       <label style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.5, color: "#444", cursor: "pointer" }}>
                         <input

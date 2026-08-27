@@ -52,7 +52,7 @@ export default function GallerySection() {
       style={{ padding: "96px 0", backgroundColor: "#F4F4F2" }}
     >
       <div className="section-container">
-        <h2
+        <h1
           style={{
             fontFamily: "'Nunito', sans-serif",
             fontWeight: 900,
@@ -63,7 +63,7 @@ export default function GallerySection() {
           }}
         >
           A Little Taste of What We Do
-        </h2>
+        </h1>
         <div style={{ width: 48, height: 3, backgroundColor: "#FB3D03", margin: "0 auto 32px" }} />
 
         <div className="gallery-grid">

@@ -1,19 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "Gallery", href: "#gallery" },
-  { label: "Gift Boxes", href: "#gift-boxes" },
-  { label: "What We Do", href: "#corporate" },
-  { label: "Our Story", href: "#about" },
-  { label: "Order", href: "#order" },
-  { label: "Contact", href: "#contact" },
+  { label: "Gift Boxes", href: "/gift-boxes" },
+  { label: "What We Do", href: "/what-we-do" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Our Story", href: "/our-story" },
+  { label: "Order", href: "/order" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -46,13 +49,18 @@ export default function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        <a href="/" aria-label="Cookie and Me home" style={{ flexShrink: 0 }}>
+        <Link
+          href="/"
+          aria-label="Cookie and Me home"
+          onClick={() => setMenuOpen(false)}
+          style={{ flexShrink: 0 }}
+        >
           <img
             src="/images/cookieandme-logo-h.svg"
             alt="Cookie and Me"
             style={{ width: 180, height: "auto", display: "block" }}
           />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav
@@ -60,24 +68,30 @@ export default function Navbar() {
           style={{ gap: 36, alignItems: "center", flexShrink: 0 }}
           aria-label="Main navigation"
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 14,
-                fontWeight: 500,
-                color: "#0C0E58",
-                letterSpacing: "0.015em",
-                transition: "color 0.15s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#FB3D03")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#0C0E58")}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 14,
+                  fontWeight: active ? 600 : 500,
+                  color: active ? "#FB3D03" : "#0C0E58",
+                  letterSpacing: "0.015em",
+                  transition: "color 0.15s",
+                  borderBottom: active ? "2px solid #FB3D03" : "2px solid transparent",
+                  paddingBottom: 2,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#FB3D03")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = active ? "#FB3D03" : "#0C0E58")}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Hamburger */}
@@ -139,24 +153,28 @@ export default function Navbar() {
             padding: "4px 0 16px",
           }}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: "block",
-                padding: "14px 24px",
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 15,
-                fontWeight: 500,
-                color: "#0C0E58",
-                borderBottom: "1px solid #F4F4F2",
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: "block",
+                  padding: "14px 24px",
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 15,
+                  fontWeight: active ? 600 : 500,
+                  color: active ? "#FB3D03" : "#0C0E58",
+                  borderBottom: "1px solid #F4F4F2",
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
       )}
     </header>

@@ -57,7 +57,7 @@ export default function CorporateSection() {
                 height: "100%",
               }}
             >
-              <h2
+              <h1
                 style={{
                   fontFamily: "'Nunito', sans-serif",
                   fontWeight: 900,
@@ -68,7 +68,7 @@ export default function CorporateSection() {
                 }}
               >
                 Make your Occasion Unforgettable
-              </h2>
+              </h1>
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
@@ -108,7 +108,7 @@ export default function CorporateSection() {
                 the occasion, we would love to help.
               </p>
               <div>
-                <a href="#order" className="btn-navy">
+                <a href="/order" className="btn-navy">
                   Order Now
                 </a>
               </div>

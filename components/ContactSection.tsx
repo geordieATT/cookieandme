@@ -92,7 +92,7 @@ export default function ContactSection() {
         <div className="two-col" style={{ alignItems: "start", gap: 72 }}>
           {/* Left: intro + contact details */}
           <div>
-            <h2
+            <h1
               style={{
                 fontFamily: "'Nunito', sans-serif",
                 fontWeight: 900,
@@ -102,7 +102,7 @@ export default function ContactSection() {
               }}
             >
               Get in Touch
-            </h2>
+            </h1>
             <p
               style={{
                 fontFamily: "'Inter', sans-serif",
