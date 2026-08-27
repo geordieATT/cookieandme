@@ -1,25 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { cutoffState, formatCutoff } from "@/lib/fathersDay";
 
 // Only show the banner in the run-up, so it disappears on its own after the day passes
 // and reappears the following August without anyone editing a date.
 const SHOW_WITHIN_DAYS = 60;
 
-// Father's Day in New Zealand is the first Sunday of September.
-function fathersDay(year: number): Date {
-  const septemberFirst = new Date(year, 8, 1);
-  const daysUntilSunday = (7 - septemberFirst.getDay()) % 7;
-  return new Date(year, 8, 1 + daysUntilSunday, 0, 0, 0, 0);
-}
+type Remaining = { days: number; hours: number; minutes: number; seconds: number; cutoffLabel: string };
 
-type Remaining = { days: number; hours: number; minutes: number; seconds: number };
+function timeUntilCutoff(now: Date): Remaining | null {
+  const { state, cutoff } = cutoffState(now);
+  // Once ordering has closed there is nothing left to count down to.
+  if (state !== "open") return null;
 
-function timeUntilFathersDay(now: Date): Remaining | null {
-  const target = fathersDay(now.getFullYear());
-  const diff = target.getTime() - now.getTime();
-
-  // Past it for this year, or still too far out to be worth shouting about.
+  const diff = cutoff.getTime() - now.getTime();
   if (diff <= 0 || diff > SHOW_WITHIN_DAYS * 24 * 60 * 60 * 1000) return null;
 
   const totalSeconds = Math.floor(diff / 1000);
@@ -28,6 +23,7 @@ function timeUntilFathersDay(now: Date): Remaining | null {
     hours: Math.floor((totalSeconds % 86400) / 3600),
     minutes: Math.floor((totalSeconds % 3600) / 60),
     seconds: totalSeconds % 60,
+    cutoffLabel: formatCutoff(cutoff),
   };
 }
 
@@ -36,7 +32,7 @@ export default function FathersDayCountdown() {
   const [remaining, setRemaining] = useState<Remaining | null>(null);
 
   useEffect(() => {
-    const tick = () => setRemaining(timeUntilFathersDay(new Date()));
+    const tick = () => setRemaining(timeUntilCutoff(new Date()));
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
@@ -53,7 +49,7 @@ export default function FathersDayCountdown() {
 
   return (
     <section
-      aria-label="Countdown to Father's Day"
+      aria-label="Time left to order for Father's Day"
       style={{ backgroundColor: "#0C0E58", padding: "22px 0" }}
     >
       <div className="section-container">
@@ -69,7 +65,7 @@ export default function FathersDayCountdown() {
                 lineHeight: 1.3,
               }}
             >
-              Father&apos;s Day is coming
+              Father&apos;s Day orders close {remaining.cutoffLabel}
             </p>
             <p
               style={{

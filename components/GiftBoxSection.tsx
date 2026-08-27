@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { cutoffState, formatCutoff } from "@/lib/fathersDay";
 
 const PACKS = [
   { size: 6, label: "6 Pack", price: 20 },
@@ -51,6 +52,8 @@ function isValidEmail(value: string): boolean {
 
 export default function GiftBoxSection() {
   const [cart, setCart] = useState<CartItem[]>([]);
+  // Resolved after mount so the server and client markup agree on the date.
+  const [ordering, setOrdering] = useState<{ state: string; label: string } | null>(null);
   const [fulfillment, setFulfillment] = useState<Fulfillment>("pickup");
   const [confirmUrban, setConfirmUrban] = useState(false);
   const [name, setName] = useState("");
@@ -73,6 +76,11 @@ export default function GiftBoxSection() {
   const [highlighted, setHighlighted] = useState(-1);
   // Set when the customer picks a suggestion, so we don't immediately re-query what we just filled in.
   const justSelectedRef = useRef(false);
+
+  useEffect(() => {
+    const { state, cutoff } = cutoffState(new Date());
+    setOrdering({ state, label: formatCutoff(cutoff) });
+  }, []);
 
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
@@ -264,6 +272,45 @@ export default function GiftBoxSection() {
             layer of icing in Father&apos;s Day themed designs. Neatly wrapped and ready to gift,
             it&apos;s the perfect way to say thank you.
           </p>
+
+          {ordering && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 10,
+                maxWidth: 680,
+                marginBottom: 36,
+                padding: "14px 16px",
+                borderRadius: 2,
+                borderLeft: `3px solid ${ordering.state === "open" ? "#FB3D03" : "#0C0E58"}`,
+                backgroundColor: ordering.state === "open" ? "#FFF4F0" : "#F0F1F8",
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 14,
+                lineHeight: 1.6,
+                color: "#333",
+              }}
+            >
+              <span aria-hidden="true">{ordering.state === "open" ? "⏰" : "ℹ️"}</span>
+              <span>
+                {ordering.state === "open" ? (
+                  <>
+                    <strong>Father&apos;s Day orders close {ordering.label}.</strong> Order before
+                    then to have them ready in time.
+                  </>
+                ) : (
+                  <>
+                    <strong>Father&apos;s Day orders have closed.</strong> You can still order these
+                    boxes, but they will not be ready in time for Father&apos;s Day.{" "}
+                    <a href="/contact" style={{ color: "#0C0E58", fontWeight: 600 }}>
+                      Get in touch
+                    </a>{" "}
+                    if you need them for a particular date.
+                  </>
+                )}
+              </span>
+            </div>
+          )}
 
           <div className="two-col" style={{ alignItems: "start", gap: 56 }}>
             {/* Gallery */}
