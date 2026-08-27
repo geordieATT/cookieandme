@@ -182,8 +182,8 @@ export default function ContactSection() {
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div className="form-two-col">
                   <div>
-                    <label className="form-label">Name *</label>
-                    <input
+                    <label className="form-label" htmlFor="contact-name">Name *</label>
+                    <input id="contact-name"
                       type="text"
                       className="form-field"
                       value={name}
@@ -192,8 +192,8 @@ export default function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label className="form-label">Email *</label>
-                    <input
+                    <label className="form-label" htmlFor="contact-email">Email *</label>
+                    <input id="contact-email"
                       type="email"
                       className="form-field"
                       value={email}
@@ -203,8 +203,8 @@ export default function ContactSection() {
                   </div>
                 </div>
                 <div>
-                  <label className="form-label">Subject *</label>
-                  <input
+                  <label className="form-label" htmlFor="contact-subject">Subject *</label>
+                  <input id="contact-subject"
                     type="text"
                     className="form-field"
                     value={subject}
@@ -213,8 +213,8 @@ export default function ContactSection() {
                   />
                 </div>
                 <div>
-                  <label className="form-label">Message *</label>
-                  <textarea
+                  <label className="form-label" htmlFor="contact-message">Message *</label>
+                  <textarea id="contact-message"
                     className="form-field"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}

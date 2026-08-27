@@ -133,8 +133,8 @@ export default function OrderSection() {
             {/* Name + Email */}
             <div className="form-two-col">
               <div>
-                <label className="form-label">Name *</label>
-                <input
+                <label className="form-label" htmlFor="order-name">Name *</label>
+                <input id="order-name"
                   type="text"
                   className="form-field"
                   value={name}
@@ -144,8 +144,8 @@ export default function OrderSection() {
                 />
               </div>
               <div>
-                <label className="form-label">Email *</label>
-                <input
+                <label className="form-label" htmlFor="order-email">Email *</label>
+                <input id="order-email"
                   type="email"
                   className="form-field"
                   value={email}
@@ -159,8 +159,8 @@ export default function OrderSection() {
             {/* Phone + Date */}
             <div className="form-two-col">
               <div>
-                <label className="form-label">Phone *</label>
-                <input
+                <label className="form-label" htmlFor="order-phone">Phone *</label>
+                <input id="order-phone"
                   type="tel"
                   className="form-field"
                   value={phone}
@@ -186,8 +186,8 @@ export default function OrderSection() {
             {/* Quantity + Flavour */}
             <div className="form-two-col">
               <div>
-                <label className="form-label">Quantity *</label>
-                <input
+                <label className="form-label" htmlFor="order-quantity">Quantity *</label>
+                <input id="order-quantity"
                   type="number"
                   className="form-field"
                   value={quantity}
@@ -211,8 +211,8 @@ export default function OrderSection() {
                 </p>
               </div>
               <div>
-                <label className="form-label">Flavour *</label>
-                <select
+                <label className="form-label" htmlFor="order-flavour">Flavour *</label>
+                <select id="order-flavour"
                   className="form-field"
                   value={flavour}
                   onChange={(e) => setFlavour(e.target.value)}
@@ -404,8 +404,8 @@ export default function OrderSection() {
 
             {/* Design brief */}
             <div>
-              <label className="form-label">Design Brief *</label>
-              <textarea
+              <label className="form-label" htmlFor="order-brief">Design Brief *</label>
+              <textarea id="order-brief"
                 className="form-field"
                 value={designBrief}
                 onChange={(e) => setDesignBrief(e.target.value)}

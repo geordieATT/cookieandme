@@ -87,6 +87,8 @@ export async function POST(req: Request) {
       const { error: emailError } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
+        // Replying to the order notification should reach the customer.
+        replyTo: meta.customerEmail || session.customer_details?.email || undefined,
         subject: `New paid order – ${meta.orderType === "giftbox" ? "Gift Box" : "Custom Cookies"}`,
         html: `
           <h2>New paid order ✅</h2>

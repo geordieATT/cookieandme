@@ -273,7 +273,7 @@ export default function CorporateSection() {
               color: "#666",
             }}
           >
-            Orders under 100 cookies require full payment upfront. Orders of 100 or more require a 50% deposit. Free pickup or delivery in Lower Hutt. Nationwide shipping from $8.
+            Orders under 100 cookies require full payment upfront. Orders of 100 or more require a 50% deposit. Free pickup or delivery in the Hutt Valley. Nationwide courier is available on request, just ask when you order.
           </p>
         </div>
 

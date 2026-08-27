@@ -20,7 +20,7 @@ const steps = [
     number: "04",
     title: "Delivery or Pickup",
     description:
-      "Free pickup or delivery in Lower Hutt. Nationwide shipping from $8.",
+      "Free pickup or delivery in the Hutt Valley. Nationwide courier available on request.",
   },
 ];
 

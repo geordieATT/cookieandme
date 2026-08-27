@@ -33,18 +33,39 @@ export async function POST(req: Request) {
       companyName,
     } = body;
 
+    // Everything below is visitor-supplied, so escape it before it goes into an HTML email.
+    const esc = (value: unknown) =>
+      String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+
+    // Multi-line fields keep their line breaks, but only after escaping.
+    const escMultiline = (value: unknown) => esc(value).replace(/\n/g, "<br />");
+
+    const senderEmail = String(email ?? "").trim();
+    const validSender = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(senderEmail);
+    // Lets the owner hit Reply and reach the customer instead of the sending address.
+    const replyTo = validSender ? senderEmail : undefined;
+
+    if (!name || !validSender) {
+      return Response.json({ error: "A name and valid email address are required." }, { status: 400 });
+    }
+
     if (orderType === "contact") {
       const { error } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
-        subject: `New Cookie & Me enquiry: ${subject}`,
+        replyTo,
+        subject: `New Cookie & Me enquiry: ${esc(subject)}`,
         html: `
           <h2>New website enquiry</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Name:</strong> ${esc(name)}</p>
+          <p><strong>Email:</strong> ${esc(email)}</p>
+          <p><strong>Subject:</strong> ${esc(subject)}</p>
           <p><strong>Message:</strong></p>
-          <p>${message?.replace(/\n/g, "<br />")}</p>
+          <p>${escMultiline(message)}</p>
         `,
       });
       if (error) {
@@ -58,19 +79,20 @@ export async function POST(req: Request) {
       const { error } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
-        subject: `New Gift Box Order from ${name}`,
+        replyTo,
+        subject: `New Gift Box Order from ${esc(name)}`,
         html: `
           <h2>New Gift Box Order</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Pack Size:</strong> ${packSize}</p>
-          <p><strong>Theme:</strong> ${theme}</p>
-          <p><strong>Flavour:</strong> ${flavour}</p>
+          <p><strong>Name:</strong> ${esc(name)}</p>
+          <p><strong>Email:</strong> ${esc(email)}</p>
+          <p><strong>Phone:</strong> ${esc(phone)}</p>
+          <p><strong>Pack Size:</strong> ${esc(packSize)}</p>
+          <p><strong>Theme:</strong> ${esc(theme)}</p>
+          <p><strong>Flavour:</strong> ${esc(flavour)}</p>
           <p><strong>Add Handwritten Card:</strong> ${addCard ? "Yes" : "No"}</p>
-          <p><strong>Card Message:</strong> ${cardMessage || "None"}</p>
-          <p><strong>Description:</strong> ${description}</p>
-          <p><strong>Subtotal:</strong> $${subtotal}</p>
+          <p><strong>Card Message:</strong> ${escMultiline(cardMessage) || "None"}</p>
+          <p><strong>Description:</strong> ${esc(description)}</p>
+          <p><strong>Subtotal:</strong> $${esc(subtotal)}</p>
         `,
       });
       if (error) {
@@ -84,23 +106,24 @@ export async function POST(req: Request) {
       const { error } = await resend.emails.send({
         from: "Cookie & Me <orders@cookieandme.nz>",
         to: "cookieandme.nz@gmail.com",
-        subject: `New Custom Cookie Order from ${name}`,
+        replyTo,
+        subject: `New Custom Cookie Order from ${esc(name)}`,
         html: `
           <h2>New Custom Cookie Order</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Company Name:</strong> ${companyName || "Not provided"}</p>
-          <p><strong>Quantity:</strong> ${quantity}</p>
-          <p><strong>Price Each:</strong> $${priceEach}</p>
-          <p><strong>Flavour:</strong> ${flavour}</p>
-          <p><strong>Fondant Colour:</strong> ${colour}</p>
-          <p><strong>Need By Date:</strong> ${latestNeededDate}</p>
-          <p><strong>Logo File:</strong> ${logoUrl || "No logo uploaded yet"}</p>
+          <p><strong>Name:</strong> ${esc(name)}</p>
+          <p><strong>Email:</strong> ${esc(email)}</p>
+          <p><strong>Phone:</strong> ${esc(phone)}</p>
+          <p><strong>Company Name:</strong> ${esc(companyName) || "Not provided"}</p>
+          <p><strong>Quantity:</strong> ${esc(quantity)}</p>
+          <p><strong>Price Each:</strong> $${esc(priceEach)}</p>
+          <p><strong>Flavour:</strong> ${esc(flavour)}</p>
+          <p><strong>Fondant Colour:</strong> ${esc(colour)}</p>
+          <p><strong>Need By Date:</strong> ${esc(latestNeededDate)}</p>
+          <p><strong>Logo File:</strong> ${esc(logoUrl) || "No logo uploaded yet"}</p>
           <p><strong>Design Brief:</strong></p>
-          <p>${designBrief ? designBrief.replace(/\n/g, "<br />") : "None provided"}</p>
-          <p><strong>Description:</strong> ${description}</p>
-          <p><strong>Subtotal:</strong> $${subtotal}</p>
+          <p>${escMultiline(designBrief) || "None provided"}</p>
+          <p><strong>Description:</strong> ${esc(description)}</p>
+          <p><strong>Subtotal:</strong> $${esc(subtotal)}</p>
         `,
       });
       if (error) {

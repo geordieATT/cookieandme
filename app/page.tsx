@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import HeroSection from "@/components/HeroSection";
 import FathersDayCountdown from "@/components/FathersDayCountdown";
 import SocialProofBar from "@/components/SocialProofBar";
