@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
     // charged always matches what calculateShipping produced.
     const shippingLabel = [
       shipping.breakdown[0]?.label ?? method.label,
-      collecting ? "collect in store" : null,
+      collecting ? "collection point" : null,
       ...shipping.breakdown.slice(1).map((line) => line.label.toLowerCase()),
     ]
       .filter(Boolean)

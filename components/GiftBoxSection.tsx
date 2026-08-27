@@ -557,7 +557,7 @@ export default function GiftBoxSection() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }} className="form-two-col">
                     {([
                       { value: false, label: "To your door", sub: "Delivered to your address" },
-                      { value: true, label: "To an NZ Post shop", sub: "Collect it yourself" },
+                      { value: true, label: "To a collection point", sub: "Collect it yourself" },
                     ] as const).map((opt) => (
                       <button
                         key={String(opt.value)}
@@ -588,7 +588,7 @@ export default function GiftBoxSection() {
                         padding: "14px 16px", marginTop: 12,
                       }}
                     >
-                      <strong style={{ color: "#0C0E58" }}>Collecting from an NZ Post shop</strong>
+                      <strong style={{ color: "#0C0E58" }}>Collecting from an NZ Post collection point</strong>
                       <p style={{ margin: "6px 0 0" }}>
                         Head to{" "}
                         <a
@@ -609,7 +609,7 @@ export default function GiftBoxSection() {
                         }}
                       >
                         <strong style={{ color: "#0C0E58" }}>
-                          Enter that shop&apos;s address below, not your own.
+                          Enter that collection point&apos;s address below, not your own.
                         </strong>{" "}
                         That is where we send the parcel. You&apos;ll need photo ID to pick it up.
                       </p>
@@ -659,12 +659,12 @@ export default function GiftBoxSection() {
               {needsAddress && (
                 <div style={{ marginBottom: 26 }}>
                   <h3 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 16, color: "#0C0E58", marginBottom: 12 }}>
-                    {toCollectionPoint ? "NZ Post Shop Address" : "Delivery Address"}
+                    {toCollectionPoint ? "Collection Point Address" : "Delivery Address"}
                   </h3>
 
                   <div style={{ marginBottom: 14, position: "relative" }}>
                     <label className="form-label" htmlFor="gb-address">
-                      {toCollectionPoint ? "NZ Post shop address *" : "Address *"}
+                      {toCollectionPoint ? "Collection point address *" : "Address *"}
                     </label>
                     <input
                       id="gb-address"
@@ -709,7 +709,7 @@ export default function GiftBoxSection() {
                     )}
                     <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#888", marginTop: 6 }}>
                       {toCollectionPoint
-                        ? "Enter the NZ Post shop you want to collect from, not your home address."
+                        ? "Enter the collection point you want to collect from, not your home address."
                         : "Pick your address from the list, or type it in full if it isn't there."}
                     </p>
                   </div>
@@ -774,7 +774,7 @@ export default function GiftBoxSection() {
                   >
                     <span>
                       {line.label}
-                      {toCollectionPoint && i === 0 ? " (collect in store)" : ""}
+                      {toCollectionPoint && i === 0 ? " (collection point)" : ""}
                     </span>
                     <span style={{ fontWeight: 600, color: "#0C0E58" }}>
                       {line.price === 0 ? "Free" : fmt(line.price)}

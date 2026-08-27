@@ -54,7 +54,7 @@ North/South Island split.
 
 **Step 2 — only for the two NZ Post methods:** "To your door" or "To an NZ Post
 shop". Collection point is the **same price**, not a discount. Choosing it
-relabels the address field to "NZ Post shop address": the customer enters the
+relabels the address field to "Collection point address": the customer enters the
 shop's address, not their own, because that is where the parcel is sent.
 
 **Step 3 — only for NZ Post door delivery:** two optional add-ons, Signature

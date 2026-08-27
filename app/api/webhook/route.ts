@@ -120,7 +120,7 @@ export async function POST(req: Request) {
           : meta.fulfillment === "delivery"
           ? "We'll deliver your order to the address you provided."
           : isCollectionPoint
-          ? "We'll send your order to an NZ Post shop for collection. Remember to bring photo ID when you pick it up."
+          ? "We'll send your order to the NZ Post collection point you chose. Remember to bring photo ID when you pick it up."
           : `Your order will be sent by NZ Post to the address you provided (${collectionLabel}).`;
 
       try {

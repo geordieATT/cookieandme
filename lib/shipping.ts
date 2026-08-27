@@ -32,7 +32,7 @@ export function isDeliveryMethod(value: unknown): value is DeliveryMethod {
 }
 
 export type ShippingOptions = {
-  /** Collecting from an NZ Post shop rather than door delivery. */
+  /** Collecting from an NZ Post collection point rather than door delivery. */
   toCollectionPoint?: boolean;
   signatureRequired?: boolean;
   ruralAddress?: boolean;
