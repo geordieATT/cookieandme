@@ -52,11 +52,6 @@ export async function POST(req: NextRequest) {
     // Add-ons only exist for NZ Post door delivery; anything else is forced off so a
     // crafted request cannot bolt charges onto a pickup.
     const collecting = nzPost && Boolean(toCollectionPoint);
-    const shipping = calculateShipping(fulfillmentType, {
-      toCollectionPoint: collecting,
-      signatureRequired: nzPost && !collecting && Boolean(signatureRequired),
-      ruralAddress: nzPost && !collecting && Boolean(ruralAddress),
-    });
 
     // The address is collected in our own form, so Stripe does not ask for it again.
     const formattedAddress = [address, postcode]
@@ -84,6 +79,8 @@ export async function POST(req: NextRequest) {
 
     let subtotalNumber: number;
     let itemsSummary = "";
+    let cartSixPacks = 0;
+    let cartTwelvePacks = 0;
 
     if (orderType === "giftbox") {
       if (!Array.isArray(items) || items.length === 0) {
@@ -93,6 +90,7 @@ export async function POST(req: NextRequest) {
       let computed = 0;
       const seen = new Set<number>();
       const parts: string[] = [];
+      const counts: Record<number, number> = {};
 
       for (const item of items) {
         const size = Number(item?.packSize);
@@ -111,11 +109,14 @@ export async function POST(req: NextRequest) {
         seen.add(size);
 
         computed += price * qty;
+        counts[size] = qty;
         parts.push(`${qty} × ${size} Pack`);
       }
 
       subtotalNumber = computed;
       itemsSummary = parts.join(", ");
+      cartSixPacks = counts[6] ?? 0;
+      cartTwelvePacks = counts[12] ?? 0;
     } else {
       subtotalNumber = Number(subtotal);
       if (Number.isNaN(subtotalNumber) || subtotalNumber <= 0) {
@@ -124,6 +125,27 @@ export async function POST(req: NextRequest) {
     }
 
     const subtotalCents = Math.round(subtotalNumber * 100);
+
+    // Courier pricing depends on the exact mix of boxes, and only tested combos
+    // have a price. Anything else must be quoted manually rather than guessed.
+    const shipping = calculateShipping(fulfillmentType, {
+      sixPacks: cartSixPacks,
+      twelvePacks: cartTwelvePacks,
+      toCollectionPoint: collecting,
+      signatureRequired: nzPost && !collecting && Boolean(signatureRequired),
+      ruralAddress: nzPost && !collecting && Boolean(ruralAddress),
+    });
+
+    if (shipping.error === "COMBO_NOT_TESTED") {
+      return NextResponse.json(
+        {
+          error:
+            shipping.message ??
+            "We can't price courier for this combination of boxes. Please get in touch for a quote.",
+        },
+        { status: 400 }
+      );
+    }
 
     // One Stripe shipping rate covering the method plus any add-ons, so the amount
     // charged always matches what calculateShipping produced.

@@ -49,8 +49,27 @@ North/South Island split.
 |---|---|---|---|
 | `pickup` | Pickup from Lower Hutt | Free | No |
 | `huttDelivery` | Delivery in the Hutt Valley | Free | Yes |
-| `nzPostEconomy` | NZ Post Economy (3 day) | $8.90 | Yes |
-| `nzPostOvernight` | NZ Post Overnight | $10.90 | Yes |
+| `nzPostEconomy` | NZ Post Economy (3 day) | from $8.90 | Yes |
+| `nzPostOvernight` | NZ Post Overnight | from $10.90 | Yes |
+
+**Courier price depends on the mix of boxes.** NZ Post's multi-box pricing does
+not follow a size or volume formula, so every combination in `COMBO_TIERS`
+(`lib/shipping.ts`) was tested on NZ Post's own calculator.
+
+| Boxes (6-packs : 12-packs) | Economy | Overnight |
+|---|---|---|
+| 1:0, 2:0, 0:1 | $8.90 | $10.90 |
+| 3:0 – 6:0, 0:2, 0:3, 1:1, 2:1, 3:1, 4:1, 1:2, 2:2 | $14.20 | $16.20 |
+
+**Never add a row by extrapolating.** A combination that is not in the table
+cannot be priced: the form disables checkout, shows the total as
+"$X + courier", and points the customer at the contact page, and the API
+rejects it with `COMBO_NOT_TESTED`. To add a combination, test it on NZ Post's
+"Send It in NZ" calculator first. Pickup and Hutt Valley delivery stay free at
+any size, so a large order can always be placed that way.
+
+⚠ **The $14.20 tier-2 economy price is unverified** — it was an estimate, not a
+figure from the calculator. Confirm it before relying on it.
 
 **Step 2 — only for the two NZ Post methods:** "To your door" or "To an NZ Post
 shop". Collection point is the **same price**, not a discount. Choosing it

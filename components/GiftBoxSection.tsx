@@ -8,6 +8,7 @@ import {
   ADDONS,
   calculateShipping,
   isNzPost,
+  isComboPriced,
   type DeliveryMethod,
 } from "@/lib/shipping";
 
@@ -156,20 +157,29 @@ export default function GiftBoxSection() {
   const prevSlide = () => setActiveSlide((prev) => (prev - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length);
   const nextSlide = () => setActiveSlide((prev) => (prev + 1) % GALLERY_IMAGES.length);
 
+  const qtyFor = (size: PackSize) => cart.find((item) => item.packSize === size)?.qty ?? 0;
+
   const subtotal = cart.reduce((sum, item) => sum + priceFor(item.packSize) * item.qty, 0);
   const nzPost = isNzPost(fulfillment);
+
+  // NZ Post pricing depends on the exact mix of boxes, so the cart feeds into it.
+  const sixPacks = qtyFor(6);
+  const twelvePacks = qtyFor(12);
+
   // Collection point ignores the add-ons entirely, so pass them through as chosen
   // and let calculateShipping decide what actually applies.
   const shipping = calculateShipping(fulfillment, {
+    sixPacks,
+    twelvePacks,
     toCollectionPoint,
     signatureRequired,
     ruralAddress,
   });
   const shippingFee = shipping.total;
+  const comboUnpriced = shipping.error === "COMBO_NOT_TESTED";
   const total = subtotal + shippingFee;
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
-  const qtyFor = (size: PackSize) => cart.find((item) => item.packSize === size)?.qty ?? 0;
 
   // Derives the new quantity from the previous state rather than a captured value, so
   // rapid taps on + don't collapse into a single increment. Zero drops the pack entirely.
@@ -191,6 +201,13 @@ export default function GiftBoxSection() {
     setError("");
     if (cart.length === 0) {
       setError("Please add at least one gift box to your cart.");
+      return;
+    }
+    if (comboUnpriced) {
+      setError(
+        shipping.message ??
+          "We can't price courier for this combination of boxes online. Please get in touch for a quote."
+      );
       return;
     }
     if (!name.trim() || !email.trim() || !phone.trim()) {
@@ -227,6 +244,8 @@ export default function GiftBoxSection() {
           description,
           address: needsAddress ? address.trim() : "",
           postcode: needsAddress ? postcode.trim() : "",
+          sixPacks,
+          twelvePacks,
           toCollectionPoint: nzPost ? toCollectionPoint : false,
           signatureRequired: nzPost && !toCollectionPoint ? signatureRequired : false,
           ruralAddress: nzPost && !toCollectionPoint ? ruralAddress : false,
@@ -529,9 +548,18 @@ export default function GiftBoxSection() {
                 >
                   {DELIVERY_ORDER.map((key) => {
                     const opt = DELIVERY_METHODS[key];
+                    // Courier prices depend on the cart, so quote each option for
+                    // what is actually in it rather than a fixed figure.
+                    const quote = calculateShipping(key, { sixPacks, twelvePacks });
+                    const priceLabel =
+                      opt.service === null
+                        ? "Free"
+                        : quote.error
+                        ? "price on request"
+                        : fmt(quote.total);
                     return (
                       <option key={key} value={key}>
-                        {opt.label} ({opt.price === 0 ? "Free" : fmt(opt.price)})
+                        {opt.label} ({priceLabel})
                       </option>
                     );
                   })}
@@ -762,6 +790,29 @@ export default function GiftBoxSection() {
                     <span style={{ fontWeight: 600, color: "#0C0E58" }}>Free</span>
                   </div>
                 )}
+                {/* NZ Post has not quoted this mix of boxes, so we cannot show a price. */}
+                {comboUnpriced && (
+                  <div
+                    style={{
+                      display: "flex", gap: 10, alignItems: "flex-start",
+                      fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.6,
+                      color: "#333", backgroundColor: "#FFF4F0",
+                      borderLeft: "3px solid #FB3D03", borderRadius: 2,
+                      padding: "12px 14px", marginBottom: 10,
+                    }}
+                  >
+                    <span aria-hidden="true">📦</span>
+                    <span>
+                      We can&apos;t price courier for this mix of boxes online.{" "}
+                      <a href="/contact" style={{ color: "#0C0E58", fontWeight: 600 }}>
+                        Get in touch
+                      </a>{" "}
+                      and we&apos;ll quote it for you, or choose pickup or Hutt Valley delivery
+                      to order now.
+                    </span>
+                  </div>
+                )}
+
                 {/* Each shipping line is itemised so the total is never a mystery. */}
                 {shipping.breakdown.map((line, i) => (
                   <div
@@ -783,7 +834,9 @@ export default function GiftBoxSection() {
                 ))}
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 15, fontWeight: 700, color: "#0C0E58", borderTop: "1px solid #C8CCE0", paddingTop: 10 }}>
                   <span>Total</span>
-                  <span style={{ fontSize: 20, fontFamily: "'Nunito', sans-serif", fontWeight: 900 }}>{fmt(total)}</span>
+                  <span style={{ fontSize: 20, fontFamily: "'Nunito', sans-serif", fontWeight: 900 }}>
+                    {comboUnpriced ? `${fmt(subtotal)} + courier` : fmt(total)}
+                  </span>
                 </div>
               </div>
 
@@ -791,18 +844,20 @@ export default function GiftBoxSection() {
 
               <button
                 onClick={handleSubmit}
-                disabled={loading || cart.length === 0}
+                disabled={loading || cart.length === 0 || comboUnpriced}
                 className="btn-red"
                 style={{
                   width: "100%", padding: "16px", fontSize: 15,
-                  opacity: loading || cart.length === 0 ? 0.5 : 1,
-                  cursor: loading || cart.length === 0 ? "not-allowed" : "pointer",
+                  opacity: loading || cart.length === 0 || comboUnpriced ? 0.5 : 1,
+                  cursor: loading || cart.length === 0 || comboUnpriced ? "not-allowed" : "pointer",
                 }}
               >
                 {loading
                   ? "Redirecting to payment..."
                   : cart.length === 0
                   ? "Add a Gift Box to Continue"
+                  : comboUnpriced
+                  ? "Contact Us for a Courier Quote"
                   : `Pay ${fmt(total)} NZD`}
               </button>
             </div>
