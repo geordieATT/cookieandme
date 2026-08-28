@@ -15,6 +15,21 @@ Live at **cookieandme.nz**, deployed from GitHub (`geordieATT/cookieandme`) to V
   zero errors.
 - Never commit `renamed_cookie_photos.zip`, `download.jfif`, or
   `Steves-70th-on-bench.jfif` — stray files, nothing references them.
+- **To test the webhook without a real payment**, sign a fake `checkout.session.completed`
+  event with `STRIPE_WEBHOOK_SECRET` from `.env.local` and POST it to
+  `https://cookieandme.nz/api/webhook` with a `stripe-signature: t=<ts>,v1=<hmac>`
+  header (`v1` = HMAC-SHA256 of `<ts>.<exact raw body bytes>`, hex-encoded). Sign
+  and send the *same* bytes — building the signature from a shell variable and
+  sending the file (or vice versa) silently changes whitespace/newlines and the
+  signature won't match. A 200 response only means the signature verified; it does
+  **not** mean the kitchen app write succeeded (that failure path is caught and
+  turned into an alert email rather than surfaced in the response). Confirm the
+  actual write by querying Supabase directly, and delete the test rows after
+  (`log_type = 'website_order_pending'` in `logs`, matching `reference_id` in
+  `notifications`). Non-ASCII characters (e.g. `×`) must be UTF-8 encoded in the
+  payload used for both signing and sending — building the fixture with `sed` is
+  a good way to accidentally corrupt one, which won't be a signature failure and
+  will instead show up as a subtly wrong value in the written row.
 
 ## Conventions
 
@@ -124,6 +139,39 @@ Rates now live in one place:
   and ignores anything the browser sends. Add-ons are forced off for non-NZ-Post
   methods and for collection point, so a crafted request cannot add charges.
 - `components/OrderSection.tsx` → the custom-order collection buttons
+
+## Kitchen app sync
+
+The kitchen app is a **separate codebase** (vanilla JS + Supabase, not in this
+repo) that Kersti and Geordie use day to day. It has its own Supabase project,
+`fbtqvkxnpzaocuzrrfrb` — unrelated to any Supabase project this repo might use
+for other things.
+
+When a **paid gift box order** comes in, `app/api/webhook/route.ts` writes it
+there (`lib/kitchenApp.ts`) after both confirmation emails have already sent,
+so a sync failure can never cost the customer their confirmation:
+
+- `logs`: one row, `log_type: 'website_order_pending'`, holding the order
+  details as JSON, including `occasion` (used downstream to match the order to
+  a campaign) and `campaignId`/`campaign_id: null` (deliberately unassigned —
+  the kitchen app's own review flow files it under a campaign).
+- `notifications`: one row alerting Kersti (`user_name: 'Kersti'`,
+  `type: 'website_order'`, `severity: 'warning'`, `reference_tab: 'sales'`).
+  These values were chosen by reading the kitchen app's actual rendering code,
+  not guessed — `type` has no effect on how a notification displays, but
+  `reference_tab` does: the app's jump handler only understands five tab
+  names, and campaigns live under `sales`.
+- Needs `KITCHEN_SUPABASE_URL` and `KITCHEN_SUPABASE_SERVICE_ROLE_KEY` set in
+  Vercel (server side only — never referenced from a client component). Skips
+  itself with a warning log if they're missing, rather than failing the
+  webhook.
+- Deduplicates on `stripeSessionId`, since Stripe can redeliver a webhook.
+- If the write fails for any other reason, an email goes to the owner with the
+  order details so it can be entered by hand, since a paid order that never
+  reaches the kitchen app would otherwise be silently lost.
+
+Verified end to end on 2026-08-28 with a signed test event (see the testing
+note above) — confirmed both rows land with the right shape, then deleted.
 
 ### Known gaps
 
