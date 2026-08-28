@@ -60,6 +60,12 @@ export async function POST(req: Request) {
 
     const addressLine = meta.deliveryAddress ?? "";
 
+    // Every order used the same subject line, so Gmail collapsed them all into one
+    // ever-growing thread. A short per-order reference keeps the subject unique
+    // without a garbled Stripe session id in it, and doubles as something a
+    // customer can quote if they get in touch about this order.
+    const orderRef = session.id.slice(-8).toUpperCase();
+
     const orderDetailsHtml =
       meta.orderType === "giftbox"
         ? `
@@ -90,9 +96,10 @@ export async function POST(req: Request) {
         to: "cookieandme.nz@gmail.com",
         // Replying to the order notification should reach the customer.
         replyTo: meta.customerEmail || session.customer_details?.email || undefined,
-        subject: `New paid order – ${meta.orderType === "giftbox" ? "Gift Box" : "Custom Cookies"}`,
+        subject: `New paid order – ${meta.customerName || "Customer"} – ${meta.orderType === "giftbox" ? "Gift Box" : "Custom Cookies"} #${orderRef}`,
         html: `
           <h2>New paid order ✅</h2>
+          <p><strong>Order ref:</strong> #${orderRef}</p>
           <p><strong>Order type:</strong> ${esc(meta.orderType)}</p>
           <p><strong>Name:</strong> ${esc(meta.customerName)}</p>
           <p><strong>Email:</strong> ${esc(meta.customerEmail)}</p>
@@ -128,10 +135,11 @@ export async function POST(req: Request) {
         const { error: customerEmailError } = await resend.emails.send({
           from: "Cookie & Me <orders@cookieandme.nz>",
           to: customerEmail,
-          subject: "Your Cookie & Me order is confirmed!",
+          subject: `Your Cookie & Me order is confirmed! (Ref #${orderRef})`,
           html: `
             <h2>Thanks for your order, ${esc(meta.customerName)}! 🍪</h2>
             <p>We've received your payment and your order is confirmed.</p>
+            <p><strong>Order ref:</strong> #${orderRef}</p>
             <p><strong>Amount paid:</strong> $${((session.amount_total ?? 0) / 100).toFixed(2)} NZD</p>
             <p><strong>Collection:</strong> ${esc(collectionLabel)}</p>
             ${addressLine ? `<p><strong>Delivery address:</strong> ${esc(addressLine)}</p>` : ""}
@@ -187,7 +195,7 @@ export async function POST(req: Request) {
           await resend.emails.send({
             from: "Cookie & Me <orders@cookieandme.nz>",
             to: "cookieandme.nz@gmail.com",
-            subject: "Action needed: paid order did not reach the kitchen app",
+            subject: `Action needed: order #${orderRef} did not reach the kitchen app`,
             html: `
               <h2>Add this order to the kitchen app manually</h2>
               <p>The payment succeeded and the customer has been confirmed, but writing
