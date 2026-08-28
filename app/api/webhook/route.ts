@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import Stripe from "stripe";
 import { Resend } from "resend";
+import { recordOrderInKitchenApp } from "@/lib/kitchenApp";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-02-25.clover",
@@ -147,6 +148,60 @@ export async function POST(req: Request) {
         }
       } catch (err) {
         console.error("Failed to send customer confirmation email:", err);
+      }
+    }
+
+    // Push gift box orders into the kitchen app so they show up alongside everything
+    // else. Deliberately last: the emails have already gone out, so a problem here can
+    // never cost the customer their confirmation.
+    if (meta.orderType === "giftbox") {
+      try {
+        // "2 × 6 Pack, 1 × 12 Pack" -> [{ qty: 2, packSize: 6 }, { qty: 1, packSize: 12 }]
+        const packs = [...String(meta.items ?? "").matchAll(/(\d+)\s*×\s*(\d+)\s*Pack/g)].map(
+          (m) => ({ qty: Number(m[1]), packSize: Number(m[2]) })
+        );
+
+        const result = await recordOrderInKitchenApp({
+          stripeSessionId: session.id,
+          name: String(meta.customerName ?? ""),
+          email: String(customerEmail ?? ""),
+          phone: String(meta.customerPhone ?? ""),
+          address: addressLine ? String(addressLine) : null,
+          occasion: String(meta.occasion ?? ""),
+          items: String(meta.items ?? ""),
+          packs,
+          flavour: meta.flavour ? String(meta.flavour) : null,
+          deliveryMethod: String(meta.fulfillment ?? ""),
+          deliveryLabel: String(collectionLabel),
+          toCollectionPoint: isCollectionPoint,
+          shippingFee: Number(meta.shippingFee ?? 0),
+          amountPaid: (session.amount_total ?? 0) / 100,
+          cardMessage: printedNote || null,
+        });
+        console.log(`Kitchen app sync for ${session.id}: ${result}`);
+      } catch (err) {
+        // A paid order that never reaches the kitchen app would otherwise be invisible,
+        // so turn the failure into an email rather than only a server log.
+        console.error("Failed to record order in kitchen app:", err);
+        try {
+          await resend.emails.send({
+            from: "Cookie & Me <orders@cookieandme.nz>",
+            to: "cookieandme.nz@gmail.com",
+            subject: "Action needed: paid order did not reach the kitchen app",
+            html: `
+              <h2>Add this order to the kitchen app manually</h2>
+              <p>The payment succeeded and the customer has been confirmed, but writing
+              the order into the kitchen app failed, so it will not appear there.</p>
+              <p><strong>Customer:</strong> ${esc(meta.customerName)}</p>
+              <p><strong>Boxes:</strong> ${esc(meta.items)}</p>
+              <p><strong>Occasion:</strong> ${esc(meta.occasion)}</p>
+              <p><strong>Stripe session:</strong> ${esc(session.id)}</p>
+              <p><strong>Error:</strong> ${esc(err instanceof Error ? err.message : String(err))}</p>
+            `,
+          });
+        } catch (alertErr) {
+          console.error("Failed to send kitchen app failure alert:", alertErr);
+        }
       }
     }
   }
