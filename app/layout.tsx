@@ -28,13 +28,15 @@ export const metadata: Metadata = {
     siteName: "Cookie & Me",
     locale: "en_NZ",
     type: "website",
-    // Without this, sharing a link anywhere shows no picture.
+    // Without this, sharing a link anywhere shows no picture. Uses the same photo
+    // as the homepage hero, since it isn't tied to a specific occasion or product
+    // line the way a gift box photo would be.
     images: [
       {
-        url: "/images/fathers-day-gift-box-open-a.jpg",
-        width: 1152,
-        height: 2048,
-        alt: "A Cookie & Me gift box packed with hand-stamped cookies",
+        url: "/images/wedding-samuel-georgia-cookies-closeup-packaged.jpg",
+        width: 1440,
+        height: 1919,
+        alt: "Beautifully packaged custom cookies from Cookie & Me",
       },
     ],
   },
@@ -43,7 +45,7 @@ export const metadata: Metadata = {
     title: "Cookie & Me – Designed With Good Taste",
     description:
       "Custom-designed, handcrafted cookies from Lower Hutt, New Zealand.",
-    images: ["/images/fathers-day-gift-box-open-a.jpg"],
+    images: ["/images/wedding-samuel-georgia-cookies-closeup-packaged.jpg"],
   },
 };
 
