@@ -48,11 +48,66 @@ Live at **cookieandme.nz**, deployed from GitHub (`geordieATT/cookieandme`) to V
   browser.
 - Escape any customer-supplied text before putting it in an HTML email.
 
+## Gift box ordering — currently disabled, not deleted
+
+The Father's Day gift box flow was pulled off the live site on 2026-09-02 (no
+occasion to sell for right now) but **every file is still in the repo**,
+working and ready to relink. Nothing below this point was deleted — the
+`## Shipping` and `## Kitchen app sync` sections that follow still describe
+real, current code, just code that no page currently imports.
+
+**What "disabled" means in practice:** `app/gift-boxes/page.tsx` was deleted
+(so the route 404s) and every link to it was removed. `components/GiftBoxSection.tsx`,
+`lib/shipping.ts`, `lib/fathersDay.ts`, `components/FathersDayCountdown.tsx`,
+and the gift-box branches in `app/api/checkout/route.ts`, `app/api/webhook/route.ts`
+and `lib/kitchenApp.ts` are all untouched and still fully functional — they're
+just unreferenced by any page, so Next.js doesn't build a route for them.
+
+**To bring gift boxes back**, in order:
+
+1. Recreate `app/gift-boxes/page.tsx`:
+   ```tsx
+   import type { Metadata } from "next";
+   import GiftBoxSection from "@/components/GiftBoxSection";
+
+   export const metadata: Metadata = {
+     title: "Father's Day Gift Boxes",
+     description:
+       "Ready-made Father's Day gift boxes of hand-stamped cookies. Pick a 6 or 12 pack, add a printed note, and choose pickup, Hutt Valley delivery, or nationwide courier.",
+   };
+
+   export default function GiftBoxesPage() {
+     return (
+       <main className="page-top">
+         <GiftBoxSection />
+       </main>
+     );
+   }
+   ```
+2. Add `{ label: "Gift Boxes", href: "/gift-boxes" }` back into the `navLinks`
+   array in `components/Navbar.tsx` and `components/Footer.tsx`.
+3. In `components/HeroSection.tsx`, add a red `Shop Gift Boxes` button back
+   into the hero button row, pointing at `/gift-boxes`.
+4. In `app/page.tsx`, import `FathersDayCountdown` and render it right after
+   `<HeroSection />`.
+5. In `components/HomePaths.tsx`, add the gift box card back to the top of
+   the `paths` array. `.home-paths-grid` in `app/globals.css` auto-balances
+   for 2 or 3 cards, so no CSS change is needed either way.
+6. Add `{ path: "/gift-boxes", priority: 0.9, changeFrequency: "weekly" as const }`
+   back into `app/sitemap.ts`.
+
+**Before relinking for a *different* occasion** (Christmas, Mother's Day,
+etc.) rather than reactivating for another Father's Day: `GiftBoxSection.tsx`,
+its gallery images, and `lib/fathersDay.ts` are all Father's-Day-specific —
+copy, photos, the `occasion` value sent to Stripe/the kitchen app, and the
+cutoff-date math (first Sunday of September) all assume that occasion. Reusing
+the flow for a new occasion means updating those, not just relinking the page.
+
 ## Shipping (current behaviour)
 
 There are **two separate order flows with different shipping rules.**
 
-### 1. Gift boxes — `/gift-boxes`
+### 1. Gift boxes — `/gift-boxes` (currently disabled, see above)
 
 Ready-made boxes, paid through Stripe Checkout. NZ Post pricing is **flat
 nationwide**, not zone-based (confirmed with NZ Post directly), so there is no
@@ -141,6 +196,10 @@ Rates now live in one place:
 - `components/OrderSection.tsx` → the custom-order collection buttons
 
 ## Kitchen app sync
+
+Dormant while gift box ordering is disabled — with no page able to create a
+`orderType: giftbox` checkout session, this code path simply never fires. It
+needs no changes to work again the moment gift boxes is relinked.
 
 The kitchen app is a **separate codebase** (vanilla JS + Supabase, not in this
 repo) that Kersti and Geordie use day to day. It has its own Supabase project,

@@ -115,6 +115,20 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   gap: 24px;
 }
 
+/* Home page route cards. auto-fit + a capped card width means this centres and
+   balances correctly whether there are 2 cards (as now) or 3 (once gift boxes,
+   or something like it, is relinked) without touching this file again. */
+.home-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+  justify-content: center;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .home-paths-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
 .four-col {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

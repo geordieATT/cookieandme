@@ -3,16 +3,6 @@ import Link from "next/link";
 
 const paths = [
   {
-    href: "/gift-boxes",
-    src: "/images/fathers-day-gift-box-open-a.jpg",
-    alt: "Father's Day gift box packed with cookies",
-    eyebrow: "Ready to order",
-    title: "Gift Boxes",
-    copy:
-      "No design brief needed. Pick a 6 or 12 pack, add a printed note, and we will have it ready to gift.",
-    cta: "Shop gift boxes",
-  },
-  {
     href: "/what-we-do",
     src: "/images/qspace-branded-cookie-vanilla-black-background.jpg",
     alt: "Branded cookie stamped with a company logo",
@@ -52,7 +42,7 @@ export default function HomePaths() {
         </h2>
         <div style={{ width: 48, height: 3, backgroundColor: "#FB3D03", margin: "0 auto 40px" }} />
 
-        <div className="three-col">
+        <div className="home-paths-grid">
           {paths.map((path) => (
             <Link key={path.href} href={path.href} className="home-path">
               <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", backgroundColor: "#E0DFDD" }}>

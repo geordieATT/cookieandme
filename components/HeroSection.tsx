@@ -71,10 +71,7 @@ export default function HeroSection() {
             flexWrap: "wrap",
           }}
         >
-          <a href="/gift-boxes" className="btn-red hero-cta">
-            Shop Gift Boxes
-          </a>
-          <a href="/order" className="btn-outline-white hero-cta">
+          <a href="/order" className="btn-red hero-cta">
             Order Now
           </a>
           <a href="/gallery" className="btn-outline-white hero-cta">
