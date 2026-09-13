@@ -14,28 +14,37 @@ export default function HashScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const scrollToHash = () => {
-      const hash = window.location.hash.slice(1);
-      if (!hash) return;
-      // A short delay, not the same tick: the new route's content needs to have
-      // actually painted before the target id exists to scroll to.
-      const timer = setTimeout(() => {
-        // behavior: "instant" matters here, not just style: the site sets
-        // scroll-behavior: smooth globally, and letting that apply to this
-        // jump causes it to race with the browser's own smooth hash-scroll
-        // attempt and overshoot to the bottom of the page.
-        document.getElementById(hash)?.scrollIntoView({ block: "start", behavior: "instant" });
-      }, 60);
-      return () => clearTimeout(timer);
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    const jump = () => {
+      // behavior: "instant" matters here, not just style: the site sets
+      // scroll-behavior: smooth globally, and letting that apply to this
+      // jump causes it to race with the browser's own smooth hash-scroll
+      // attempt and overshoot the target.
+      document.getElementById(hash)?.scrollIntoView({ block: "start", behavior: "instant" });
     };
 
-    const cleanup = scrollToHash();
-    window.addEventListener("hashchange", scrollToHash);
-    return () => {
-      cleanup?.();
-      window.removeEventListener("hashchange", scrollToHash);
-    };
+    // Re-corrects a few times as the page settles: the web fonts are loaded via
+    // a <head> <link> (not next/font), so they swap in after first paint and
+    // reflow the text, which otherwise leaves the first jump's target stale and
+    // over/undershooting once the swap happens. document.fonts.ready fires the
+    // moment that swap actually completes, which is more reliable than any
+    // fixed delay guess.
+    const delays = [60, 150, 350, 600, 1000];
+    const timers = delays.map((delay) => setTimeout(jump, delay));
+    document.fonts?.ready.then(jump);
+    return () => timers.forEach(clearTimeout);
   }, [pathname]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      document.getElementById(hash)?.scrollIntoView({ block: "start", behavior: "instant" });
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   return null;
 }
