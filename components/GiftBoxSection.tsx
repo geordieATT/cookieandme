@@ -842,6 +842,18 @@ export default function GiftBoxSection() {
 
               {error && <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.5, color: "#FB3D03", fontWeight: 500, marginBottom: 12 }}>{error}</p>}
 
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, lineHeight: 1.6, color: "#888", textAlign: "center", marginBottom: 12 }}>
+                By placing this order, you agree to our{" "}
+                <a href="/terms#terms" style={{ color: "#0C0E58", fontWeight: 600, textDecoration: "underline" }}>
+                  Terms &amp; Conditions
+                </a>{" "}
+                and{" "}
+                <a href="/terms#privacy" style={{ color: "#0C0E58", fontWeight: 600, textDecoration: "underline" }}>
+                  Privacy Policy
+                </a>
+                .
+              </p>
+
               <button
                 onClick={handleSubmit}
                 disabled={loading || cart.length === 0 || comboUnpriced}

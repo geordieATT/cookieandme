@@ -121,6 +121,11 @@ export default function Footer() {
           style={{
             borderTop: "1px solid rgba(250, 250, 248, 0.1)",
             paddingTop: 24,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "8px 20px",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <p
@@ -128,11 +133,26 @@ export default function Footer() {
               fontFamily: "'Inter', sans-serif",
               fontSize: 13,
               color: "rgba(250, 250, 248, 0.3)",
+              margin: 0,
             }}
           >
             &copy; 2026 Cookie &amp; Me. Handcrafted in Lower Hutt, New
             Zealand.
           </p>
+          <div style={{ display: "flex", gap: 18 }}>
+            <Link
+              href="/terms#terms"
+              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(250, 250, 248, 0.5)" }}
+            >
+              Terms &amp; Conditions
+            </Link>
+            <Link
+              href="/terms#privacy"
+              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(250, 250, 248, 0.5)" }}
+            >
+              Privacy Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

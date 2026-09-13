@@ -1,7 +1,9 @@
-import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
+import AnalyticsGate from "@/components/AnalyticsGate";
+import HashScroll from "@/components/HashScroll";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -72,7 +74,9 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        <Analytics />
+        <CookieConsentBanner />
+        <AnalyticsGate />
+        <HashScroll />
       </body>
     </html>
   );
