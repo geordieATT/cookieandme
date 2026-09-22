@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 const routes = [
   { path: "", priority: 1, changeFrequency: "weekly" as const },
   { path: "/what-we-do", priority: 0.8, changeFrequency: "monthly" as const },
+  { path: "/end-of-year", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/gallery", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/order", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/our-story", priority: 0.5, changeFrequency: "yearly" as const },
