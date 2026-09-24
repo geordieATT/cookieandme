@@ -64,7 +64,7 @@ export default function CookieConsentBanner() {
             We use cookies 🍪
           </strong>{" "}
           <span style={{ color: "rgba(250, 250, 248, 0.8)" }}>
-            Just the website kind, to keep things running smoothly. See our{" "}
+            (the website kind) See our{" "}
             <a href="/terms#privacy" style={{ color: "#FAFAF8", textDecoration: "underline" }}>
               Privacy Policy
             </a>{" "}

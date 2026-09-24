@@ -84,57 +84,18 @@ export default function EndOfYearSection() {
               />
             </div>
           </div>
-
-          {/* What's included */}
-          <div>
-            <h2
-              style={{
-                fontFamily: "'Nunito', sans-serif",
-                fontWeight: 900,
-                fontSize: "clamp(22px, 3vw, 28px)",
-                color: "#0C0E58",
-                marginBottom: 20,
-              }}
-            >
-              What&rsquo;s Included
-            </h2>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {[
-                "Your logo on a festive cookie design.",
-                "Choice of flavours and icing colours.",
-                "Individually wrapped, gift boxed, and delivered free in the Wellington region.",
-              ].map((item) => (
-                <li
-                  key={item}
-                  style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    gap: 10,
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 15,
-                    color: "#333",
-                    lineHeight: 1.8,
-                    marginBottom: 10,
-                  }}
-                >
-                  <span style={{ color: "#FB3D03", fontWeight: 700 }}>—</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "80px 0", backgroundColor: "#0C0E58" }}>
+      <section style={{ padding: "80px 0", backgroundColor: "#F4F4F2" }}>
         <div className="section-container" style={{ textAlign: "center" }}>
           <h2
             style={{
               fontFamily: "'Nunito', sans-serif",
               fontWeight: 900,
               fontSize: "clamp(24px, 3vw, 34px)",
-              color: "#FAFAF8",
+              color: "#0C0E58",
               marginBottom: 28,
             }}
           >
@@ -148,7 +109,23 @@ export default function EndOfYearSection() {
               flexWrap: "wrap",
             }}
           >
-            <Link href="/contact" className="btn-outline-white hero-cta">
+            <Link
+              href="/contact"
+              className="hero-cta"
+              style={{
+                display: "inline-block",
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 600,
+                fontSize: 14,
+                letterSpacing: "0.03em",
+                color: "#0C0E58",
+                backgroundColor: "transparent",
+                padding: "12px 28px",
+                borderRadius: 2,
+                border: "1.5px solid rgba(12, 14, 88, 0.4)",
+                textAlign: "center",
+              }}
+            >
               Get in Touch
             </Link>
             <Link href="/order" className="btn-red hero-cta">
