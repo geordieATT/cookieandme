@@ -657,3 +657,14 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
 @media (prefers-reduced-motion: reduce) {
   .hero-video { display: none; }
 }
+
+/* End-of-Year pack size tiles: 4 across on desktop, 2x2 on smaller screens */
+.pack-sizes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1024px) {
+  .pack-sizes { grid-template-columns: repeat(2, 1fr); }
+}
