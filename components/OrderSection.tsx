@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useRef } from "react";
-
-function calcTotal(qty: number): number {
-  if (qty <= 50) return qty * 5.0;
-  return qty * 4.5;
-}
-
-function calcDeposit(qty: number, total: number): number {
-  return qty < 100 ? total : total * 0.5;
-}
+import {
+  PACKING_OPTIONS,
+  type PackingOption,
+  packingFee,
+  packingSummary,
+  calculateCustomOrderPrice,
+  christmasDiscountAvailable,
+  cookiePriceEach,
+} from "@/lib/customOrderPricing";
 
 function fmt(n: number): string {
   return "$" + n.toFixed(2).replace(/\.00$/, "");
@@ -32,6 +32,8 @@ export default function OrderSection() {
   const [logoName, setLogoName] = useState("");
   const [designBrief, setDesignBrief] = useState("");
   const [fulfillment, setFulfillment] = useState<"pickup" | "delivery">("pickup");
+  const [christmasTemplate, setChristmasTemplate] = useState(false);
+  const [packing, setPacking] = useState<PackingOption>("box24");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -40,10 +42,17 @@ export default function OrderSection() {
   const qty = typeof quantity === "number" ? quantity : 0;
   const overLimit = qty > 150;
   const validQty = qty >= 24 && !overLimit;
-  const priceEach = qty <= 50 ? "5.00" : "4.50";
-  const total = validQty ? calcTotal(qty) : 0;
-  const deposit = validQty ? calcDeposit(qty, total) : 0;
-  const isFullPayment = qty < 100;
+  // Client-side check, using the visitor's own clock, is just so the form can show
+  // whether the offer still looks active — the checkout API decides the real
+  // discount using its own clock, so this can't be spoofed into a lower charge.
+  const offerLooksActive = christmasDiscountAvailable();
+  const pricing = validQty
+    ? calculateCustomOrderPrice({ quantity: qty, christmasTemplate, packing })
+    : null;
+  const priceEach = (pricing ? pricing.priceEach : cookiePriceEach(qty || 24)).toFixed(2);
+  const total = pricing?.total ?? 0;
+  const deposit = pricing?.amountDueToday ?? 0;
+  const isFullPayment = pricing?.isFullPayment ?? qty < 100;
 
   const handleSubmit = async () => {
     setError("");
@@ -78,6 +87,8 @@ export default function OrderSection() {
           fulfillment,
           quantity: qty,
           priceEach,
+          christmasTemplate,
+          packing,
           flavour,
           cookieShape,
           colour,
@@ -415,6 +426,103 @@ export default function OrderSection() {
               />
             </div>
 
+            {/* Christmas template */}
+            <div>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={christmasTemplate}
+                  onChange={(e) => setChristmasTemplate(e.target.checked)}
+                  style={{ marginTop: 3, width: 16, height: 16, cursor: "pointer", flexShrink: 0 }}
+                />
+                <span>
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "'Inter', sans-serif",
+                      fontWeight: 600,
+                      fontSize: 14,
+                      color: "#0C0E58",
+                    }}
+                  >
+                    Use a Christmas template (10% off)
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: 12,
+                      color: "#888",
+                      marginTop: 2,
+                    }}
+                  >
+                    {offerLooksActive
+                      ? "Valid for orders confirmed before 1 November 2026."
+                      : "The 1 November 2026 discount window has closed, but Christmas templates are still available at standard pricing."}
+                  </span>
+                </span>
+              </label>
+            </div>
+
+            {/* Packing options */}
+            <div>
+              <label className="form-label">Packing</label>
+              <div className="four-col" style={{ gap: 12 }}>
+                {(Object.entries(PACKING_OPTIONS) as [PackingOption, (typeof PACKING_OPTIONS)[PackingOption]][]).map(
+                  ([value, opt]) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setPacking(value)}
+                      style={{
+                        border: packing === value ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                        borderRadius: 2,
+                        padding: "14px 8px",
+                        cursor: "pointer",
+                        backgroundColor: packing === value ? "#F4F5FB" : "#FAFAF8",
+                        textAlign: "center",
+                        fontFamily: "'Inter', sans-serif",
+                      }}
+                    >
+                      <div style={{ fontWeight: 600, fontSize: 14, color: "#0C0E58" }}>
+                        {opt.label}
+                      </div>
+                      {validQty && (
+                        <div style={{ fontWeight: 400, fontSize: 12, color: "#444", marginTop: 4 }}>
+                          {packingSummary(qty, value)}
+                        </div>
+                      )}
+                      <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>
+                        {opt.included
+                          ? "Included"
+                          : validQty
+                            ? `+${fmt(packingFee(qty, value))}`
+                            : "+$6 per 24 cookies"}
+                      </div>
+                    </button>
+                  )
+                )}
+              </div>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 12,
+                  color: "#888",
+                  marginTop: 8,
+                }}
+              >
+                If your number does not split evenly, we will pack the extra
+                cookies in the last box.
+              </p>
+            </div>
+
             {/* Over-limit notice */}
             {overLimit && (
               <div
@@ -453,7 +561,7 @@ export default function OrderSection() {
             )}
 
             {/* Pricing summary */}
-            {showSummary && (
+            {showSummary && pricing && (
               <div
                 style={{
                   backgroundColor: "#F4F5FB",
@@ -474,7 +582,59 @@ export default function OrderSection() {
                 >
                   <span>{qty} cookies @ ${priceEach} each</span>
                   <span style={{ fontWeight: 600, color: "#0C0E58" }}>
-                    {fmt(total)}
+                    {fmt(qty * pricing.priceEach)}
+                  </span>
+                </div>
+                {pricing.discountApplied && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: 14,
+                      color: "#0C7A3D",
+                    }}
+                  >
+                    <span>Christmas template discount (10%)</span>
+                    <span style={{ fontWeight: 600 }}>
+                      -{fmt(qty * pricing.priceEach - pricing.cookieSubtotal)}
+                    </span>
+                  </div>
+                )}
+                {pricing.packingFee > 0 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: 8,
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: 14,
+                      color: "#444",
+                    }}
+                  >
+                    <span>Packing ({packingSummary(qty, packing)})</span>
+                    <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                      +{fmt(pricing.packingFee)}
+                    </span>
+                  </div>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 14,
+                    color: "#444",
+                    borderTop: "1px solid #C8CCE0",
+                    paddingTop: 10,
+                    marginTop: 4,
+                    marginBottom: 8,
+                  }}
+                >
+                  <span>Order total</span>
+                  <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                    {fmt(pricing.total)}
                   </span>
                 </div>
                 <div
@@ -485,9 +645,6 @@ export default function OrderSection() {
                     fontSize: 14,
                     fontWeight: 600,
                     color: "#0C0E58",
-                    borderTop: "1px solid #C8CCE0",
-                    paddingTop: 10,
-                    marginTop: 4,
                   }}
                 >
                   <span>

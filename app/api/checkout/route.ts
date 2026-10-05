@@ -6,6 +6,11 @@ import {
   isDeliveryMethod,
   isNzPost,
 } from "@/lib/shipping";
+import {
+  isPackingOption,
+  packingSummary,
+  calculateCustomOrderPrice,
+} from "@/lib/customOrderPricing";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2026-02-25.clover",
@@ -20,7 +25,6 @@ export async function POST(req: NextRequest) {
       name,
       email,
       phone,
-      subtotal,
       description,
       fulfillment,
       items,
@@ -35,7 +39,8 @@ export async function POST(req: NextRequest) {
       addCard,
       cardMessage,
       quantity,
-      priceEach,
+      christmasTemplate,
+      packing,
       cookieShape,
       colour,
       logoUrl,
@@ -82,6 +87,16 @@ export async function POST(req: NextRequest) {
     let cartSixPacks = 0;
     let cartTwelvePacks = 0;
 
+    // Overridden below for custom orders with the server's own authoritative
+    // numbers; giftbox orders don't use these fields at all.
+    let finalDescription = String(description || "");
+    let finalPriceEach = "";
+    let christmasTemplateApplied = false;
+    let packingLabel = "";
+    let packingFeeAmount = 0;
+    let cookieSubtotalAmount = 0;
+    let orderTotalAmount = 0;
+
     if (orderType === "giftbox") {
       if (!Array.isArray(items) || items.length === 0) {
         return NextResponse.json({ error: "Your cart is empty." }, { status: 400 });
@@ -117,11 +132,45 @@ export async function POST(req: NextRequest) {
       itemsSummary = parts.join(", ");
       cartSixPacks = counts[6] ?? 0;
       cartTwelvePacks = counts[12] ?? 0;
-    } else {
-      subtotalNumber = Number(subtotal);
-      if (Number.isNaN(subtotalNumber) || subtotalNumber <= 0) {
-        return NextResponse.json({ error: "Subtotal must be a valid number greater than zero." }, { status: 400 });
+    } else if (orderType === "custom") {
+      // Custom cookie pricing is recomputed here rather than trusted from the
+      // browser, the same way gift box pricing is above — otherwise a crafted
+      // request could apply the Christmas discount after it closes, or skip
+      // the packing fee entirely.
+      const qty = Number(quantity);
+      if (!Number.isInteger(qty) || qty < 24 || qty > 150) {
+        return NextResponse.json({ error: "Quantity must be a whole number between 24 and 150 cookies." }, { status: 400 });
       }
+
+      // Falls back to the free boxes-of-24 option rather than trusting an
+      // unknown value — the safe, cheapest default, not one that could be
+      // used to dodge the packing fee some other way.
+      const packingChoice = isPackingOption(packing) ? packing : "box24";
+
+      // Uses the server's own clock, not anything the browser sends, to decide
+      // whether the Christmas discount window is still open.
+      const pricing = calculateCustomOrderPrice({
+        quantity: qty,
+        christmasTemplate: Boolean(christmasTemplate),
+        packing: packingChoice,
+      });
+
+      subtotalNumber = pricing.amountDueToday;
+      finalPriceEach = pricing.priceEach.toFixed(2);
+      christmasTemplateApplied = pricing.discountApplied;
+      packingLabel = packingSummary(qty, packingChoice);
+      packingFeeAmount = pricing.packingFee;
+      cookieSubtotalAmount = pricing.cookieSubtotal;
+      orderTotalAmount = pricing.total;
+
+      const paymentLabel = pricing.isFullPayment
+        ? `Full Payment: $${pricing.total.toFixed(2)} NZD`
+        : `50% Deposit: $${pricing.amountDueToday.toFixed(2)} NZD`;
+      finalDescription = `Cookie & Me – ${qty} Custom Cookies${
+        pricing.discountApplied ? " (Christmas template, 10% off)" : ""
+      } (${paymentLabel})`;
+    } else {
+      return NextResponse.json({ error: "Unknown order type." }, { status: 400 });
     }
 
     const subtotalCents = Math.round(subtotalNumber * 100);
@@ -195,7 +244,7 @@ export async function POST(req: NextRequest) {
             currency: "nzd",
             unit_amount: subtotalCents,
             product_data: {
-              name: description || "Cookie and Me Order",
+              name: finalDescription || "Cookie and Me Order",
               description: "Handcrafted cookies by Cookie and Me, Lower Hutt, NZ.",
             },
           },
@@ -211,7 +260,7 @@ export async function POST(req: NextRequest) {
         customerPhone: String(phone || ""),
         deliveryAddress: formattedAddress,
         subtotal: String(subtotalNumber),
-        description: String(description || ""),
+        description: finalDescription,
         items: itemsSummary,
         occasion: String(occasion || ""),
         shippingFee: String(serverShippingFee),
@@ -226,7 +275,12 @@ export async function POST(req: NextRequest) {
         addCard: String(wantsPrintedNote),
         cardMessage: printedNote,
         quantity: String(quantity || ""),
-        priceEach: String(priceEach || ""),
+        priceEach: finalPriceEach,
+        christmasTemplate: String(christmasTemplateApplied),
+        packing: packingLabel,
+        packingFee: packingFeeAmount.toFixed(2),
+        cookieSubtotal: cookieSubtotalAmount ? cookieSubtotalAmount.toFixed(2) : "",
+        orderTotal: orderTotalAmount ? orderTotalAmount.toFixed(2) : "",
         cookieShape: String(cookieShape || ""),
         colour: String(colour || ""),
         logoUrl: String(logoUrl || ""),

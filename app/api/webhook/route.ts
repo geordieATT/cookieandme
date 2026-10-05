@@ -82,6 +82,8 @@ export async function POST(req: Request) {
           <h3>Custom cookie details</h3>
           <p><strong>Quantity:</strong> ${esc(meta.quantity)}</p>
           <p><strong>Price each:</strong> ${esc(meta.priceEach)}</p>
+          <p><strong>Christmas template:</strong> ${meta.christmasTemplate === "true" ? "Yes (10% off applied)" : "No"}</p>
+          <p><strong>Packing:</strong> ${esc(meta.packing)}${Number(meta.packingFee) > 0 ? ` (+$${esc(meta.packingFee)})` : " (included)"}</p>
           <p><strong>Cookie shape:</strong> ${esc(meta.cookieShape)}</p>
           <p><strong>Colour:</strong> ${esc(meta.colour)}</p>
           <p><strong>Logo URL:</strong> ${esc(meta.logoUrl)}</p>
