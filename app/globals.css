@@ -658,13 +658,38 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   .hero-video { display: none; }
 }
 
-/* End-of-Year pack size tiles: 4 across on desktop, 2x2 on smaller screens */
-.pack-sizes {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+/* End-of-Year packing section: photo matches the text column's height on
+   desktop, sizes sit on one line under the copy */
+.pack-section { align-items: stretch; }
+
+.pack-photo {
+  position: relative;
+  min-height: 320px;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
-@media (max-width: 1024px) {
-  .pack-sizes { grid-template-columns: repeat(2, 1fr); }
+.pack-sizes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
+.pack-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0C0E58;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .pack-photo { min-height: 0; aspect-ratio: 4 / 3; }
+  .pack-sizes { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; }
 }

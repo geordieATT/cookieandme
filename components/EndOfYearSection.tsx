@@ -47,11 +47,25 @@ const ways = [
 ];
 
 const packSizes = [
-  { count: "24", unit: "per box", note: "Included" },
-  { count: "12", unit: "per box", note: "Small fee" },
-  { count: "6", unit: "per box", note: "Small fee" },
-  { count: "2", unit: "per pack", note: "Small fee" },
-];
+  { label: "Boxes of 24", icon: "box" },
+  { label: "Boxes of 12", icon: "box" },
+  { label: "Boxes of 6", icon: "box" },
+  { label: "Packs of 2", icon: "bag" },
+] as const;
+
+function PackIcon({ type }: { type: "box" | "bag" }) {
+  return type === "box" ? (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FB3D03" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="8" width="18" height="13" rx="1" />
+      <path d="M2 8h20M12 8v13M12 8c-1.5-3-5-4-5-1.5S10 8 12 8zM12 8c1.5-3 5-4 5-1.5S14 8 12 8z" />
+    </svg>
+  ) : (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FB3D03" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 6h14l-1 15H6L5 6z" />
+      <path d="M5 6l2-3h10l2 3M9 10h6" />
+    </svg>
+  );
+}
 
 export default function EndOfYearSection() {
   return (
@@ -177,16 +191,8 @@ export default function EndOfYearSection() {
       {/* Packing options */}
       <section style={{ padding: "96px 0" }}>
         <div className="section-container">
-          <div className="two-col">
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                aspectRatio: "2000 / 1559",
-                borderRadius: 2,
-                overflow: "hidden",
-              }}
-            >
+          <div className="two-col pack-section">
+            <div className="pack-photo">
               <Image
                 src="/images/christmas-pack-sizes-red-cloth-holly.jpg"
                 alt="Christmas gift boxes in three sizes and a pack of 2 with red ribbon, on red cloth with holly"
@@ -207,54 +213,14 @@ export default function EndOfYearSection() {
                 for handing out to staff or sending to clients.
               </p>
 
-              <div className="pack-sizes">
+              <ul className="pack-sizes">
                 {packSizes.map((size) => (
-                  <div
-                    key={size.count}
-                    style={{
-                      border: "1.5px solid #E4E3E0",
-                      borderRadius: 2,
-                      padding: "16px 12px",
-                      textAlign: "center",
-                      backgroundColor: "#FFFFFF",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: "'Nunito', sans-serif",
-                        fontWeight: 900,
-                        fontSize: 32,
-                        lineHeight: 1,
-                        color: "#0C0E58",
-                      }}
-                    >
-                      {size.count}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: 13,
-                        color: "#555",
-                        margin: "6px 0 8px",
-                      }}
-                    >
-                      cookies {size.unit}
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase",
-                        color: size.note === "Included" ? "#1E7A46" : "#888",
-                      }}
-                    >
-                      {size.note}
-                    </div>
-                  </div>
+                  <li key={size.label} className="pack-size">
+                    <PackIcon type={size.icon} />
+                    <span>{size.label}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
               <p
                 style={{
