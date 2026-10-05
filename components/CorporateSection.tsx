@@ -117,8 +117,8 @@ export default function CorporateSection() {
 
           <div className="corporate-image">
             <Image
-              src="/images/timedock-branded-cookies-production-bench.jpg"
-              alt="TimeDock branded cookies on production bench"
+              src="/images/csl-long-service-dinner-branded-cookie-place-setting.jpg"
+              alt="CSL branded cookie at a Long Service Dinner place setting"
               fill
               style={{ objectFit: "cover" }}
               sizes="(max-width: 768px) 100vw, 50vw"
