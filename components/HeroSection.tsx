@@ -20,6 +20,25 @@ export default function HeroSection() {
         style={{ objectFit: "cover", objectPosition: "center 40%" }}
         sizes="100vw"
       />
+      {/* Plays over the photo once it has frames; the photo stays as the
+          fallback while loading, when autoplay is blocked, or for reduced motion. */}
+      <video
+        className="hero-video"
+        src="/videos/home-hero.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+      />
       <div
         style={{
           position: "absolute",

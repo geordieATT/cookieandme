@@ -652,3 +652,8 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
 @media (max-width: 480px) {
   .cookie-banner-btn { flex: 1 1 auto; }
 }
+
+/* Home hero background video: fall back to the still photo for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video { display: none; }
+}
