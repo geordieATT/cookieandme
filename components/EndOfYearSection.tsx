@@ -135,10 +135,28 @@ export default function EndOfYearSection() {
               }}
             >
               Your cookies come packed in gift boxes of 24 as standard. For a
-              small fee of $6 per 24 cookies, we can split your order into
-              boxes of 12 or 6, or packs of 2. Great for handing out to staff
-              or sending to clients.
+              small fee, we can split your order into boxes of 12 or 6, or
+              packs of 2. Great for handing out to staff or sending to
+              clients.
             </p>
+
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: 640,
+                aspectRatio: "1152 / 774",
+                margin: "0 auto 28px",
+              }}
+            >
+              <Image
+                src="/images/christmas-pack-sizes-boxes-and-bag.png"
+                alt="Christmas gift boxes in three sizes and a pack of 2, tied with red ribbon"
+                fill
+                style={{ objectFit: "contain" }}
+                sizes="(max-width: 700px) 100vw, 640px"
+              />
+            </div>
 
             <div className="four-col" style={{ marginBottom: 28 }}>
               {[
@@ -180,9 +198,7 @@ export default function EndOfYearSection() {
               }}
             >
               For example, an order of 48 cookies can come as 2 boxes of 24, 4
-              boxes of 12, 8 boxes of 6, or 24 packs of 2. Using a Christmas
-              template confirmed before November 1st, 48 cookies is $216, or
-              $228 split into smaller boxes or packs.
+              boxes of 12, 8 boxes of 6, or 24 packs of 2.
             </p>
           </div>
         </div>

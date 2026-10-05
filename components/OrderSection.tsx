@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import {
   PACKING_OPTIONS,
   type PackingOption,
-  packingFee,
   packingSummary,
   calculateCustomOrderPrice,
   christmasDiscountAvailable,
@@ -500,11 +499,7 @@ export default function OrderSection() {
                         </div>
                       )}
                       <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>
-                        {opt.included
-                          ? "Included"
-                          : validQty
-                            ? `+${fmt(packingFee(qty, value))}`
-                            : "+$6 per 24 cookies"}
+                        {opt.included ? "Included" : "Small fee"}
                       </div>
                     </button>
                   )
