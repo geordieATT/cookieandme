@@ -145,15 +145,15 @@ export default function EndOfYearSection() {
                 position: "relative",
                 width: "100%",
                 maxWidth: 640,
-                aspectRatio: "1152 / 774",
+                aspectRatio: "2000 / 1559",
                 margin: "0 auto 28px",
               }}
             >
               <Image
-                src="/images/christmas-pack-sizes-boxes-and-bag.png"
-                alt="Christmas gift boxes in three sizes and a pack of 2, tied with red ribbon"
+                src="/images/christmas-pack-sizes-red-cloth-holly.jpg"
+                alt="Christmas gift boxes in three sizes and a pack of 2 with red ribbon, on red cloth with holly"
                 fill
-                style={{ objectFit: "contain" }}
+                style={{ objectFit: "cover", borderRadius: 2 }}
                 sizes="(max-width: 700px) 100vw, 640px"
               />
             </div>
