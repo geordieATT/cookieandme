@@ -24,7 +24,7 @@ export default function HeroSection() {
           fallback while loading, when autoplay is blocked, or for reduced motion. */}
       <video
         className="hero-video"
-        src="/videos/home-hero.mp4"
+        src="/videos/home-hero-2.mp4"
         autoPlay
         loop
         muted
