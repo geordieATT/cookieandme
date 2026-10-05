@@ -4,6 +4,8 @@ interface GalleryImage {
   src: string;
   alt: string;
   itemClass?: string;
+  /** Where to anchor the 4:3 crop, for portrait or off-centre shots. */
+  position?: string;
 }
 
 const images: GalleryImage[] = [
@@ -43,6 +45,20 @@ const images: GalleryImage[] = [
     src: "/images/devopsdays-wellington-branded-cookie-black-background.jpg",
     alt: "DevOpsDays Wellington branded cookie on black background",
   },
+  {
+    src: "/images/rocket-lab-3-years-branded-cookies.jpg",
+    alt: "Rocket Lab \"3 years at WCC\" cookies in black, red, and white",
+  },
+  {
+    src: "/images/baby-shower-gift-box-flamingo-pram-cookies.jpg",
+    alt: "Baby shower gift box with flamingo, pram, and moon cookies",
+    position: "center 60%",
+  },
+  {
+    src: "/images/gem-homestay-branded-teal-cookies.jpg",
+    alt: "Teal GEM Homestay Apartment logo cookies with a fantail",
+    position: "center 40%",
+  },
 ];
 
 export default function GallerySection() {
@@ -74,7 +90,7 @@ export default function GallerySection() {
                   src={img.src}
                   alt={img.alt}
                   fill
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "cover", objectPosition: img.position }}
                   sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
