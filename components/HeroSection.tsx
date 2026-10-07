@@ -93,6 +93,9 @@ export default function HeroSection() {
           <a href="/order" className="btn-red hero-cta">
             Order Now
           </a>
+          <a href="/end-of-year" className="btn-white hero-cta">
+            Christmas Orders
+          </a>
           <a href="/gallery" className="btn-outline-white hero-cta">
             See Our Work
           </a>

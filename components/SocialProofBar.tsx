@@ -1,5 +1,5 @@
 const stats = [
-  "3,000+ Cookies Baked So Far",
+  "4,000+ Cookies Baked So Far",
   "Based in Lower Hutt, NZ",
 ];
 
