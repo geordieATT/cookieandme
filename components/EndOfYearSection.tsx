@@ -194,7 +194,7 @@ export default function EndOfYearSection() {
           <div className="two-col pack-section">
             <div className="pack-photo">
               <Image
-                src="/images/christmas-pack-sizes-red-cloth-holly.jpg"
+                src="/images/christmas-pack-sizes-red-cloth-holly-v2.jpg"
                 alt="Christmas gift boxes in three sizes and a pack of 2 with red ribbon, on red cloth with holly"
                 fill
                 style={{ objectFit: "cover" }}
@@ -208,9 +208,8 @@ export default function EndOfYearSection() {
                 Split Into Smaller Gift Boxes
               </h2>
               <p style={{ ...body, marginBottom: 28 }}>
-                Your cookies come in gift boxes of 24 as standard. For a small
-                fee, we can split your order into smaller boxes or packs, great
-                for handing out to staff or sending to clients.
+                For a small fee, we can split your order into smaller boxes or
+                packs, great for handing out to staff or sending to clients.
               </p>
 
               <ul className="pack-sizes">
@@ -221,18 +220,6 @@ export default function EndOfYearSection() {
                   </li>
                 ))}
               </ul>
-
-              <p
-                style={{
-                  ...body,
-                  fontSize: 14,
-                  color: "#666",
-                  marginTop: 20,
-                }}
-              >
-                For example, 48 cookies can come as 2 boxes of 24, 4 boxes of
-                12, 8 boxes of 6, or 24 packs of 2.
-              </p>
             </div>
           </div>
         </div>
