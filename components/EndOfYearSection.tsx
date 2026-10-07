@@ -127,7 +127,7 @@ export default function EndOfYearSection() {
               </div>
             </div>
 
-            <div className="corporate-image">
+            <div className="eoy-photo eoy-photo-portrait">
               <Image
                 src="/images/christmas-templates.jpg"
                 alt="Red, green and white Christmas cookies stamped with a Your Logo design"
@@ -191,8 +191,8 @@ export default function EndOfYearSection() {
       {/* Packing options */}
       <section style={{ padding: "96px 0" }}>
         <div className="section-container">
-          <div className="two-col pack-section">
-            <div className="pack-photo">
+          <div className="two-col">
+            <div className="eoy-photo eoy-photo-square">
               <Image
                 src="/images/christmas-pack-sizes-red-cloth-holly-v2.jpg"
                 alt="Christmas gift boxes in three sizes and a pack of 2 with red ribbon, on red cloth with holly"

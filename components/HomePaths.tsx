@@ -3,6 +3,16 @@ import Link from "next/link";
 
 const paths = [
   {
+    href: "/end-of-year",
+    src: "/images/christmas-templates.jpg",
+    alt: "Red, green and white Christmas cookies stamped with a Your Logo design",
+    eyebrow: "Christmas 2026",
+    title: "Christmas & End-of-Year",
+    copy:
+      "Christmas templates with your logo, 10% off before 1 November. Perfect for staff parties, client gifts and awards nights.",
+    cta: "See Christmas options",
+  },
+  {
     href: "/what-we-do",
     src: "/images/qspace-branded-cookie-vanilla-black-background.jpg",
     alt: "Branded cookie stamped with a company logo",

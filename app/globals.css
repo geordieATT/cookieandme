@@ -658,16 +658,17 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   .hero-video { display: none; }
 }
 
-/* End-of-Year packing section: photo matches the text column's height on
-   desktop, sizes sit on one line under the copy */
-.pack-section { align-items: stretch; }
-
-.pack-photo {
+/* End-of-Year photos: shown at their real proportions (no cropping) with
+   the text column centred beside them */
+.eoy-photo {
   position: relative;
-  min-height: 320px;
+  width: 100%;
   border-radius: 2px;
   overflow: hidden;
+  justify-self: center;
 }
+.eoy-photo-portrait { aspect-ratio: 1536 / 2048; max-width: 400px; }
+.eoy-photo-square { aspect-ratio: 1312 / 1199; max-width: 480px; }
 
 .pack-sizes {
   list-style: none;
@@ -690,6 +691,5 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
 }
 
 @media (max-width: 768px) {
-  .pack-photo { min-height: 0; aspect-ratio: 4 / 3; }
   .pack-sizes { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; }
 }
