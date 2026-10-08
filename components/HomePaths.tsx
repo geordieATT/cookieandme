@@ -4,8 +4,8 @@ import Link from "next/link";
 const paths = [
   {
     href: "/end-of-year",
-    src: "/images/christmas-templates.jpg",
-    alt: "Red, green and white Christmas cookies stamped with a Your Logo design",
+    src: "/images/christmas-templates-meri-kirihimete.jpg",
+    alt: "Red, green and white Christmas template cookies stamped with Your Logo, Meri Kirihimete and Merry Christmas designs",
     eyebrow: "Christmas 2026",
     title: "Christmas & End-of-Year",
     copy:

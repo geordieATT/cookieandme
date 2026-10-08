@@ -129,8 +129,8 @@ export default function EndOfYearSection() {
 
             <div className="eoy-photo eoy-photo-portrait">
               <Image
-                src="/images/christmas-templates.jpg"
-                alt="Red, green and white Christmas cookies stamped with a Your Logo design"
+                src="/images/christmas-templates-meri-kirihimete.jpg"
+                alt="Red, green and white Christmas template cookies stamped with Your Logo, Meri Kirihimete and Merry Christmas designs"
                 fill
                 priority
                 style={{ objectFit: "cover" }}

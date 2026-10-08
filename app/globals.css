@@ -684,7 +684,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   overflow: hidden;
   justify-self: center;
 }
-.eoy-photo-portrait { aspect-ratio: 1536 / 2048; max-width: 400px; }
+.eoy-photo-portrait { aspect-ratio: 3 / 4; max-width: 400px; }
 .eoy-photo-square { aspect-ratio: 1312 / 1199; max-width: 480px; }
 
 .pack-sizes {
