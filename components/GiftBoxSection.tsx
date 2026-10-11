@@ -506,7 +506,7 @@ export default function GiftBoxSection() {
               </div>
 
               {/* Contact details */}
-              <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>
+              <h3 style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>
                 Your details
               </h3>
               <p style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--text-subtle)", marginBottom: 12 }}>
@@ -682,7 +682,7 @@ export default function GiftBoxSection() {
               {/* Delivery address */}
               {needsAddress && (
                 <div style={{ marginBottom: 26 }}>
-                  <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: 16, color: "var(--ink)", marginBottom: 12 }}>
+                  <h3 style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 16, color: "var(--ink)", marginBottom: 12 }}>
                     {toCollectionPoint ? "Collection point address" : "Delivery address"}
                   </h3>
 
@@ -829,7 +829,7 @@ export default function GiftBoxSection() {
                 ))}
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", borderTop: "1px solid var(--line)", paddingTop: 10 }}>
                   <span>Total</span>
-                  <span style={{ fontSize: 20, fontFamily: "var(--font-serif)", fontWeight: 500 }}>
+                  <span style={{ fontSize: 20, fontFamily: "var(--font-heading)", fontWeight: 900 }}>
                     {comboUnpriced ? `${fmt(subtotal)} + courier` : fmt(total)}
                   </span>
                 </div>

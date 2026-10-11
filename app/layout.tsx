@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Inter, Nunito } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
@@ -10,13 +10,11 @@ import "./globals.css";
 
 // Fonts are self-hosted by Next.js at build time, so there is no request to
 // Google and no late swap after the page appears. Each exposes a CSS variable
-// that globals.css uses (--font-serif for headings, --font-sans for the rest).
-// Fraunces is a variable font: "opsz" lets it adjust its shapes to the size it
-// is drawn at, and SOFT/WONK are switched off in globals.css.
-const fraunces = Fraunces({
+// that globals.css uses (--font-heading for Nunito headings, --font-sans for
+// Inter body text).
+const nunito = Nunito({
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
-  variable: "--font-serif",
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -69,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-NZ" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en-NZ" className={`${nunito.variable} ${inter.variable}`}>
       <body>
         <Navbar />
         {children}

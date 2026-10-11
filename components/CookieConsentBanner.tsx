@@ -60,7 +60,7 @@ export default function CookieConsentBanner() {
             color: "var(--on-dark)",
           }}
         >
-          <strong style={{ fontFamily: "var(--font-serif)", fontWeight: 500 }}>
+          <strong style={{ fontFamily: "var(--font-heading)", fontWeight: 900 }}>
             We use cookies
           </strong>{" "}
           <span style={{ color: "var(--on-dark-muted)" }}>

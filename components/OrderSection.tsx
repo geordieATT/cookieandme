@@ -647,8 +647,8 @@ export default function OrderSection() {
                   <span
                     style={{
                       fontSize: 20,
-                      fontFamily: "var(--font-serif)",
-                      fontWeight: 500,
+                      fontFamily: "var(--font-heading)",
+                      fontWeight: 900,
                     }}
                   >
                     {fmt(deposit)}

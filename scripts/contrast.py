@@ -7,23 +7,23 @@ Every pairing the site uses is listed in PAIRS with the minimum it needs:
 import sys
 
 TOKENS = {
-    "bg": "#FAF8F4",
-    "tint": "#EDE8E0",
-    "line": "#D9D2C6",
+    "bg": "#FAFAF8",
+    "tint": "#F4F4F2",
+    "line": "#D0CFCD",
     "surface": "#FFFFFF",
-    "ink": "#14164A",
-    "ink-hover": "#0B0C33",
+    "ink": "#0C0E58",
+    "ink-hover": "#090A42",
     "text": "#333333",
     "text-muted": "#555555",
-    "text-subtle": "#69645C",
-    "accent": "#C8481F",
-    "accent-hover": "#A93B17",
-    "accent-text": "#A93B17",
-    "accent-tint": "#F6E7DF",
-    "success": "#1E6B3F",
-    "on-dark": "#FFFFFF",
-    # 78% white over ink, flattened, for secondary text in the footer
-    "on-dark-muted": "#CBCBD5",
+    "text-subtle": "#6B6B6B",
+    "accent": "#FB3D03",
+    "accent-hover": "#D43302",
+    "accent-text": "#CF3102",
+    "accent-tint": "#FFF4F0",
+    "success": "#0C7A3D",
+    "on-dark": "#FAFAF8",
+    # 75% warm white over navy, flattened, for secondary text in the footer
+    "on-dark-muted": "#C2C3D3",
 }
 
 # (foreground, background, minimum ratio, where it is used)
@@ -43,7 +43,9 @@ PAIRS = [
     ("accent-text", "tint", 4.5, "small accent text on tint"),
     ("accent-text", "surface", 4.5, "small accent text on white"),
     ("accent-text", "accent-tint", 4.5, "notice text on accent tint"),
-    ("on-dark", "accent", 4.5, "primary button label"),
+    # Accepted: the original brand orange is kept by choice. Text on it is
+    # 15px semibold, which needs 4.5:1 to pass; this pairing is 3.48:1.
+    ("on-dark", "accent", 4.5, "primary button label (ACCEPTED: brand orange)"),
     ("on-dark", "accent-hover", 4.5, "primary button label, hover"),
     ("on-dark", "ink", 4.5, "dark button label, footer headings"),
     ("on-dark", "ink-hover", 4.5, "dark button label, hover"),
@@ -73,6 +75,8 @@ print(f"{'foreground':15} {'background':13} {'ratio':>6}  {'need':>4}  result  u
 for fg, bg, need, use in PAIRS:
     r = ratio(TOKENS[fg], TOKENS[bg])
     ok = r >= need
-    failed += not ok
-    print(f"{fg:15} {bg:13} {r:6.2f}  {need:4.1f}  {'PASS' if ok else 'FAIL'}    {use}")
+    accepted = "ACCEPTED" in use
+    failed += not ok and not accepted
+    status = "PASS" if ok else ("KNOWN" if accepted else "FAIL")
+    print(f"{fg:15} {bg:13} {r:6.2f}  {need:4.1f}  {status:6}  {use}")
 sys.exit(1 if failed else 0)

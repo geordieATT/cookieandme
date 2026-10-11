@@ -156,8 +156,8 @@ export default function ContactSection() {
               >
                 <p
                   style={{
-                    fontFamily: "var(--font-serif)",
-                    fontWeight: 500,
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 900,
                     fontSize: 20,
                     color: "var(--ink)",
                     marginBottom: 8,

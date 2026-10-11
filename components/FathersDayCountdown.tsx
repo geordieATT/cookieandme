@@ -57,8 +57,8 @@ export default function FathersDayCountdown() {
           <div className="countdown-copy">
             <p
               style={{
-                fontFamily: "var(--font-serif)",
-                fontWeight: 500,
+                fontFamily: "var(--font-heading)",
+                fontWeight: 900,
                 fontSize: "clamp(17px, 2.4vw, 22px)",
                 color: "var(--on-dark)",
                 margin: 0,

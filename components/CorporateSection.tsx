@@ -204,8 +204,8 @@ export default function CorporateSection() {
                 {tier.inquiry ? (
                   <p
                     style={{
-                      fontFamily: "var(--font-serif)",
-                      fontWeight: 500,
+                      fontFamily: "var(--font-heading)",
+                      fontWeight: 900,
                       fontSize: 20,
                       color: "var(--ink)",
                       marginBottom: 4,
@@ -226,8 +226,8 @@ export default function CorporateSection() {
                   >
                     <span
                       style={{
-                        fontFamily: "var(--font-serif)",
-                        fontWeight: 500,
+                        fontFamily: "var(--font-heading)",
+                        fontWeight: 900,
                         fontSize: 32,
                         color: "var(--ink)",
                       }}

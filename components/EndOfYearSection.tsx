@@ -136,8 +136,8 @@ export default function EndOfYearSection() {
                 <span style={cardNote}>{way.eyebrow}</span>
                 <h3
                   style={{
-                    fontFamily: "var(--font-serif)",
-                    fontWeight: 500,
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 900,
                     fontSize: 22,
                     color: "var(--ink)",
                     margin: "8px 0 10px",

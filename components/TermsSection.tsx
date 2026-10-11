@@ -1,6 +1,6 @@
 const h2Style = {
-  fontFamily: "var(--font-serif)",
-  fontWeight: 500,
+  fontFamily: "var(--font-heading)",
+  fontWeight: 900,
   fontSize: "clamp(22px, 3vw, 30px)",
   color: "var(--ink)",
   marginBottom: 16,
@@ -11,8 +11,8 @@ const h2Style = {
 } as const;
 
 const h3Style = {
-  fontFamily: "var(--font-serif)",
-  fontWeight: 500,
+  fontFamily: "var(--font-heading)",
+  fontWeight: 900,
   fontSize: 17,
   color: "var(--ink)",
   margin: "24px 0 8px",

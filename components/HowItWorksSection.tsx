@@ -62,8 +62,8 @@ export default function HowItWorksSection() {
               >
                 <span
                   style={{
-                    fontFamily: "var(--font-serif)",
-                    fontWeight: 500,
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 900,
                     fontSize: 15,
                     color: "var(--ink)",
                   }}
@@ -73,8 +73,8 @@ export default function HowItWorksSection() {
               </div>
               <h3
                 style={{
-                  fontFamily: "var(--font-serif)",
-                  fontWeight: 500,
+                  fontFamily: "var(--font-heading)",
+                  fontWeight: 900,
                   fontSize: 17,
                   color: "var(--ink)",
                   marginBottom: 10,
