@@ -6,7 +6,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/our-story",
   title: "Our Story",
   description:
-    "Cookie & Me is a mother-and-son business in Lower Hutt. Every stamp is designed in CAD and 3D printed in food-safe filament.",
+    "Cookie & Me is a mother-and-son business in Lower Hutt. We custom design and make every stamp in house, so logos and fine details come out sharp.",
 });
 
 export default function OurStoryPage() {

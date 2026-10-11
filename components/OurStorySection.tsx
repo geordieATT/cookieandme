@@ -27,9 +27,9 @@ export default function OurStorySection() {
               skills, and connections that will carry us into future ventures.
             </p>
             <p style={{ marginBottom: 20 }}>
-              What sets us apart is the design work. Every stamp is created from
-              scratch using CAD software and 3D-printed on a dedicated printer
-              using FDA-approved food-safe filament. That&apos;s what lets us
+              What sets us apart is the design work. We custom design and make
+              every stamp in house, using CAD software to replicate logos and
+              fine details as thin as a business card. That&apos;s what lets us
               produce real logos, custom text, and detailed artwork, rather than
               relying on letter blocks and hand-iced icons like most bakeries.
             </p>
