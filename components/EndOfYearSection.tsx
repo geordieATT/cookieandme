@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { christmasDiscountAvailable } from "@/lib/customOrderPricing";
 
-const eyebrow: React.CSSProperties = {
+// Small line above each "How you can order" card title.
+const cardNote: React.CSSProperties = {
   fontFamily: "var(--font-sans)",
-  fontSize: 12,
-  fontWeight: 700,
-  letterSpacing: "0.1em",
-  textTransform: "uppercase",
+  fontSize: 14,
+  fontWeight: 500,
   color: "var(--accent-text)",
 };
 
@@ -22,9 +22,9 @@ const sectionHeading: React.CSSProperties = {
   marginBottom: 16,
 };
 
-const ways = [
+const ways = (discountOpen: boolean) => [
   {
-    eyebrow: "10% off until 30 October",
+    eyebrow: discountOpen ? "10% off until 30 October" : "Ready-made designs",
     title: "Christmas templates",
     copy:
       "Pick one of our ready-made Christmas designs and we add your logo. The quickest way to get festive cookies sorted for the whole team.",
@@ -65,6 +65,9 @@ function PackIcon({ type }: { type: "box" | "bag" }) {
 }
 
 export default function EndOfYearSection() {
+  // Same cutoff checkout uses; the page regenerates hourly (see page.tsx), so
+  // the 10% wording disappears on its own once the discount window closes.
+  const discountOpen = christmasDiscountAvailable();
   return (
     <>
       {/* Intro */}
@@ -72,13 +75,7 @@ export default function EndOfYearSection() {
         <div className="section-container">
           <div className="two-col">
             <div>
-              <span style={eyebrow}>Christmas 2026</span>
-              <h1
-                style={{
-                  color: "var(--ink)",
-                  margin: "10px 0 20px",
-                }}
-              >
+              <h1 style={{ marginBottom: 20 }}>
                 Christmas and end-of-year events
               </h1>
               <p style={{ ...body, marginBottom: 16, maxWidth: 520 }}>
@@ -87,18 +84,19 @@ export default function EndOfYearSection() {
                 bookings now so we can fit everyone in.
               </p>
 
-              <p style={{ ...body, marginBottom: 32, maxWidth: 520 }}>
-                Choose one of our Christmas templates and confirm your order by
-                30 October to get{" "}
-                <strong style={{ color: "var(--accent-text)" }}>10% off</strong>.
-              </p>
-
-              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+              {discountOpen && (
+                <p style={{ ...body, marginBottom: 16, maxWidth: 520 }}>
+                  Choose one of our Christmas templates and confirm your order
+                  by 30 October to get{" "}
+                  <strong style={{ color: "var(--accent-text)" }}>10% off</strong>.
+                </p>
+              )}
+              <div className="hero-actions" style={{ marginTop: 32 }}>
                 <Link href="/order" className="btn-red hero-cta">
-                  Place an Order
+                  Place an order
                 </Link>
-                <Link href="/contact" className="btn-navy hero-cta">
-                  Get in Touch
+                <Link href="/contact" className="text-link">
+                  Get in touch
                 </Link>
               </div>
             </div>
@@ -125,7 +123,7 @@ export default function EndOfYearSection() {
           </h2>
 
           <div className="three-col">
-            {ways.map((way) => (
+            {ways(discountOpen).map((way) => (
               <div
                 key={way.title}
                 style={{
@@ -135,7 +133,7 @@ export default function EndOfYearSection() {
                   padding: "28px 26px 30px",
                 }}
               >
-                <span style={{ ...eyebrow, fontSize: 11 }}>{way.eyebrow}</span>
+                <span style={cardNote}>{way.eyebrow}</span>
                 <h3
                   style={{
                     fontFamily: "var(--font-serif)",
@@ -171,8 +169,7 @@ export default function EndOfYearSection() {
             </div>
 
             <div>
-              <span style={eyebrow}>Packing options</span>
-              <h2 style={{ ...sectionHeading, margin: "10px 0 16px" }}>
+              <h2 style={{ ...sectionHeading, marginBottom: 16 }}>
                 Split into smaller gift boxes
               </h2>
               <p style={{ ...body, marginBottom: 28 }}>
@@ -215,19 +212,12 @@ export default function EndOfYearSection() {
             Get your order in early and we will make sure your cookies are
             ready in time.
           </p>
-          <div
-            style={{
-              display: "flex",
-              gap: 14,
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
+          <div className="hero-actions" style={{ justifyContent: "center" }}>
             <Link href="/order" className="btn-red hero-cta">
-              Place an Order
+              Place an order
             </Link>
-            <Link href="/contact" className="btn-navy hero-cta">
-              Get in Touch
+            <Link href="/contact" className="text-link">
+              Get in touch
             </Link>
           </div>
         </div>

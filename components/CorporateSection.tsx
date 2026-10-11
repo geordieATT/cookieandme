@@ -1,24 +1,31 @@
 import Image from "next/image";
+import { cookiePriceEach } from "@/lib/customOrderPricing";
+
+// Prices come from the same file the order form and checkout charge from, so
+// this table can't drift from what customers actually pay. The quantity
+// bands in the labels (24, 50, 150) mirror the rules in that file, the order
+// form and the checkout API; update the labels here if those change.
+const price = (quantity: number) => `$${cookiePriceEach(quantity).toFixed(2)}`;
 
 const pricingTiers = [
   {
-    label: "24–50 Cookies",
-    price: "$5.00",
+    label: "24–50 cookies",
+    price: price(24),
     perUnit: "per cookie",
     note: "",
     highlight: false,
     inquiry: false,
   },
   {
-    label: "51–150 Cookies",
-    price: "$4.50",
+    label: "51–150 cookies",
+    price: price(51),
     perUnit: "per cookie",
     note: "",
     highlight: true,
     inquiry: false,
   },
   {
-    label: "150+ Cookies",
+    label: "150+ cookies",
     price: null,
     perUnit: null,
     note: "Contact us for a custom quote",
@@ -60,11 +67,10 @@ export default function CorporateSection() {
               <h1
                 style={{
                   color: "var(--ink)",
-                  marginBottom: 14,
-                  maxWidth: 400,
+                  marginBottom: 20,
                 }}
               >
-                Make your Occasion Unforgettable
+                Cookies stamped with your design or logo
               </h1>
               <p
                 style={{
@@ -97,18 +103,13 @@ export default function CorporateSection() {
                   fontSize: 17,
                   color: "var(--text)",
                   lineHeight: 1.65,
-                  marginBottom: 32,
+                  marginBottom: 0,
                 }}
               >
                 Businesses use them as client gifts, to celebrate a milestone, or
                 as something memorable to hand out at expos and events. Whatever
                 the occasion, we would love to help.
               </p>
-              <div>
-                <a href="/order" className="btn-navy">
-                  Order Now
-                </a>
-              </div>
             </div>
           </div>
 
@@ -130,9 +131,10 @@ export default function CorporateSection() {
               key={img.src}
               style={{
                 position: "relative",
-                aspectRatio: "4/3",
+                aspectRatio: "1 / 1",
                 overflow: "hidden",
                 borderRadius: 2,
+                backgroundColor: "var(--tint)",
               }}
             >
               <Image
@@ -140,7 +142,7 @@ export default function CorporateSection() {
                 alt={img.alt}
                 fill
                 style={{ objectFit: "cover" }}
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes="(max-width: 768px) 100vw, 384px"
               />
             </div>
           ))}
@@ -182,7 +184,7 @@ export default function CorporateSection() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    Most Popular
+                    Most popular
                   </div>
                 )}
                 <p
@@ -272,6 +274,12 @@ export default function CorporateSection() {
           >
             Orders under 100 cookies require full payment upfront. Orders of 100 or more require a 50% deposit. Free pickup or delivery in the Hutt Valley. Nationwide courier is available on request, just ask when you order.
           </p>
+        </div>
+
+        <div>
+          <a href="/order" className="btn-navy">
+            Order now
+          </a>
         </div>
 
       </div>

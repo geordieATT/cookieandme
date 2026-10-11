@@ -1,132 +1,74 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import {
+  GALLERY_CATEGORIES,
+  GALLERY_PHOTOS,
+  type GalleryCategory,
+} from "@/lib/gallery";
 
-interface GalleryImage {
-  src: string;
-  alt: string;
-  itemClass?: string;
-  /** Where to anchor the 4:3 crop, for portrait or off-centre shots. */
-  position?: string;
-}
+// Only offer filters for categories that actually have photos, so nobody
+// clicks into an empty grid.
+const usedCategories = GALLERY_CATEGORIES.filter((c) =>
+  GALLERY_PHOTOS.some((p) => p.category === c)
+);
 
-const images: GalleryImage[] = [
-  {
-    src: "/images/dinosaur-trio-cookies-black-background.jpg",
-    alt: "Three dinosaur cookies on black background",
-  },
-  {
-    src: "/images/60th-birthday-russell-gift-box-gold-ribbon.jpg",
-    alt: "60th birthday cookies in gift box with gold ribbon",
-  },
-  {
-    src: "/images/csl-long-service-dinner-branded-cookie-place-setting.jpg",
-    alt: "CSL branded cookie at a Long Service Dinner place setting",
-  },
-  {
-    src: "/images/steves-70th-on-bench.jpg",
-    alt: "Steve's 70th birthday cookies on bench",
-  },
-  {
-    src: "/images/60th-birthday-russell-cookies-tray-overhead.jpg",
-    alt: "60th birthday cookies on tray overhead view",
-  },
-  {
-    src: "/images/mothers-day-cookies-outdoor-candle-blue-pink.jpg",
-    alt: "Mother's Day cookies with candle outdoors",
-  },
-  {
-    src: "/images/matariki-cookies-tray-pink-blue-yellow.jpg",
-    alt: "Matariki collection cookies in pink, blue, and yellow on a tray",
-  },
-  {
-    src: "/images/guide-dog-day-orange-cookies-cooling-rack.jpg",
-    alt: "Guide Dog Day orange cookies on cooling rack",
-  },
-  {
-    src: "/images/devopsdays-wellington-branded-cookie-black-background.jpg",
-    alt: "DevOpsDays Wellington branded cookie on black background",
-  },
-  {
-    src: "/images/rocket-lab-3-years-branded-cookies.jpg",
-    alt: "Rocket Lab \"3 years at WCC\" cookies in black, red, and white",
-  },
-  {
-    src: "/images/baby-shower-gift-box-flamingo-pram-cookies.jpg",
-    alt: "Baby shower gift box with flamingo, pram, and moon cookies",
-    position: "center 60%",
-  },
-  {
-    src: "/images/gem-homestay-branded-teal-cookies.jpg",
-    alt: "Teal GEM Homestay Apartment logo cookies with a fantail",
-    position: "center 40%",
-  },
-];
+// Images in the first screen load straight away instead of waiting.
+const EAGER_COUNT = 6;
 
 export default function GallerySection() {
+  const [filter, setFilter] = useState<GalleryCategory | "All">("All");
+  const photos =
+    filter === "All"
+      ? GALLERY_PHOTOS
+      : GALLERY_PHOTOS.filter((p) => p.category === filter);
+
   return (
-    <section
-      id="gallery"
-      style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}
-    >
+    <section id="gallery" style={{ padding: "72px 0 96px" }}>
       <div className="section-container">
-        <h1
-          style={{
-            color: "var(--ink)",
-            marginBottom: 16,
-            textAlign: "center",
-          }}
-        >
-          A Little Taste of What We Do
-        </h1>
+        <h1 style={{ marginBottom: 20 }}>Recent work</h1>
+
+        <div className="gallery-filters" role="group" aria-label="Filter photos">
+          {(["All", ...usedCategories] as const).map((c) => (
+            <button
+              key={c}
+              type="button"
+              className="gallery-filter"
+              aria-pressed={filter === c}
+              onClick={() => setFilter(c)}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
 
         <div className="gallery-grid">
-          {images.map((img) => (
-            <div key={img.src} className={`gallery-item${img.itemClass ? ` ${img.itemClass}` : ""}`}>
-              <div style={{ position: "relative", paddingBottom: "75%" }}>
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  style={{ objectFit: "cover", objectPosition: img.position }}
-                  sizes="(max-width: 480px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              </div>
+          {photos.map((img, i) => (
+            <div key={img.src} className="gallery-item">
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                priority={filter === "All" && i < EAGER_COUNT}
+                style={{ objectFit: "cover", objectPosition: img.position }}
+                sizes="(max-width: 1024px) 50vw, 384px"
+              />
             </div>
           ))}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 40 }}>
-          <p
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: 17,
-              lineHeight: 1.6,
-              color: "var(--text-muted)",
-              maxWidth: 420,
-              margin: "0 auto 16px",
-            }}
-          >
-            There&apos;s plenty more where these came from. Check out our Instagram
-            for the full collection.
+        <div style={{ marginTop: 40 }}>
+          <p style={{ color: "var(--text-muted)", marginBottom: 4 }}>
+            There&apos;s plenty more where these came from.
           </p>
           <a
             href="https://instagram.com/cookieandme_nz"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-red"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              fontSize: 15,
-              padding: "14px 28px",
-            }}
+            className="text-link"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
-            See More on Instagram
+            See more on Instagram
           </a>
         </div>
       </div>
