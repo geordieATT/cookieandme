@@ -22,7 +22,7 @@ export default function HeroSection() {
     <section className="hero">
       <div className="hero-text">
         <h1 style={{ marginBottom: 20 }}>
-          Custom stamped cookies, made in Lower Hutt
+          Designed with good taste
         </h1>
         <p
           style={{
@@ -32,8 +32,8 @@ export default function HeroSection() {
             maxWidth: "46ch",
           }}
         >
-          Your logo or artwork pressed into every cookie, by a mother and son.
-          For weddings, birthdays, events and businesses.
+          Cookies stamped with your logo, name or artwork. Made by a mother and
+          son in Lower Hutt.
         </p>
         <div className="hero-actions">
           <Link href="/gallery" className="btn-red hero-cta">
