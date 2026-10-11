@@ -23,18 +23,18 @@ function CopyButton({ text, display }: { text: string; display: string }) {
         border: "none",
         padding: 0,
         cursor: "pointer",
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "var(--font-sans)",
         fontSize: 15,
         fontWeight: 500,
-        color: copied ? "#0C0E58" : "#0C0E58",
+        color: copied ? "var(--ink)" : "var(--ink)",
         textAlign: "left",
         display: "flex",
         alignItems: "center",
         gap: 8,
         transition: "color 0.15s",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "#FB3D03")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "#0C0E58")}
+      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--ink)")}
     >
       {copied ? "Copied!" : display}
     </button>
@@ -94,10 +94,10 @@ export default function ContactSection() {
           <div>
             <h1
               style={{
-                fontFamily: "'Nunito', sans-serif",
+                fontFamily: "var(--font-serif)",
                 fontWeight: 900,
                 fontSize: "clamp(26px, 3.5vw, 38px)",
-                color: "#0C0E58",
+                color: "var(--ink)",
                 marginBottom: 16,
               }}
             >
@@ -105,9 +105,9 @@ export default function ContactSection() {
             </h1>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 15,
-                color: "#555",
+                color: "var(--text-muted)",
                 lineHeight: 1.75,
                 marginBottom: 40,
               }}
@@ -128,17 +128,17 @@ export default function ContactSection() {
                 target="_blank"
                 rel="noreferrer"
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
                   fontWeight: 500,
-                  color: "#0C0E58",
+                  color: "var(--ink)",
                   transition: "color 0.15s",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "#FB3D03")
+                  (e.currentTarget.style.color = "var(--accent)")
                 }
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "#0C0E58")
+                  (e.currentTarget.style.color = "var(--ink)")
                 }
               >
                 @cookieandme_nz on Instagram
@@ -153,16 +153,16 @@ export default function ContactSection() {
                 style={{
                   padding: "48px 32px",
                   textAlign: "center",
-                  border: "1.5px solid #E0DFDD",
+                  border: "1.5px solid var(--line)",
                   borderRadius: 2,
                 }}
               >
                 <p
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "var(--font-serif)",
                     fontWeight: 800,
                     fontSize: 20,
-                    color: "#0C0E58",
+                    color: "var(--ink)",
                     marginBottom: 8,
                   }}
                 >
@@ -170,9 +170,9 @@ export default function ContactSection() {
                 </p>
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 14,
-                    color: "#666",
+                    color: "var(--text-muted)",
                   }}
                 >
                   We will be in touch soon.
@@ -226,9 +226,9 @@ export default function ContactSection() {
                 {error && (
                   <p
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 14,
-                      color: "#FB3D03",
+                      color: "var(--accent-text)",
                     }}
                   >
                     {error}

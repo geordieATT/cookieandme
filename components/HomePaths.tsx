@@ -40,22 +40,22 @@ export default function HomePaths() {
       <div className="section-container">
         <h2
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#0C0E58",
+            color: "var(--ink)",
             marginBottom: 16,
             textAlign: "center",
           }}
         >
           How Can We Help?
         </h2>
-        <div style={{ width: 48, height: 3, backgroundColor: "#FB3D03", margin: "0 auto 40px" }} />
+        <div style={{ width: 48, height: 3, backgroundColor: "var(--accent)", margin: "0 auto 40px" }} />
 
         <div className="home-paths-grid">
           {paths.map((path) => (
             <Link key={path.href} href={path.href} className="home-path">
-              <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", backgroundColor: "#E0DFDD" }}>
+              <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", backgroundColor: "var(--line)" }}>
                 <Image
                   src={path.src}
                   alt={path.alt}
@@ -67,22 +67,22 @@ export default function HomePaths() {
               <div style={{ padding: "20px 22px 24px" }}>
                 <span
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    color: "#FB3D03",
+                    color: "var(--accent-text)",
                   }}
                 >
                   {path.eyebrow}
                 </span>
                 <h3
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "var(--font-serif)",
                     fontWeight: 900,
                     fontSize: 21,
-                    color: "#0C0E58",
+                    color: "var(--ink)",
                     margin: "6px 0 8px",
                   }}
                 >
@@ -90,10 +90,10 @@ export default function HomePaths() {
                 </h3>
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 14,
                     lineHeight: 1.65,
-                    color: "#555",
+                    color: "var(--text-muted)",
                     marginBottom: 14,
                   }}
                 >

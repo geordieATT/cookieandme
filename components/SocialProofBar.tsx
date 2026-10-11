@@ -7,8 +7,8 @@ export default function SocialProofBar() {
   return (
     <div
       style={{
-        backgroundColor: "#F4F4F2",
-        borderBottom: "1px solid #E0DFDD",
+        backgroundColor: "var(--tint)",
+        borderBottom: "1px solid var(--line)",
         padding: "0 24px",
       }}
     >
@@ -29,16 +29,16 @@ export default function SocialProofBar() {
               alignItems: "center",
               padding: "18px 48px",
               borderRight:
-                i < stats.length - 1 ? "1px solid #6A3EA2" : "none",
+                i < stats.length - 1 ? "1px solid var(--accent)" : "none",
               textAlign: "center",
             }}
           >
             <span
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontWeight: 600,
                 fontSize: 14,
-                color: "#0C0E58",
+                color: "var(--ink)",
                 whiteSpace: "nowrap",
               }}
             >

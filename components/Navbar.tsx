@@ -32,9 +32,9 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        backgroundColor: "#FAFAF8",
-        borderBottom: "1px solid #E0DFDD",
-        boxShadow: scrolled ? "0 2px 12px rgba(12,14,88,0.08)" : "none",
+        backgroundColor: "var(--bg)",
+        borderBottom: "1px solid var(--line)",
+        boxShadow: scrolled ? "0 2px 12px rgba(20,22,74,0.08)" : "none",
         transition: "box-shadow 0.3s ease",
       }}
     >
@@ -76,17 +76,17 @@ export default function Navbar() {
                 href={link.href}
                 aria-current={active ? "page" : undefined}
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 14,
                   fontWeight: active ? 600 : 500,
-                  color: active ? "#FB3D03" : "#0C0E58",
+                  color: active ? "var(--accent-text)" : "var(--ink)",
                   letterSpacing: "0.015em",
                   transition: "color 0.15s",
-                  borderBottom: active ? "2px solid #FB3D03" : "2px solid transparent",
+                  borderBottom: active ? "2px solid var(--accent)" : "2px solid transparent",
                   paddingBottom: 2,
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#FB3D03")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = active ? "#FB3D03" : "#0C0E58")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = active ? "var(--accent)" : "var(--ink)")}
               >
                 {link.label}
               </Link>
@@ -114,7 +114,7 @@ export default function Navbar() {
               display: "block",
               width: 22,
               height: 2,
-              backgroundColor: "#0C0E58",
+              backgroundColor: "var(--ink)",
               transition: "transform 0.2s, opacity 0.2s",
               transformOrigin: "center",
               transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none",
@@ -125,7 +125,7 @@ export default function Navbar() {
               display: "block",
               width: 22,
               height: 2,
-              backgroundColor: "#0C0E58",
+              backgroundColor: "var(--ink)",
               transition: "opacity 0.2s",
               opacity: menuOpen ? 0 : 1,
             }}
@@ -135,7 +135,7 @@ export default function Navbar() {
               display: "block",
               width: 22,
               height: 2,
-              backgroundColor: "#0C0E58",
+              backgroundColor: "var(--ink)",
               transition: "transform 0.2s, opacity 0.2s",
               transformOrigin: "center",
               transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none",
@@ -148,8 +148,8 @@ export default function Navbar() {
       {menuOpen && (
         <div
           style={{
-            backgroundColor: "#FAFAF8",
-            borderTop: "1px solid #E0DFDD",
+            backgroundColor: "var(--bg)",
+            borderTop: "1px solid var(--line)",
             padding: "4px 0 16px",
           }}
         >
@@ -164,11 +164,11 @@ export default function Navbar() {
                 style={{
                   display: "block",
                   padding: "14px 24px",
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
                   fontWeight: active ? 600 : 500,
-                  color: active ? "#FB3D03" : "#0C0E58",
-                  borderBottom: "1px solid #F4F4F2",
+                  color: active ? "var(--accent-text)" : "var(--ink)",
+                  borderBottom: "1px solid var(--tint)",
                 }}
               >
                 {link.label}

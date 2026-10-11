@@ -1,8 +1,8 @@
 const h2Style = {
-  fontFamily: "'Nunito', sans-serif",
+  fontFamily: "var(--font-serif)",
   fontWeight: 900,
   fontSize: "clamp(22px, 3vw, 30px)",
-  color: "#0C0E58",
+  color: "var(--ink)",
   marginBottom: 16,
   paddingTop: 24,
   // So jumping to #terms or #privacy doesn't leave the heading hidden under the
@@ -11,26 +11,26 @@ const h2Style = {
 } as const;
 
 const h3Style = {
-  fontFamily: "'Nunito', sans-serif",
+  fontFamily: "var(--font-serif)",
   fontWeight: 800,
   fontSize: 17,
-  color: "#0C0E58",
+  color: "var(--ink)",
   margin: "24px 0 8px",
 } as const;
 
 const pStyle = {
-  fontFamily: "'Inter', sans-serif",
+  fontFamily: "var(--font-sans)",
   fontSize: 15,
   lineHeight: 1.75,
-  color: "#444",
+  color: "var(--text-muted)",
   marginBottom: 14,
 } as const;
 
 const liStyle = {
-  fontFamily: "'Inter', sans-serif",
+  fontFamily: "var(--font-sans)",
   fontSize: 15,
   lineHeight: 1.75,
-  color: "#444",
+  color: "var(--text-muted)",
   marginBottom: 8,
 } as const;
 
@@ -40,7 +40,7 @@ const subClauseStyle = {
   marginLeft: 20,
 } as const;
 
-const linkStyle = { color: "#0C0E58", fontWeight: 600 } as const;
+const linkStyle = { color: "var(--ink)", fontWeight: 600 } as const;
 
 export default function TermsSection() {
   return (
@@ -48,30 +48,30 @@ export default function TermsSection() {
       <div className="section-container" style={{ maxWidth: 760, margin: "0 auto" }}>
         <span
           style={{
-            color: "#FB3D03",
+            color: "var(--accent-text)",
             fontWeight: 700,
             fontSize: 13,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
             display: "block",
             marginBottom: 10,
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-sans)",
           }}
         >
           Legal
         </span>
         <h1
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#0C0E58",
+            color: "var(--ink)",
             marginBottom: 16,
           }}
         >
           Terms and Conditions and Privacy Policy
         </h1>
-        <p style={{ ...pStyle, color: "#888", fontSize: 13, marginBottom: 32 }}>
+        <p style={{ ...pStyle, color: "var(--text-subtle)", fontSize: 13, marginBottom: 32 }}>
           Last updated 13 September 2026.
         </p>
 

@@ -29,14 +29,14 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section style={{ padding: "96px 0", backgroundColor: "#F4F4F2" }}>
+    <section style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}>
       <div className="section-container">
         <h2
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#0C0E58",
+            color: "var(--ink)",
             marginBottom: 48,
             textAlign: "center",
           }}
@@ -78,7 +78,7 @@ export default function FAQSection() {
                   >
                     <path
                       d="M3 6L8 11L13 6"
-                      stroke="#6A3EA2"
+                      stroke="var(--accent)"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"

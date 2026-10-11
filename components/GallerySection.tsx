@@ -65,22 +65,22 @@ export default function GallerySection() {
   return (
     <section
       id="gallery"
-      style={{ padding: "96px 0", backgroundColor: "#F4F4F2" }}
+      style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}
     >
       <div className="section-container">
         <h1
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#0C0E58",
+            color: "var(--ink)",
             marginBottom: 16,
             textAlign: "center",
           }}
         >
           A Little Taste of What We Do
         </h1>
-        <div style={{ width: 48, height: 3, backgroundColor: "#FB3D03", margin: "0 auto 32px" }} />
+        <div style={{ width: 48, height: 3, backgroundColor: "var(--accent)", margin: "0 auto 32px" }} />
 
         <div className="gallery-grid">
           {images.map((img) => (
@@ -101,10 +101,10 @@ export default function GallerySection() {
         <div style={{ textAlign: "center", marginTop: 40 }}>
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-sans)",
               fontSize: 15,
               lineHeight: 1.6,
-              color: "#666",
+              color: "var(--text-muted)",
               maxWidth: 420,
               margin: "0 auto 16px",
             }}

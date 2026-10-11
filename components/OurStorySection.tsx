@@ -4,7 +4,7 @@ export default function OurStorySection() {
   return (
     <section
       id="about"
-      style={{ padding: "96px 0", backgroundColor: "#F4F4F2" }}
+      style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}
     >
       <div className="section-container">
         <div className="two-col">
@@ -19,12 +19,12 @@ export default function OurStorySection() {
           >
             <h1
               style={{
-                fontFamily: "'Nunito', sans-serif",
+                fontFamily: "var(--font-serif)",
                 fontWeight: 900,
                 fontSize: "clamp(26px, 3.5vw, 38px)",
-                color: "#0C0E58",
+                color: "var(--ink)",
                 marginBottom: 24,
-                borderLeft: "4px solid #6A3EA2",
+                borderLeft: "4px solid var(--accent)",
                 paddingLeft: 14,
               }}
             >
@@ -32,9 +32,9 @@ export default function OurStorySection() {
             </h1>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 15,
-                color: "#333",
+                color: "var(--text)",
                 lineHeight: 1.8,
                 marginBottom: 20,
               }}
@@ -46,9 +46,9 @@ export default function OurStorySection() {
             </p>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 15,
-                color: "#333",
+                color: "var(--text)",
                 lineHeight: 1.8,
               }}
             >

@@ -24,7 +24,7 @@ const steps = [
   },
 ];
 
-const stepColors = ["#FB3D03", "#6A3EA2", "#FB3D03", "#6A3EA2"];
+const stepColors = ["var(--accent)", "var(--accent)", "var(--accent)", "var(--accent)"];
 
 export default function HowItWorksSection() {
   return (
@@ -32,10 +32,10 @@ export default function HowItWorksSection() {
       <div className="section-container">
         <h2
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: "clamp(26px, 3.5vw, 38px)",
-            color: "#0C0E58",
+            color: "var(--ink)",
             marginBottom: 56,
             textAlign: "center",
           }}
@@ -66,10 +66,10 @@ export default function HowItWorksSection() {
               >
                 <span
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "var(--font-serif)",
                     fontWeight: 900,
                     fontSize: 13,
-                    color: "#FAFAF8",
+                    color: "var(--on-dark)",
                     letterSpacing: "0.05em",
                   }}
                 >
@@ -78,10 +78,10 @@ export default function HowItWorksSection() {
               </div>
               <h3
                 style={{
-                  fontFamily: "'Nunito', sans-serif",
+                  fontFamily: "var(--font-serif)",
                   fontWeight: 800,
                   fontSize: 17,
-                  color: "#0C0E58",
+                  color: "var(--ink)",
                   marginBottom: 10,
                 }}
               >
@@ -89,9 +89,9 @@ export default function HowItWorksSection() {
               </h3>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 14,
-                  color: "#555",
+                  color: "var(--text-muted)",
                   lineHeight: 1.7,
                 }}
               >

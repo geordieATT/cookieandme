@@ -46,10 +46,10 @@ export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: "#0C0E58",
-        color: "#FAFAF8",
+        backgroundColor: "var(--ink)",
+        color: "var(--on-dark)",
         padding: "60px 0 32px",
-        borderTop: "4px solid #FB3D03",
+        borderTop: "4px solid var(--accent)",
       }}
     >
       <div className="section-container">
@@ -74,9 +74,9 @@ export default function Footer() {
             </Link>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 13,
-                color: "rgba(250, 250, 248, 0.5)",
+                color: "var(--on-dark-muted)",
                 lineHeight: 1.7,
                 maxWidth: 220,
               }}
@@ -120,7 +120,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div
           style={{
-            borderTop: "1px solid rgba(250, 250, 248, 0.1)",
+            borderTop: "1px solid var(--on-dark-line)",
             paddingTop: 24,
             display: "flex",
             flexWrap: "wrap",
@@ -131,9 +131,9 @@ export default function Footer() {
         >
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-sans)",
               fontSize: 13,
-              color: "rgba(250, 250, 248, 0.3)",
+              color: "var(--on-dark-muted)",
               margin: 0,
             }}
           >
@@ -143,13 +143,13 @@ export default function Footer() {
           <div style={{ display: "flex", gap: 18 }}>
             <Link
               href="/terms#terms"
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(250, 250, 248, 0.5)" }}
+              style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--on-dark-wash)" }}
             >
               Terms &amp; Conditions
             </Link>
             <Link
               href="/terms#privacy"
-              style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(250, 250, 248, 0.5)" }}
+              style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--on-dark-wash)" }}
             >
               Privacy Policy
             </Link>

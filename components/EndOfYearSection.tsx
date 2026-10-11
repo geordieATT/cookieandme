@@ -2,26 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: "'Inter', sans-serif",
+  fontFamily: "var(--font-sans)",
   fontSize: 12,
   fontWeight: 700,
   letterSpacing: "0.1em",
   textTransform: "uppercase",
-  color: "#FB3D03",
+  color: "var(--accent-text)",
 };
 
 const body: React.CSSProperties = {
-  fontFamily: "'Inter', sans-serif",
+  fontFamily: "var(--font-sans)",
   fontSize: 16,
-  color: "#333",
+  color: "var(--text)",
   lineHeight: 1.75,
 };
 
 const sectionHeading: React.CSSProperties = {
-  fontFamily: "'Nunito', sans-serif",
+  fontFamily: "var(--font-serif)",
   fontWeight: 900,
   fontSize: "clamp(26px, 3.5vw, 36px)",
-  color: "#0C0E58",
+  color: "var(--ink)",
   marginBottom: 16,
 };
 
@@ -55,12 +55,12 @@ const packSizes = [
 
 function PackIcon({ type }: { type: "box" | "bag" }) {
   return type === "box" ? (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FB3D03" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="3" y="8" width="18" height="13" rx="1" />
       <path d="M2 8h20M12 8v13M12 8c-1.5-3-5-4-5-1.5S10 8 12 8zM12 8c1.5-3 5-4 5-1.5S14 8 12 8z" />
     </svg>
   ) : (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FB3D03" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M5 6h14l-1 15H6L5 6z" />
       <path d="M5 6l2-3h10l2 3M9 10h6" />
     </svg>
@@ -78,11 +78,11 @@ export default function EndOfYearSection() {
               <span style={eyebrow}>Christmas 2026</span>
               <h1
                 style={{
-                  fontFamily: "'Nunito', sans-serif",
+                  fontFamily: "var(--font-serif)",
                   fontWeight: 900,
                   fontSize: "clamp(32px, 4.5vw, 48px)",
                   lineHeight: 1.1,
-                  color: "#0C0E58",
+                  color: "var(--ink)",
                   margin: "10px 0 20px",
                 }}
               >
@@ -97,7 +97,7 @@ export default function EndOfYearSection() {
               <p style={{ ...body, marginBottom: 32, maxWidth: 520 }}>
                 Choose one of our Christmas templates and confirm your order by
                 30 October to get{" "}
-                <strong style={{ color: "#FB3D03" }}>10% off</strong>.
+                <strong style={{ color: "var(--accent-text)" }}>10% off</strong>.
               </p>
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -125,7 +125,7 @@ export default function EndOfYearSection() {
       </section>
 
       {/* Ways to order */}
-      <section style={{ padding: "96px 0", backgroundColor: "#F4F4F2" }}>
+      <section style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}>
         <div className="section-container">
           <h2 style={{ ...sectionHeading, textAlign: "center" }}>
             How You Can Order
@@ -134,7 +134,7 @@ export default function EndOfYearSection() {
             style={{
               width: 48,
               height: 3,
-              backgroundColor: "#FB3D03",
+              backgroundColor: "var(--accent)",
               margin: "0 auto 40px",
             }}
           />
@@ -144,8 +144,8 @@ export default function EndOfYearSection() {
               <div
                 key={way.title}
                 style={{
-                  backgroundColor: "#FAFAF8",
-                  border: "1px solid #E4E3E0",
+                  backgroundColor: "var(--bg)",
+                  border: "1px solid var(--line)",
                   borderRadius: 2,
                   padding: "28px 26px 30px",
                 }}
@@ -153,16 +153,16 @@ export default function EndOfYearSection() {
                 <span style={{ ...eyebrow, fontSize: 11 }}>{way.eyebrow}</span>
                 <h3
                   style={{
-                    fontFamily: "'Nunito', sans-serif",
+                    fontFamily: "var(--font-serif)",
                     fontWeight: 900,
                     fontSize: 22,
-                    color: "#0C0E58",
+                    color: "var(--ink)",
                     margin: "8px 0 10px",
                   }}
                 >
                   {way.title}
                 </h3>
-                <p style={{ ...body, fontSize: 15, color: "#555", margin: 0 }}>
+                <p style={{ ...body, fontSize: 15, color: "var(--text-muted)", margin: 0 }}>
                   {way.copy}
                 </p>
               </div>
@@ -209,14 +209,14 @@ export default function EndOfYearSection() {
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "80px 0", backgroundColor: "#F4F4F2" }}>
+      <section style={{ padding: "80px 0", backgroundColor: "var(--tint)" }}>
         <div className="section-container" style={{ textAlign: "center" }}>
           <h2
             style={{
-              fontFamily: "'Nunito', sans-serif",
+              fontFamily: "var(--font-serif)",
               fontWeight: 900,
               fontSize: "clamp(24px, 3vw, 34px)",
-              color: "#0C0E58",
+              color: "var(--ink)",
               marginBottom: 12,
             }}
           >
@@ -225,7 +225,7 @@ export default function EndOfYearSection() {
           <p
             style={{
               ...body,
-              color: "#555",
+              color: "var(--text-muted)",
               maxWidth: 480,
               margin: "0 auto 28px",
             }}

@@ -50,17 +50,17 @@ export default function FathersDayCountdown() {
   return (
     <section
       aria-label="Time left to order for Father's Day"
-      style={{ backgroundColor: "#0C0E58", padding: "22px 0" }}
+      style={{ backgroundColor: "var(--ink)", padding: "22px 0" }}
     >
       <div className="section-container">
         <div className="countdown-inner">
           <div className="countdown-copy">
             <p
               style={{
-                fontFamily: "'Nunito', sans-serif",
+                fontFamily: "var(--font-serif)",
                 fontWeight: 900,
                 fontSize: "clamp(17px, 2.4vw, 22px)",
-                color: "#FAFAF8",
+                color: "var(--on-dark)",
                 margin: 0,
                 lineHeight: 1.3,
               }}
@@ -69,9 +69,9 @@ export default function FathersDayCountdown() {
             </p>
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 14,
-                color: "rgba(250, 250, 248, 0.75)",
+                color: "var(--on-dark-muted)",
                 margin: "4px 0 0",
               }}
             >

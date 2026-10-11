@@ -35,8 +35,8 @@ export default function CookieConsentBanner() {
         right: 0,
         bottom: 0,
         zIndex: 1001,
-        backgroundColor: "#0C0E58",
-        borderTop: "3px solid #FB3D03",
+        backgroundColor: "var(--ink)",
+        borderTop: "3px solid var(--accent)",
         padding: "18px 20px",
       }}
     >
@@ -54,18 +54,18 @@ export default function CookieConsentBanner() {
           style={{
             flex: "1 1 320px",
             margin: 0,
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-sans)",
             fontSize: 14,
             lineHeight: 1.6,
-            color: "#FAFAF8",
+            color: "var(--on-dark)",
           }}
         >
-          <strong style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900 }}>
+          <strong style={{ fontFamily: "var(--font-serif)", fontWeight: 900 }}>
             We use cookies 🍪
           </strong>{" "}
-          <span style={{ color: "rgba(250, 250, 248, 0.8)" }}>
+          <span style={{ color: "var(--on-dark-muted)" }}>
             (the website kind) See our{" "}
-            <a href="/terms#privacy" style={{ color: "#FAFAF8", textDecoration: "underline" }}>
+            <a href="/terms#privacy" style={{ color: "var(--on-dark)", textDecoration: "underline" }}>
               Privacy Policy
             </a>{" "}
             for details.

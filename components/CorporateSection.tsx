@@ -59,10 +59,10 @@ export default function CorporateSection() {
             >
               <h1
                 style={{
-                  fontFamily: "'Nunito', sans-serif",
+                  fontFamily: "var(--font-serif)",
                   fontWeight: 900,
                   fontSize: "clamp(28px, 3.5vw, 40px)",
-                  color: "#0C0E58",
+                  color: "var(--ink)",
                   marginBottom: 14,
                   maxWidth: 400,
                 }}
@@ -71,9 +71,9 @@ export default function CorporateSection() {
               </h1>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
-                  color: "#333",
+                  color: "var(--text)",
                   lineHeight: 1.8,
                   marginBottom: 16,
                 }}
@@ -83,9 +83,9 @@ export default function CorporateSection() {
               </p>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
-                  color: "#333",
+                  color: "var(--text)",
                   lineHeight: 1.8,
                   marginBottom: 16,
                 }}
@@ -96,9 +96,9 @@ export default function CorporateSection() {
               </p>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 15,
-                  color: "#333",
+                  color: "var(--text)",
                   lineHeight: 1.8,
                   marginBottom: 32,
                 }}
@@ -157,12 +157,12 @@ export default function CorporateSection() {
                 key={tier.label}
                 style={{
                   border: tier.highlight
-                    ? "2px solid #0C0E58"
-                    : "1.5px solid #E0DFDD",
+                    ? "2px solid var(--ink)"
+                    : "1.5px solid var(--line)",
                   borderRadius: 2,
                   padding: "28px 20px",
                   textAlign: "center",
-                  backgroundColor: tier.highlight ? "#F4F5FB" : "#FAFAF8",
+                  backgroundColor: tier.highlight ? "var(--tint)" : "var(--bg)",
                   position: "relative",
                 }}
               >
@@ -173,11 +173,11 @@ export default function CorporateSection() {
                       top: -1,
                       left: "50%",
                       transform: "translateX(-50%)",
-                      backgroundColor: "#FB3D03",
-                      color: "#FAFAF8",
+                      backgroundColor: "var(--accent)",
+                      color: "var(--on-dark)",
                       fontSize: 10,
                       fontWeight: 600,
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       letterSpacing: "0.08em",
                       textTransform: "uppercase",
                       padding: "4px 10px",
@@ -190,10 +190,10 @@ export default function CorporateSection() {
                 )}
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 11,
                     fontWeight: 600,
-                    color: "#888",
+                    color: "var(--text-subtle)",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
                     marginBottom: 10,
@@ -205,10 +205,10 @@ export default function CorporateSection() {
                 {tier.inquiry ? (
                   <p
                     style={{
-                      fontFamily: "'Nunito', sans-serif",
+                      fontFamily: "var(--font-serif)",
                       fontWeight: 800,
                       fontSize: 20,
-                      color: "#0C0E58",
+                      color: "var(--ink)",
                       marginBottom: 4,
                     }}
                   >
@@ -227,10 +227,10 @@ export default function CorporateSection() {
                   >
                     <span
                       style={{
-                        fontFamily: "'Nunito', sans-serif",
+                        fontFamily: "var(--font-serif)",
                         fontWeight: 900,
                         fontSize: 32,
-                        color: "#0C0E58",
+                        color: "var(--ink)",
                       }}
                     >
                       {tier.price}
@@ -238,9 +238,9 @@ export default function CorporateSection() {
                     {tier.perUnit && (
                       <span
                         style={{
-                          fontFamily: "'Inter', sans-serif",
+                          fontFamily: "var(--font-sans)",
                           fontSize: 12,
-                          color: "#666",
+                          color: "var(--text-muted)",
                         }}
                       >
                         {tier.perUnit}
@@ -251,9 +251,9 @@ export default function CorporateSection() {
                 {tier.note && (
                   <p
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 11,
-                      color: "#AAA",
+                      color: "var(--text-subtle)",
                     }}
                   >
                     {tier.note}
@@ -268,9 +268,9 @@ export default function CorporateSection() {
         <div style={{ marginBottom: 36 }}>
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-sans)",
               fontSize: 13,
-              color: "#666",
+              color: "var(--text-muted)",
             }}
           >
             Orders under 100 cookies require full payment upfront. Orders of 100 or more require a 50% deposit. Free pickup or delivery in the Hutt Valley. Nationwide courier is available on request, just ask when you order.

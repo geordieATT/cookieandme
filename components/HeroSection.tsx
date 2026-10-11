@@ -58,10 +58,10 @@ export default function HeroSection() {
       >
         <h1
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontSize: "clamp(36px, 5.5vw, 64px)",
             fontWeight: 900,
-            color: "#FAFAF8",
+            color: "var(--on-dark)",
             letterSpacing: "-0.02em",
             marginBottom: 20,
             lineHeight: 1.1,
@@ -71,9 +71,9 @@ export default function HeroSection() {
         </h1>
         <p
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-sans)",
             fontSize: "clamp(15px, 2vw, 18px)",
-            color: "rgba(250, 250, 248, 0.85)",
+            color: "var(--on-dark-muted)",
             maxWidth: 540,
             margin: "0 auto 40px",
             lineHeight: 1.7,

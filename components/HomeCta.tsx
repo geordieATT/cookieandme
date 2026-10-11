@@ -2,14 +2,14 @@ import Link from "next/link";
 
 export default function HomeCta() {
   return (
-    <section style={{ padding: "80px 0", backgroundColor: "#0C0E58" }}>
+    <section style={{ padding: "80px 0", backgroundColor: "var(--ink)" }}>
       <div className="section-container" style={{ textAlign: "center" }}>
         <h2
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: "clamp(24px, 3vw, 34px)",
-            color: "#FAFAF8",
+            color: "var(--on-dark)",
             marginBottom: 12,
           }}
         >
@@ -17,10 +17,10 @@ export default function HomeCta() {
         </h2>
         <p
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-sans)",
             fontSize: 15,
             lineHeight: 1.7,
-            color: "rgba(250, 250, 248, 0.78)",
+            color: "var(--on-dark-muted)",
             maxWidth: 480,
             margin: "0 auto 28px",
           }}
