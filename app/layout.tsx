@@ -1,10 +1,29 @@
 import type { Metadata } from "next";
+import { Fraunces, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import AnalyticsGate from "@/components/AnalyticsGate";
 import HashScroll from "@/components/HashScroll";
 import "./globals.css";
+
+// Fonts are self-hosted by Next.js at build time, so there is no request to
+// Google and no late swap after the page appears. Each exposes a CSS variable
+// that globals.css uses (--font-serif for headings, --font-sans for the rest).
+// Fraunces is a variable font: "opsz" lets it adjust its shapes to the size it
+// is drawn at, and SOFT/WONK are switched off in globals.css.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://cookieandme.nz"),
@@ -57,19 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
         <Navbar />
         {children}
