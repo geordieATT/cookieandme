@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import AnalyticsGate from "@/components/AnalyticsGate";
 import HashScroll from "@/components/HashScroll";
+import { DEFAULT_SHARE_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 // Fonts are self-hosted by Next.js at build time, so there is no request to
@@ -26,7 +27,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cookieandme.nz"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Cookie & Me – Custom Designed Cookies, Lower Hutt NZ",
     template: "%s | Cookie & Me",
@@ -41,32 +42,24 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
+  // Fallback share tags for any page that doesn't set its own (every page
+  // does, via pageMetadata in lib/seo.ts; this covers the 404 page).
   openGraph: {
     title: "Cookie & Me – Designed With Good Taste",
     description:
       "Custom-designed, handcrafted cookies from Lower Hutt, New Zealand.",
-    url: "https://cookieandme.nz",
-    siteName: "Cookie & Me",
+    url: SITE_URL,
+    siteName: SITE_NAME,
     locale: "en_NZ",
     type: "website",
-    // Without this, sharing a link anywhere shows no picture. Uses the same photo
-    // as the homepage hero, since it isn't tied to a specific occasion or product
-    // line the way a gift box photo would be.
-    images: [
-      {
-        url: "/images/wedding-samuel-georgia-cookies-closeup-packaged.jpg",
-        width: 1440,
-        height: 1919,
-        alt: "Beautifully packaged custom cookies from Cookie & Me",
-      },
-    ],
+    images: [{ ...DEFAULT_SHARE_IMAGE, url: `${SITE_URL}${DEFAULT_SHARE_IMAGE.url}` }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Cookie & Me – Designed With Good Taste",
     description:
       "Custom-designed, handcrafted cookies from Lower Hutt, New Zealand.",
-    images: ["/images/wedding-samuel-georgia-cookies-closeup-packaged.jpg"],
+    images: [`${SITE_URL}${DEFAULT_SHARE_IMAGE.url}`],
   },
 };
 
@@ -76,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en-NZ" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
         <Navbar />
         {children}

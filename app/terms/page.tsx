@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import TermsSection from "@/components/TermsSection";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/terms",
   title: "Terms & Conditions and Privacy Policy",
   description:
     "Cookie & Me's terms and conditions for ordering, and our privacy policy covering what information we collect and how it's used.",
-};
+});
 
 export default function TermsPage() {
   return (

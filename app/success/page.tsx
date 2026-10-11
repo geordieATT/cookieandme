@@ -1,4 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  ...pageMetadata({
+    path: "/success",
+    title: "Order received",
+    description: "Thank you for your order with Cookie & Me.",
+  }),
+  // A post-payment confirmation page has nothing for search engines.
+  robots: { index: false, follow: true },
+};
 
 export default function SuccessPage() {
   return (

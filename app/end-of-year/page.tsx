@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import EndOfYearSection from "@/components/EndOfYearSection";
 
 // Regenerated at most hourly so the 10% wording drops off on its own after
@@ -11,8 +12,7 @@ const description =
 
 // The link preview photo (LinkedIn, Facebook, iMessage etc.) is a 1200x628
 // landscape crop, since share cards are ~1.91:1 and the source photo is
-// portrait. openGraph here replaces the site-wide one from the root layout
-// rather than merging with it, so every field is repeated.
+// portrait.
 const shareImage = {
   url: "/images/og-end-of-year-gem-homestay.jpg",
   width: 1200,
@@ -20,25 +20,12 @@ const shareImage = {
   alt: "Teal GEM Homestay Apartment logo cookies stamped with a fantail",
 };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/end-of-year",
   title,
   description,
-  openGraph: {
-    title: `${title} | Cookie & Me`,
-    description,
-    url: "https://cookieandme.nz/end-of-year",
-    siteName: "Cookie & Me",
-    locale: "en_NZ",
-    type: "website",
-    images: [shareImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${title} | Cookie & Me`,
-    description,
-    images: [shareImage.url],
-  },
-};
+  image: shareImage,
+});
 
 export default function EndOfYearPage() {
   return (

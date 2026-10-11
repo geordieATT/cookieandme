@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import CorporateSection from "@/components/CorporateSection";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/what-we-do",
   title: "What We Do",
   description:
     "Personalised cookies stamped with your design or logo, for birthdays, weddings, corporate gifts and events. See our per-cookie pricing.",
-};
+});
 
 export default function WhatWeDoPage() {
   return (
