@@ -19,23 +19,20 @@ export default function OurStorySection() {
           >
             <h1
               style={{
-                fontFamily: "var(--font-serif)",
-                fontWeight: 900,
-                fontSize: "clamp(26px, 3.5vw, 38px)",
                 color: "var(--ink)",
                 marginBottom: 24,
                 borderLeft: "4px solid var(--accent)",
                 paddingLeft: 14,
               }}
             >
-              Our Story
+              Our story
             </h1>
             <p
               style={{
                 fontFamily: "var(--font-sans)",
-                fontSize: 15,
+                fontSize: 17,
                 color: "var(--text)",
-                lineHeight: 1.8,
+                lineHeight: 1.65,
                 marginBottom: 20,
               }}
             >
@@ -47,9 +44,9 @@ export default function OurStorySection() {
             <p
               style={{
                 fontFamily: "var(--font-sans)",
-                fontSize: 15,
+                fontSize: 17,
                 color: "var(--text)",
-                lineHeight: 1.8,
+                lineHeight: 1.65,
               }}
             >
               What sets us apart is the design work. Every stamp is created from

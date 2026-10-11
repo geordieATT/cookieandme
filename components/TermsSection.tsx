@@ -1,6 +1,6 @@
 const h2Style = {
   fontFamily: "var(--font-serif)",
-  fontWeight: 900,
+  fontWeight: 500,
   fontSize: "clamp(22px, 3vw, 30px)",
   color: "var(--ink)",
   marginBottom: 16,
@@ -12,7 +12,7 @@ const h2Style = {
 
 const h3Style = {
   fontFamily: "var(--font-serif)",
-  fontWeight: 800,
+  fontWeight: 500,
   fontSize: 17,
   color: "var(--ink)",
   margin: "24px 0 8px",
@@ -62,14 +62,11 @@ export default function TermsSection() {
         </span>
         <h1
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3.5vw, 38px)",
             color: "var(--ink)",
             marginBottom: 16,
           }}
         >
-          Terms and Conditions and Privacy Policy
+          Terms and conditions and privacy policy
         </h1>
         <p style={{ ...pStyle, color: "var(--text-subtle)", fontSize: 13, marginBottom: 32 }}>
           Last updated 13 September 2026.
@@ -77,10 +74,10 @@ export default function TermsSection() {
 
         {/* ------------------------------------------------------------------ */}
         <h2 id="terms" style={h2Style}>
-          Terms and Conditions
+          Terms and conditions
         </h2>
 
-        <h3 style={h3Style}>1. About These Terms</h3>
+        <h3 style={h3Style}>1. About these terms</h3>
         <p style={pStyle}>
           Cookie &amp; Me is a brand operated by Linked Futures Partnership
           (Kersti Taylor and Geordie Taylor), a partnership based in Lower
@@ -96,7 +93,7 @@ export default function TermsSection() {
           to do so.
         </p>
 
-        <h3 style={h3Style}>2. Our Products</h3>
+        <h3 style={h3Style}>2. Our products</h3>
         <p style={pStyle}>
           Our cookies are handmade in a kitchen operating under an MPI
           approved Food Control Plan. Because each cookie is handmade, small
@@ -106,7 +103,7 @@ export default function TermsSection() {
           on your screen and the handmade nature of the product.
         </p>
 
-        <h3 style={h3Style}>3. Allergen Information</h3>
+        <h3 style={h3Style}>3. Allergen information</h3>
         <p style={pStyle}>
           Our kitchen prepares products containing gluten/wheat, dairy, eggs
           and soy. Everything is made in the same kitchen alongside other
@@ -119,7 +116,7 @@ export default function TermsSection() {
           advance.
         </p>
 
-        <h3 style={h3Style}>4. Placing an Order</h3>
+        <h3 style={h3Style}>4. Placing an order</h3>
         <p style={pStyle}>
           Custom orders (bespoke designs, corporate branding, bulk orders) are
           quoted individually. Get in touch and we&apos;ll work out the
@@ -147,7 +144,7 @@ export default function TermsSection() {
           work we create by adapting them for your cookies.
         </p>
 
-        <h3 style={h3Style}>5. Cancellations and Changes</h3>
+        <h3 style={h3Style}>5. Cancellations and changes</h3>
         <p style={pStyle}>
           Payments are non-refundable once an order is confirmed, because we
           buy ingredients and packaging and set aside kitchen time
@@ -161,7 +158,7 @@ export default function TermsSection() {
           as soon as you can.
         </p>
 
-        <h3 style={h3Style}>6. Pricing and Payment</h3>
+        <h3 style={h3Style}>6. Pricing and payment</h3>
         <p style={pStyle}>
           All prices are listed in New Zealand dollars (NZD). Cookie &amp; Me
           (Linked Futures Partnership) isn&apos;t currently registered for
@@ -187,7 +184,7 @@ export default function TermsSection() {
           Payment can also be made by direct bank transfer or via invoice.
         </p>
 
-        <h3 style={h3Style}>7. Delivery, Pickup and Shipping</h3>
+        <h3 style={h3Style}>7. Delivery, pickup and shipping</h3>
         <p style={pStyle}>
           Free delivery and pickup is available within the Hutt Valley and
           wider Wellington region. Outside this area, delivery is arranged
@@ -202,7 +199,7 @@ export default function TermsSection() {
           the courier, not with us.
         </p>
 
-        <h3 style={h3Style}>8. Taking Products Overseas</h3>
+        <h3 style={h3Style}>8. Taking products overseas</h3>
         <p style={pStyle}>
           We&apos;re based in New Zealand and our products are made to comply
           with New Zealand food safety and labelling law only. If you choose
@@ -214,7 +211,7 @@ export default function TermsSection() {
           country&apos;s laws.
         </p>
 
-        <h3 style={h3Style}>9. Photos and Marketing</h3>
+        <h3 style={h3Style}>9. Photos and marketing</h3>
         <p style={pStyle}>
           We love sharing our work. Unless you tell us otherwise, we may
           photograph completed orders (including corporate branding or custom
@@ -226,7 +223,7 @@ export default function TermsSection() {
           timing or usage.
         </p>
 
-        <h3 style={h3Style}>10. Things Outside Our Control</h3>
+        <h3 style={h3Style}>10. Things outside our control</h3>
         <p style={pStyle}>
           If something outside our control prevents us from fulfilling your
           order, whether that&apos;s equipment failure, a supplier shortage,
@@ -234,7 +231,7 @@ export default function TermsSection() {
           possible and offer you a full refund or a rescheduled date.
         </p>
 
-        <h3 style={h3Style}>11. Consumer Guarantees</h3>
+        <h3 style={h3Style}>11. Consumer guarantees</h3>
         <p style={pStyle}>
           For products bought for personal, domestic or household use,
           nothing in these Terms limits your rights under the Consumer
@@ -256,7 +253,7 @@ export default function TermsSection() {
           can&apos;t be excluded by law.
         </p>
 
-        <h3 style={h3Style}>13. Resolving Problems</h3>
+        <h3 style={h3Style}>13. Resolving problems</h3>
         <p style={pStyle}>
           If something goes wrong with your order, please get in touch with
           us first. We&apos;ll always try to sort things out directly with
@@ -270,10 +267,10 @@ export default function TermsSection() {
           Privacy Policy below.
         </p>
 
-        <h3 style={h3Style}>15. Governing Law</h3>
+        <h3 style={h3Style}>15. Governing law</h3>
         <p style={pStyle}>These Terms are governed by New Zealand law.</p>
 
-        <h3 style={h3Style}>16. Contact Us</h3>
+        <h3 style={h3Style}>16. Contact us</h3>
         <p style={{ ...pStyle, marginBottom: 0 }}>
           Cookie &amp; Me (Linked Futures Partnership), Lower Hutt, New
           Zealand.{" "}
@@ -292,7 +289,7 @@ export default function TermsSection() {
 
         {/* ------------------------------------------------------------------ */}
         <h2 id="privacy" style={h2Style}>
-          Privacy Policy
+          Privacy policy
         </h2>
 
         <p style={pStyle}>
@@ -302,7 +299,7 @@ export default function TermsSection() {
           information in line with the Privacy Act 2020 (NZ).
         </p>
 
-        <h3 style={h3Style}>1. What We Collect</h3>
+        <h3 style={h3Style}>1. What we collect</h3>
         <ul style={{ paddingLeft: 20, marginBottom: 14 }}>
           <li style={liStyle}>
             Contact details you give us when ordering or enquiring: name,
@@ -318,7 +315,7 @@ export default function TermsSection() {
           </li>
         </ul>
 
-        <h3 style={h3Style}>2. How We Use It</h3>
+        <h3 style={h3Style}>2. How we use it</h3>
         <ul style={{ paddingLeft: 20, marginBottom: 14 }}>
           <li style={liStyle}>To process and deliver your order</li>
           <li style={liStyle}>
@@ -332,7 +329,7 @@ export default function TermsSection() {
           <li style={liStyle}>To meet our legal and accounting obligations</li>
         </ul>
 
-        <h3 style={h3Style}>3. Website Analytics and Advertising</h3>
+        <h3 style={h3Style}>3. Website analytics and advertising</h3>
         <p style={pStyle}>
           Our website uses cookies and similar tracking tools, including
           Vercel analytics and the Meta Pixel, to understand how visitors use
@@ -348,7 +345,7 @@ export default function TermsSection() {
           Kingdom, the same consent process applies.
         </p>
 
-        <h3 style={h3Style}>4. Sharing Your Information</h3>
+        <h3 style={h3Style}>4. Sharing your information</h3>
         <p style={pStyle}>
           We don&apos;t sell your personal information. We only share it
           with:
@@ -363,7 +360,7 @@ export default function TermsSection() {
           <li style={liStyle}>Any other party where required by law</li>
         </ul>
 
-        <h3 style={h3Style}>5. Storage and Security</h3>
+        <h3 style={h3Style}>5. Storage and security</h3>
         <p style={pStyle}>
           We take reasonable steps to keep your information secure. We
           generally keep order records for seven years to meet our tax
@@ -373,7 +370,7 @@ export default function TermsSection() {
           required by law.
         </p>
 
-        <h3 style={h3Style}>6. Your Rights</h3>
+        <h3 style={h3Style}>6. Your rights</h3>
         <p style={pStyle}>
           Under the Privacy Act 2020, you have the right to access and
           request correction of the personal information we hold about you.
@@ -384,7 +381,7 @@ export default function TermsSection() {
           .
         </p>
 
-        <h3 style={h3Style}>7. Changes to This Policy</h3>
+        <h3 style={h3Style}>7. Changes to this policy</h3>
         <p style={{ ...pStyle, marginBottom: 0 }}>
           We may update this policy from time to time. The latest version
           will always be available on our website.

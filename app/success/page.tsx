@@ -43,9 +43,6 @@ export default function SuccessPage() {
         </div>
         <h1
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: 32,
             color: "var(--ink)",
             marginBottom: 12,
           }}

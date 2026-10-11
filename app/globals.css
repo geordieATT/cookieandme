@@ -67,8 +67,9 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 button, input, textarea, select { font-family: var(--font-sans), system-ui, sans-serif; }
 
-/* Readable line length for running text. */
-.prose { max-width: 65ch; }
+/* Readable line length for running text: about 65 characters a line,
+   like a book column. An inline maxWidth still wins where one is set. */
+main p, .prose { max-width: 65ch; }
 
 /* --- Buttons --- */
 .btn-navy {

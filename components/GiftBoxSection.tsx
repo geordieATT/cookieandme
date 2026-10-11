@@ -286,14 +286,11 @@ export default function GiftBoxSection() {
           </span>
           <h1
             style={{
-              fontFamily: "var(--font-serif)",
-              fontWeight: 900,
-              fontSize: "clamp(26px, 3.5vw, 38px)",
               color: "var(--ink)",
               marginBottom: 10,
             }}
           >
-            The Perfect Father&apos;s Day Gift
+            The perfect Father&apos;s Day gift
           </h1>
           <p style={{ fontFamily: "var(--font-sans)", fontSize: 15, lineHeight: 1.7, color: "var(--text-muted)", marginBottom: 36, maxWidth: 680 }}>
             Give Dad something sweet this Father&apos;s Day. Each box includes your choice of 6 or
@@ -510,8 +507,8 @@ export default function GiftBoxSection() {
               </div>
 
               {/* Contact details */}
-              <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 900, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>
-                Your Details
+              <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>
+                Your details
               </h3>
               <p style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--text-subtle)", marginBottom: 12 }}>
                 All fields required so we can confirm your order.
@@ -686,8 +683,8 @@ export default function GiftBoxSection() {
               {/* Delivery address */}
               {needsAddress && (
                 <div style={{ marginBottom: 26 }}>
-                  <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 900, fontSize: 16, color: "var(--ink)", marginBottom: 12 }}>
-                    {toCollectionPoint ? "Collection Point Address" : "Delivery Address"}
+                  <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: 16, color: "var(--ink)", marginBottom: 12 }}>
+                    {toCollectionPoint ? "Collection point address" : "Delivery address"}
                   </h3>
 
                   <div style={{ marginBottom: 14, position: "relative" }}>
@@ -834,7 +831,7 @@ export default function GiftBoxSection() {
                 ))}
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", borderTop: "1px solid var(--line)", paddingTop: 10 }}>
                   <span>Total</span>
-                  <span style={{ fontSize: 20, fontFamily: "var(--font-serif)", fontWeight: 900 }}>
+                  <span style={{ fontSize: 20, fontFamily: "var(--font-serif)", fontWeight: 500 }}>
                     {comboUnpriced ? `${fmt(subtotal)} + courier` : fmt(total)}
                   </span>
                 </div>

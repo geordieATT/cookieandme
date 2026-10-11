@@ -1,24 +1,24 @@
 const steps = [
   {
     number: "01",
-    title: "Submit Your Brief",
+    title: "Submit your brief",
     description:
       "Tell us your design, colours, flavour, quantity, and date needed.",
   },
   {
     number: "02",
-    title: "Pay Your Deposit",
+    title: "Pay your deposit",
     description:
       "Full payment upfront for orders under 100 cookies. 50% deposit for larger orders, secured via Stripe.",
   },
   {
     number: "03",
-    title: "We Get to Work",
+    title: "We get to work",
     description: "We design your stamp, bake, and package your cookies.",
   },
   {
     number: "04",
-    title: "Delivery or Pickup",
+    title: "Delivery or pickup",
     description:
       "Free pickup or delivery in the Hutt Valley. Nationwide courier available on request.",
   },
@@ -32,15 +32,12 @@ export default function HowItWorksSection() {
       <div className="section-container">
         <h2
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3.5vw, 38px)",
             color: "var(--ink)",
             marginBottom: 56,
             textAlign: "center",
           }}
         >
-          How It Works
+          How it works
         </h2>
 
         <div className="four-col">
@@ -67,7 +64,7 @@ export default function HowItWorksSection() {
                 <span
                   style={{
                     fontFamily: "var(--font-serif)",
-                    fontWeight: 900,
+                    fontWeight: 500,
                     fontSize: 13,
                     color: "var(--on-dark)",
                     letterSpacing: "0.05em",
@@ -79,7 +76,7 @@ export default function HowItWorksSection() {
               <h3
                 style={{
                   fontFamily: "var(--font-serif)",
-                  fontWeight: 800,
+                  fontWeight: 500,
                   fontSize: 17,
                   color: "var(--ink)",
                   marginBottom: 10,
@@ -92,7 +89,7 @@ export default function HowItWorksSection() {
                   fontFamily: "var(--font-sans)",
                   fontSize: 14,
                   color: "var(--text-muted)",
-                  lineHeight: 1.7,
+                  lineHeight: 1.65,
                 }}
               >
                 {step.description}

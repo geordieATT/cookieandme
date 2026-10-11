@@ -58,13 +58,8 @@ export default function HeroSection() {
       >
         <h1
           style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(36px, 5.5vw, 64px)",
-            fontWeight: 900,
             color: "var(--on-dark)",
-            letterSpacing: "-0.02em",
             marginBottom: 20,
-            lineHeight: 1.1,
           }}
         >
           Designed With Good Taste
@@ -76,7 +71,7 @@ export default function HeroSection() {
             color: "var(--on-dark-muted)",
             maxWidth: 540,
             margin: "0 auto 40px",
-            lineHeight: 1.7,
+            lineHeight: 1.65,
           }}
         >
           Custom-designed, handcrafted cookies for businesses, events, and every

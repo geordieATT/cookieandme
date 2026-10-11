@@ -94,21 +94,18 @@ export default function ContactSection() {
           <div>
             <h1
               style={{
-                fontFamily: "var(--font-serif)",
-                fontWeight: 900,
-                fontSize: "clamp(26px, 3.5vw, 38px)",
                 color: "var(--ink)",
                 marginBottom: 16,
               }}
             >
-              Get in Touch
+              Get in touch
             </h1>
             <p
               style={{
                 fontFamily: "var(--font-sans)",
-                fontSize: 15,
+                fontSize: 17,
                 color: "var(--text-muted)",
-                lineHeight: 1.75,
+                lineHeight: 1.65,
                 marginBottom: 40,
               }}
             >
@@ -160,7 +157,7 @@ export default function ContactSection() {
                 <p
                   style={{
                     fontFamily: "var(--font-serif)",
-                    fontWeight: 800,
+                    fontWeight: 500,
                     fontSize: 20,
                     color: "var(--ink)",
                     marginBottom: 8,

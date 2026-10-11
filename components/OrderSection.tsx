@@ -118,14 +118,11 @@ export default function OrderSection() {
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           <h1
             style={{
-              fontFamily: "var(--font-serif)",
-              fontWeight: 900,
-              fontSize: "clamp(26px, 3.5vw, 38px)",
               color: "var(--ink)",
               marginBottom: 10,
             }}
           >
-            Place Your Order
+            Place your order
           </h1>
           <p
             style={{
@@ -651,7 +648,7 @@ export default function OrderSection() {
                     style={{
                       fontSize: 20,
                       fontFamily: "var(--font-serif)",
-                      fontWeight: 900,
+                      fontWeight: 500,
                     }}
                   >
                     {fmt(deposit)}

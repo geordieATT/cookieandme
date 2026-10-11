@@ -70,9 +70,6 @@ export default function GallerySection() {
       <div className="section-container">
         <h1
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3.5vw, 38px)",
             color: "var(--ink)",
             marginBottom: 16,
             textAlign: "center",
@@ -102,7 +99,7 @@ export default function GallerySection() {
           <p
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: 15,
+              fontSize: 17,
               lineHeight: 1.6,
               color: "var(--text-muted)",
               maxWidth: 420,

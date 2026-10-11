@@ -59,9 +59,6 @@ export default function CorporateSection() {
             >
               <h1
                 style={{
-                  fontFamily: "var(--font-serif)",
-                  fontWeight: 900,
-                  fontSize: "clamp(28px, 3.5vw, 40px)",
                   color: "var(--ink)",
                   marginBottom: 14,
                   maxWidth: 400,
@@ -72,9 +69,9 @@ export default function CorporateSection() {
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: 15,
+                  fontSize: 17,
                   color: "var(--text)",
-                  lineHeight: 1.8,
+                  lineHeight: 1.65,
                   marginBottom: 16,
                 }}
               >
@@ -84,9 +81,9 @@ export default function CorporateSection() {
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: 15,
+                  fontSize: 17,
                   color: "var(--text)",
-                  lineHeight: 1.8,
+                  lineHeight: 1.65,
                   marginBottom: 16,
                 }}
               >
@@ -97,9 +94,9 @@ export default function CorporateSection() {
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: 15,
+                  fontSize: 17,
                   color: "var(--text)",
-                  lineHeight: 1.8,
+                  lineHeight: 1.65,
                   marginBottom: 32,
                 }}
               >
@@ -206,7 +203,7 @@ export default function CorporateSection() {
                   <p
                     style={{
                       fontFamily: "var(--font-serif)",
-                      fontWeight: 800,
+                      fontWeight: 500,
                       fontSize: 20,
                       color: "var(--ink)",
                       marginBottom: 4,
@@ -228,7 +225,7 @@ export default function CorporateSection() {
                     <span
                       style={{
                         fontFamily: "var(--font-serif)",
-                        fontWeight: 900,
+                        fontWeight: 500,
                         fontSize: 32,
                         color: "var(--ink)",
                       }}

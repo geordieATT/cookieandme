@@ -7,7 +7,7 @@ const paths = [
     src: "/images/christmas-templates-meri-kirihimete.jpg",
     alt: "Red, green and white Christmas template cookies stamped with Your Logo, Meri Kirihimete and Merry Christmas designs",
     eyebrow: "Christmas 2026",
-    title: "Christmas & End-of-Year",
+    title: "Christmas & end-of-year",
     copy:
       "Christmas templates with your logo, 10% off until 30 October. Perfect for staff parties, client gifts and awards nights.",
     cta: "See Christmas options",
@@ -17,7 +17,7 @@ const paths = [
     src: "/images/qspace-branded-cookie-vanilla-black-background.jpg",
     alt: "Branded cookie stamped with a company logo",
     eyebrow: "Made to order",
-    title: "Custom Cookies",
+    title: "Custom cookies",
     copy:
       "Your design or logo, stamped into every cookie. For birthdays, weddings, corporate gifts and events.",
     cta: "See what we do",
@@ -40,15 +40,12 @@ export default function HomePaths() {
       <div className="section-container">
         <h2
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3.5vw, 38px)",
             color: "var(--ink)",
             marginBottom: 16,
             textAlign: "center",
           }}
         >
-          How Can We Help?
+          How can we help?
         </h2>
         <div style={{ width: 48, height: 3, backgroundColor: "var(--accent)", margin: "0 auto 40px" }} />
 
@@ -80,7 +77,7 @@ export default function HomePaths() {
                 <h3
                   style={{
                     fontFamily: "var(--font-serif)",
-                    fontWeight: 900,
+                    fontWeight: 500,
                     fontSize: 21,
                     color: "var(--ink)",
                     margin: "6px 0 8px",

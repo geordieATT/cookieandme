@@ -12,15 +12,12 @@ const eyebrow: React.CSSProperties = {
 
 const body: React.CSSProperties = {
   fontFamily: "var(--font-sans)",
-  fontSize: 16,
+  fontSize: 17,
   color: "var(--text)",
-  lineHeight: 1.75,
+  lineHeight: 1.65,
 };
 
 const sectionHeading: React.CSSProperties = {
-  fontFamily: "var(--font-serif)",
-  fontWeight: 900,
-  fontSize: "clamp(26px, 3.5vw, 36px)",
   color: "var(--ink)",
   marginBottom: 16,
 };
@@ -28,19 +25,19 @@ const sectionHeading: React.CSSProperties = {
 const ways = [
   {
     eyebrow: "10% off until 30 October",
-    title: "Christmas Templates",
+    title: "Christmas templates",
     copy:
       "Pick one of our ready-made Christmas designs and we add your logo. The quickest way to get festive cookies sorted for the whole team.",
   },
   {
     eyebrow: "Standard pricing",
-    title: "Fully Custom",
+    title: "Fully custom",
     copy:
       "Want something of your own? We are happy to work with you on a design from scratch, made to match your brand or event.",
   },
   {
     eyebrow: "No obligation",
-    title: "Free Design Mockup",
+    title: "Free design mockup",
     copy:
       "Not sure how your logo will look? Send it through and we will make you a free mockup so you can see it on a cookie before you decide.",
   },
@@ -78,15 +75,11 @@ export default function EndOfYearSection() {
               <span style={eyebrow}>Christmas 2026</span>
               <h1
                 style={{
-                  fontFamily: "var(--font-serif)",
-                  fontWeight: 900,
-                  fontSize: "clamp(32px, 4.5vw, 48px)",
-                  lineHeight: 1.1,
                   color: "var(--ink)",
                   margin: "10px 0 20px",
                 }}
               >
-                Christmas and End-of-Year Events
+                Christmas and end-of-year events
               </h1>
               <p style={{ ...body, marginBottom: 16, maxWidth: 520 }}>
                 With awards nights, Christmas parties and staff dinners all
@@ -128,7 +121,7 @@ export default function EndOfYearSection() {
       <section style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}>
         <div className="section-container">
           <h2 style={{ ...sectionHeading, textAlign: "center" }}>
-            How You Can Order
+            How you can order
           </h2>
           <div
             style={{
@@ -154,7 +147,7 @@ export default function EndOfYearSection() {
                 <h3
                   style={{
                     fontFamily: "var(--font-serif)",
-                    fontWeight: 900,
+                    fontWeight: 500,
                     fontSize: 22,
                     color: "var(--ink)",
                     margin: "8px 0 10px",
@@ -162,7 +155,7 @@ export default function EndOfYearSection() {
                 >
                   {way.title}
                 </h3>
-                <p style={{ ...body, fontSize: 15, color: "var(--text-muted)", margin: 0 }}>
+                <p style={{ ...body, fontSize: 17, color: "var(--text-muted)", margin: 0 }}>
                   {way.copy}
                 </p>
               </div>
@@ -188,7 +181,7 @@ export default function EndOfYearSection() {
             <div>
               <span style={eyebrow}>Packing options</span>
               <h2 style={{ ...sectionHeading, margin: "10px 0 16px" }}>
-                Split Into Smaller Gift Boxes
+                Split into smaller gift boxes
               </h2>
               <p style={{ ...body, marginBottom: 28 }}>
                 For a small fee, we can split your order into smaller boxes or
@@ -213,9 +206,6 @@ export default function EndOfYearSection() {
         <div className="section-container" style={{ textAlign: "center" }}>
           <h2
             style={{
-              fontFamily: "var(--font-serif)",
-              fontWeight: 900,
-              fontSize: "clamp(24px, 3vw, 34px)",
               color: "var(--ink)",
               marginBottom: 12,
             }}

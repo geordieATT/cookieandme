@@ -58,7 +58,7 @@ export default function FathersDayCountdown() {
             <p
               style={{
                 fontFamily: "var(--font-serif)",
-                fontWeight: 900,
+                fontWeight: 500,
                 fontSize: "clamp(17px, 2.4vw, 22px)",
                 color: "var(--on-dark)",
                 margin: 0,

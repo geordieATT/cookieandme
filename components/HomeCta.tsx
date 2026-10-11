@@ -6,9 +6,6 @@ export default function HomeCta() {
       <div className="section-container" style={{ textAlign: "center" }}>
         <h2
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: "clamp(24px, 3vw, 34px)",
             color: "var(--on-dark)",
             marginBottom: 12,
           }}
@@ -18,8 +15,8 @@ export default function HomeCta() {
         <p
           style={{
             fontFamily: "var(--font-sans)",
-            fontSize: 15,
-            lineHeight: 1.7,
+            fontSize: 17,
+            lineHeight: 1.65,
             color: "var(--on-dark-muted)",
             maxWidth: 480,
             margin: "0 auto 28px",

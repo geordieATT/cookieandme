@@ -33,15 +33,12 @@ export default function FAQSection() {
       <div className="section-container">
         <h2
           style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3.5vw, 38px)",
             color: "var(--ink)",
             marginBottom: 48,
             textAlign: "center",
           }}
         >
-          Frequently Asked Questions
+          Frequently asked questions
         </h2>
 
         <div
