@@ -34,11 +34,12 @@ export function packingSummary(quantity: number, packing: PackingOption): string
   return extra > 0 ? `${base}, plus ${extra} extra in the last ${unit}` : base;
 }
 
-// The Christmas template discount only applies to orders confirmed before this
-// date. After it, the option stays available on the form, it just stops
-// applying a discount — checked against the server's own clock, never the
-// visitor's.
-export const CHRISTMAS_DISCOUNT_CUTOFF = new Date(2026, 10, 1, 0, 0, 0, 0);
+// The Christmas template discount applies to orders confirmed by the end of
+// 30 October 2026, NZ time (midnight NZDT = 11:00 UTC on 30 October). After
+// it, the option stays available on the form, it just stops applying a
+// discount — checked against the server's own clock, never the visitor's.
+// Written in UTC because Vercel's servers run on UTC, not NZ time.
+export const CHRISTMAS_DISCOUNT_CUTOFF = new Date(Date.UTC(2026, 9, 30, 11, 0, 0));
 
 export function christmasDiscountAvailable(now: Date = new Date()): boolean {
   return now.getTime() < CHRISTMAS_DISCOUNT_CUTOFF.getTime();

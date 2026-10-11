@@ -9,7 +9,7 @@ const paths = [
     eyebrow: "Christmas 2026",
     title: "Christmas & End-of-Year",
     copy:
-      "Christmas templates with your logo, 10% off before 1 November. Perfect for staff parties, client gifts and awards nights.",
+      "Christmas templates with your logo, 10% off until 30 October. Perfect for staff parties, client gifts and awards nights.",
     cta: "See Christmas options",
   },
   {

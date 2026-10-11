@@ -27,7 +27,7 @@ const sectionHeading: React.CSSProperties = {
 
 const ways = [
   {
-    eyebrow: "10% off before 1 November",
+    eyebrow: "10% off until 30 October",
     title: "Christmas Templates",
     copy:
       "Pick one of our ready-made Christmas designs and we add your logo. The quickest way to get festive cookies sorted for the whole team.",
@@ -94,28 +94,11 @@ export default function EndOfYearSection() {
                 bookings now so we can fit everyone in.
               </p>
 
-              <div
-                style={{
-                  borderLeft: "4px solid #FB3D03",
-                  backgroundColor: "#FFF1EB",
-                  padding: "14px 18px",
-                  margin: "24px 0 28px",
-                  maxWidth: 520,
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 15,
-                    lineHeight: 1.6,
-                    color: "#0C0E58",
-                    margin: 0,
-                  }}
-                >
-                  <strong>10% off Christmas templates</strong> for orders
-                  confirmed before 1 November.
-                </p>
-              </div>
+              <p style={{ ...body, marginBottom: 32, maxWidth: 520 }}>
+                Choose one of our Christmas templates and confirm your order by
+                30 October to get{" "}
+                <strong style={{ color: "#FB3D03" }}>10% off</strong>.
+              </p>
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
                 <Link href="/order" className="btn-red hero-cta">

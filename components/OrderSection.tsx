@@ -463,8 +463,8 @@ export default function OrderSection() {
                     }}
                   >
                     {offerLooksActive
-                      ? "Valid for orders confirmed before 1 November 2026."
-                      : "The 1 November 2026 discount window has closed, but Christmas templates are still available at standard pricing."}
+                      ? "Valid for orders confirmed by 30 October 2026."
+                      : "The 30 October 2026 discount window has closed, but Christmas templates are still available at standard pricing."}
                   </span>
                 </span>
               </label>
