@@ -309,15 +309,14 @@ export default function GiftBoxSection() {
                 marginBottom: 36,
                 padding: "14px 16px",
                 borderRadius: 2,
-                borderLeft: `3px solid ${ordering.state === "open" ? "var(--accent)" : "var(--ink)"}`,
-                backgroundColor: ordering.state === "open" ? "var(--accent-tint)" : "var(--tint)",
+                border: "1px solid var(--line)",
+                backgroundColor: "var(--tint)",
                 fontFamily: "var(--font-sans)",
                 fontSize: 14,
                 lineHeight: 1.6,
                 color: "var(--text)",
               }}
             >
-              <span aria-hidden="true">{ordering.state === "open" ? "⏰" : "ℹ️"}</span>
               <span>
                 {ordering.state === "open" ? (
                   <>
@@ -630,7 +629,7 @@ export default function GiftBoxSection() {
                       <p
                         style={{
                           margin: "10px 0 0", padding: "10px 12px", borderRadius: 2,
-                          backgroundColor: "var(--accent-tint)", borderLeft: "3px solid var(--accent)",
+                          backgroundColor: "var(--tint)", border: "1px solid var(--line)",
                         }}
                       >
                         <strong style={{ color: "var(--ink)" }}>
@@ -793,12 +792,11 @@ export default function GiftBoxSection() {
                     style={{
                       display: "flex", gap: 10, alignItems: "flex-start",
                       fontFamily: "var(--font-sans)", fontSize: 13, lineHeight: 1.6,
-                      color: "var(--text)", backgroundColor: "var(--accent-tint)",
-                      borderLeft: "3px solid var(--accent)", borderRadius: 2,
+                      color: "var(--text)", backgroundColor: "var(--tint)",
+                      border: "1px solid var(--line)", borderRadius: 2,
                       padding: "12px 14px", marginBottom: 10,
                     }}
                   >
-                    <span aria-hidden="true">📦</span>
                     <span>
                       We can&apos;t price courier for this mix of boxes online.{" "}
                       <a href="/contact" style={{ color: "var(--ink)", fontWeight: 600 }}>

@@ -48,8 +48,7 @@ export default function Footer() {
       style={{
         backgroundColor: "var(--ink)",
         color: "var(--on-dark)",
-        padding: "60px 0 32px",
-        borderTop: "4px solid var(--accent)",
+        padding: "64px 0 32px",
       }}
     >
       <div className="section-container">
@@ -143,13 +142,15 @@ export default function Footer() {
           <div style={{ display: "flex", gap: 18 }}>
             <Link
               href="/terms#terms"
-              style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--on-dark-wash)" }}
+              className="footer-link"
+              style={{ fontSize: 13 }}
             >
               Terms &amp; Conditions
             </Link>
             <Link
               href="/terms#privacy"
-              style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--on-dark-wash)" }}
+              className="footer-link"
+              style={{ fontSize: 13 }}
             >
               Privacy Policy
             </Link>

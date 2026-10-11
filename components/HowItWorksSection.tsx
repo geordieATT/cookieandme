@@ -24,8 +24,6 @@ const steps = [
   },
 ];
 
-const stepColors = ["var(--accent)", "var(--accent)", "var(--accent)", "var(--accent)"];
-
 export default function HowItWorksSection() {
   return (
     <section style={{ padding: "96px 0" }}>
@@ -50,7 +48,8 @@ export default function HowItWorksSection() {
                 style={{
                   width: 40,
                   height: 40,
-                  backgroundColor: stepColors[i],
+                  backgroundColor: "var(--tint)",
+                  border: "1px solid var(--line)",
                   borderRadius: 2,
                   display: "flex",
                   alignItems: "center",
@@ -65,9 +64,8 @@ export default function HowItWorksSection() {
                   style={{
                     fontFamily: "var(--font-serif)",
                     fontWeight: 500,
-                    fontSize: 13,
-                    color: "var(--on-dark)",
-                    letterSpacing: "0.05em",
+                    fontSize: 15,
+                    color: "var(--ink)",
                   }}
                 >
                   {step.number}

@@ -26,7 +26,7 @@ export default function OrderSection() {
   const [quantity, setQuantity] = useState<number | "">(24);
   const [flavour, setFlavour] = useState("Classic Vanilla");
   const [cookieShape, setCookieShape] = useState<"circle" | "rounded-square" | "custom">("circle");
-  const [colour, setColour] = useState("var(--surface)");
+  const [colour, setColour] = useState("#ffffff");
   const [companyName, setCompanyName] = useState("");
   const [logoName, setLogoName] = useState("");
   const [designBrief, setDesignBrief] = useState("");
@@ -519,8 +519,8 @@ export default function OrderSection() {
             {overLimit && (
               <div
                 style={{
-                  borderLeft: "4px solid var(--accent)",
-                  backgroundColor: "var(--accent-tint)",
+                  border: "1px solid var(--line)",
+                  backgroundColor: "var(--tint)",
                   padding: "14px 16px",
                   borderRadius: 2,
                 }}

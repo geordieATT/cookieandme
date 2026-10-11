@@ -67,6 +67,18 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 button, input, textarea, select { font-family: var(--font-sans), system-ui, sans-serif; }
 
+/* Keyboard focus: a clear 2px accent outline with a small gap, shown only
+   when navigating by keyboard (not on every mouse click). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* Readable line length for running text: about 65 characters a line,
    like a book column. An inline maxWidth still wins where one is set. */
 main p, .prose { max-width: 65ch; }
@@ -349,7 +361,6 @@ main p, .prose { max-width: 65ch; }
   font-size: 14px;
   color: var(--ink);
   background: var(--bg);
-  outline: none;
   transition: border-color 0.15s;
   -webkit-appearance: none;
   appearance: none;
@@ -377,9 +388,11 @@ main p, .prose { max-width: 65ch; }
   cursor: pointer;
 }
 
-/* Font sizes below 16px make iOS Safari zoom in on focus. */
+/* Font sizes below 16px make iOS Safari zoom in on focus, and labels this
+   size are easier to read on a phone. */
 @media (max-width: 768px) {
   .form-field { font-size: 16px; padding: 13px 14px; }
+  .form-label { font-size: 16px; }
   .form-select { padding-right: 40px; }
 }
 
@@ -758,7 +771,7 @@ main p, .prose { max-width: 65ch; }
   .footer-contact-action {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
+    min-height: 44px;
   }
 }
 

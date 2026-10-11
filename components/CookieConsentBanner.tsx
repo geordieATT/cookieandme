@@ -61,7 +61,7 @@ export default function CookieConsentBanner() {
           }}
         >
           <strong style={{ fontFamily: "var(--font-serif)", fontWeight: 500 }}>
-            We use cookies 🍪
+            We use cookies
           </strong>{" "}
           <span style={{ color: "var(--on-dark-muted)" }}>
             (the website kind) See our{" "}
