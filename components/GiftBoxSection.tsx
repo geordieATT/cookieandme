@@ -267,35 +267,35 @@ export default function GiftBoxSection() {
   };
 
   return (
-    <section id="gift-boxes" className="giftbox-section" style={{ backgroundColor: "#F4F4F2" }}>
+    <section id="gift-boxes" className="giftbox-section" style={{ backgroundColor: "var(--tint)" }}>
       <div className="section-container">
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <span
             style={{
-              color: "#FB3D03",
+              color: "var(--accent-text)",
               fontWeight: 700,
               fontSize: 13,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               display: "block",
               marginBottom: 10,
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-sans)",
             }}
           >
             Ready-Made Gift Boxes
           </span>
           <h1
             style={{
-              fontFamily: "'Nunito', sans-serif",
+              fontFamily: "var(--font-serif)",
               fontWeight: 900,
               fontSize: "clamp(26px, 3.5vw, 38px)",
-              color: "#0C0E58",
+              color: "var(--ink)",
               marginBottom: 10,
             }}
           >
             The Perfect Father&apos;s Day Gift
           </h1>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 15, lineHeight: 1.7, color: "#555", marginBottom: 36, maxWidth: 680 }}>
+          <p style={{ fontFamily: "var(--font-sans)", fontSize: 15, lineHeight: 1.7, color: "var(--text-muted)", marginBottom: 36, maxWidth: 680 }}>
             Give Dad something sweet this Father&apos;s Day. Each box includes your choice of 6 or
             12 buttery vanilla chocolate chip cookies, topped with a thin, intricately stamped
             layer of icing in Father&apos;s Day themed designs. Neatly wrapped and ready to gift,
@@ -312,12 +312,12 @@ export default function GiftBoxSection() {
                 marginBottom: 36,
                 padding: "14px 16px",
                 borderRadius: 2,
-                borderLeft: `3px solid ${ordering.state === "open" ? "#FB3D03" : "#0C0E58"}`,
-                backgroundColor: ordering.state === "open" ? "#FFF4F0" : "#F0F1F8",
-                fontFamily: "'Inter', sans-serif",
+                borderLeft: `3px solid ${ordering.state === "open" ? "var(--accent)" : "var(--ink)"}`,
+                backgroundColor: ordering.state === "open" ? "var(--accent-tint)" : "var(--tint)",
+                fontFamily: "var(--font-sans)",
                 fontSize: 14,
                 lineHeight: 1.6,
-                color: "#333",
+                color: "var(--text)",
               }}
             >
               <span aria-hidden="true">{ordering.state === "open" ? "⏰" : "ℹ️"}</span>
@@ -343,7 +343,7 @@ export default function GiftBoxSection() {
                   <>
                     <strong>Father&apos;s Day orders have closed.</strong> You can still order these
                     boxes, but they will not be ready in time for Father&apos;s Day.{" "}
-                    <a href="/contact" style={{ color: "#0C0E58", fontWeight: 600 }}>
+                    <a href="/contact" style={{ color: "var(--ink)", fontWeight: 600 }}>
                       Get in touch
                     </a>{" "}
                     if you need them for a particular date.
@@ -356,7 +356,7 @@ export default function GiftBoxSection() {
           <div className="two-col" style={{ alignItems: "start", gap: 56 }}>
             {/* Gallery */}
             <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ position: "relative" }}>
-              <div style={{ position: "relative", borderRadius: 2, overflow: "hidden", paddingBottom: "100%", backgroundColor: "#E0DFDD" }}>
+              <div style={{ position: "relative", borderRadius: 2, overflow: "hidden", paddingBottom: "100%", backgroundColor: "var(--line)" }}>
                 {GALLERY_IMAGES[activeSlide].type === "video" ? (
                   <video
                     key={GALLERY_IMAGES[activeSlide].src}
@@ -405,7 +405,7 @@ export default function GiftBoxSection() {
                         onClick={() => setActiveSlide(i)}
                         aria-label={`Show photo ${i + 1}`}
                         className="giftbox-dot"
-                        style={{ ["--dot-color" as string]: i === activeSlide ? "#0C0E58" : "#D0CFCD" }}
+                        style={{ ["--dot-color" as string]: i === activeSlide ? "var(--ink)" : "var(--line)" }}
                       />
                     ))}
                   </div>
@@ -464,10 +464,10 @@ export default function GiftBoxSection() {
                 <label
                   style={{
                     display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer",
-                    backgroundColor: includeNote ? "#fff" : "#FAFAF8",
-                    border: includeNote ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                    backgroundColor: includeNote ? "var(--surface)" : "var(--bg)",
+                    border: includeNote ? "2px solid var(--ink)" : "1.5px solid var(--line)",
                     borderRadius: 2, padding: "14px 16px",
-                    fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.5, color: "#0C0E58",
+                    fontFamily: "var(--font-sans)", fontSize: 14, lineHeight: 1.5, color: "var(--ink)",
                   }}
                 >
                   <input
@@ -478,7 +478,7 @@ export default function GiftBoxSection() {
                   />
                   <span>
                     <strong style={{ fontWeight: 700 }}>Include a printed personalised note</strong>
-                    <span style={{ display: "block", fontSize: 13, color: "#666", marginTop: 2 }}>
+                    <span style={{ display: "block", fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
                       Free. We&apos;ll print it and pop it in the box.
                     </span>
                   </span>
@@ -499,8 +499,8 @@ export default function GiftBoxSection() {
                     />
                     <div
                       style={{
-                        fontFamily: "'Inter', sans-serif", fontSize: 12, marginTop: 6, textAlign: "right",
-                        color: note.length >= NOTE_MAX ? "#FB3D03" : "#888",
+                        fontFamily: "var(--font-sans)", fontSize: 12, marginTop: 6, textAlign: "right",
+                        color: note.length >= NOTE_MAX ? "var(--accent-text)" : "var(--text-subtle)",
                       }}
                     >
                       {note.length}/{NOTE_MAX} characters
@@ -510,10 +510,10 @@ export default function GiftBoxSection() {
               </div>
 
               {/* Contact details */}
-              <h3 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 16, color: "#0C0E58", marginBottom: 4 }}>
+              <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 900, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>
                 Your Details
               </h3>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "#888", marginBottom: 12 }}>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--text-subtle)", marginBottom: 12 }}>
                 All fields required so we can confirm your order.
               </p>
               <div className="form-two-col" style={{ marginBottom: 16 }}>
@@ -568,8 +568,8 @@ export default function GiftBoxSection() {
                 {fulfillment === "pickup" && (
                   <p
                     style={{
-                      fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.6, color: "#555",
-                      backgroundColor: "#fff", border: "1.5px solid #D4D9EE", borderRadius: 2,
+                      fontFamily: "var(--font-sans)", fontSize: 13, lineHeight: 1.6, color: "var(--text-muted)",
+                      backgroundColor: "var(--surface)", border: "1.5px solid var(--tint)", borderRadius: 2,
                       padding: "12px 14px", marginTop: 12,
                     }}
                   >
@@ -596,14 +596,14 @@ export default function GiftBoxSection() {
                           if (opt.value) { setSignatureRequired(false); setRuralAddress(false); }
                         }}
                         style={{
-                          border: toCollectionPoint === opt.value ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                          border: toCollectionPoint === opt.value ? "2px solid var(--ink)" : "1.5px solid var(--line)",
                           borderRadius: 2, padding: "14px 10px", cursor: "pointer", minHeight: 64,
-                          backgroundColor: toCollectionPoint === opt.value ? "#fff" : "#FAFAF8",
-                          textAlign: "center", fontFamily: "'Inter', sans-serif",
+                          backgroundColor: toCollectionPoint === opt.value ? "var(--surface)" : "var(--bg)",
+                          textAlign: "center", fontFamily: "var(--font-sans)",
                         }}
                       >
-                        <div style={{ fontWeight: 700, fontSize: 14, color: "#0C0E58" }}>{opt.label}</div>
-                        <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 3 }}>{opt.sub}</div>
+                        <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)" }}>{opt.label}</div>
+                        <div style={{ fontWeight: 400, fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>{opt.sub}</div>
                       </button>
                     ))}
                   </div>
@@ -611,19 +611,19 @@ export default function GiftBoxSection() {
                   {toCollectionPoint ? (
                     <div
                       style={{
-                        fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.65, color: "#444",
-                        backgroundColor: "#fff", border: "1.5px solid #D4D9EE", borderRadius: 2,
+                        fontFamily: "var(--font-sans)", fontSize: 13, lineHeight: 1.65, color: "var(--text-muted)",
+                        backgroundColor: "var(--surface)", border: "1.5px solid var(--tint)", borderRadius: 2,
                         padding: "14px 16px", marginTop: 12,
                       }}
                     >
-                      <strong style={{ color: "#0C0E58" }}>Collecting from an NZ Post collection point</strong>
+                      <strong style={{ color: "var(--ink)" }}>Collecting from an NZ Post collection point</strong>
                       <p style={{ margin: "6px 0 0" }}>
                         Head to{" "}
                         <a
                           href="https://www.nzpost.co.nz/tools/find-nz-post"
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ color: "#0C0E58", fontWeight: 600 }}
+                          style={{ color: "var(--ink)", fontWeight: 600 }}
                         >
                           nzpost.co.nz/tools/find-nz-post
                         </a>
@@ -633,10 +633,10 @@ export default function GiftBoxSection() {
                       <p
                         style={{
                           margin: "10px 0 0", padding: "10px 12px", borderRadius: 2,
-                          backgroundColor: "#FFF4F0", borderLeft: "3px solid #FB3D03",
+                          backgroundColor: "var(--accent-tint)", borderLeft: "3px solid var(--accent)",
                         }}
                       >
-                        <strong style={{ color: "#0C0E58" }}>
+                        <strong style={{ color: "var(--ink)" }}>
                           Enter that collection point&apos;s address below, not your own.
                         </strong>{" "}
                         That is where we send the parcel. You&apos;ll need photo ID to pick it up.
@@ -656,10 +656,10 @@ export default function GiftBoxSection() {
                           key={addon.key}
                           style={{
                             display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer",
-                            backgroundColor: addon.checked ? "#fff" : "#FAFAF8",
-                            border: addon.checked ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                            backgroundColor: addon.checked ? "var(--surface)" : "var(--bg)",
+                            border: addon.checked ? "2px solid var(--ink)" : "1.5px solid var(--line)",
                             borderRadius: 2, padding: "12px 14px",
-                            fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.5, color: "#0C0E58",
+                            fontFamily: "var(--font-sans)", fontSize: 14, lineHeight: 1.5, color: "var(--ink)",
                           }}
                         >
                           <input
@@ -672,7 +672,7 @@ export default function GiftBoxSection() {
                             <strong style={{ fontWeight: 700 }}>
                               {addon.label} (+{fmt(addon.price)})
                             </strong>
-                            <span style={{ display: "block", fontSize: 12.5, color: "#666", marginTop: 2 }}>
+                            <span style={{ display: "block", fontSize: 12.5, color: "var(--text-muted)", marginTop: 2 }}>
                               {addon.hint}
                             </span>
                           </span>
@@ -686,7 +686,7 @@ export default function GiftBoxSection() {
               {/* Delivery address */}
               {needsAddress && (
                 <div style={{ marginBottom: 26 }}>
-                  <h3 style={{ fontFamily: "'Nunito', sans-serif", fontWeight: 900, fontSize: 16, color: "#0C0E58", marginBottom: 12 }}>
+                  <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 900, fontSize: 16, color: "var(--ink)", marginBottom: 12 }}>
                     {toCollectionPoint ? "Collection Point Address" : "Delivery Address"}
                   </h3>
 
@@ -712,7 +712,7 @@ export default function GiftBoxSection() {
                       aria-controls="gb-address-suggestions"
                     />
                     {lookingUp && (
-                      <span style={{ position: "absolute", right: 12, top: 38, fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#AAA" }}>
+                      <span style={{ position: "absolute", right: 12, top: 38, fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-subtle)" }}>
                         Searching…
                       </span>
                     )}
@@ -726,16 +726,16 @@ export default function GiftBoxSection() {
                               onMouseDown={(e) => { e.preventDefault(); chooseSuggestion(s); }}
                               onMouseEnter={() => setHighlighted(i)}
                               className="address-suggestion"
-                              style={{ backgroundColor: i === highlighted ? "#F0F1F8" : "transparent" }}
+                              style={{ backgroundColor: i === highlighted ? "var(--tint)" : "transparent" }}
                             >
                               <span>{s.address}</span>
-                              {s.postcode && <span style={{ color: "#888", marginLeft: 8 }}>{s.postcode}</span>}
+                              {s.postcode && <span style={{ color: "var(--text-subtle)", marginLeft: 8 }}>{s.postcode}</span>}
                             </button>
                           </li>
                         ))}
                       </ul>
                     )}
-                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "#888", marginTop: 6 }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-subtle)", marginTop: 6 }}>
                       {toCollectionPoint
                         ? "Enter the collection point you want to collect from, not your home address."
                         : "Pick your address from the list, or type it in full if it isn't there."}
@@ -764,30 +764,30 @@ export default function GiftBoxSection() {
               {/* Order summary */}
               <div
                 style={{
-                  backgroundColor: "#fff",
-                  border: "1.5px solid #D4D9EE",
+                  backgroundColor: "var(--surface)",
+                  border: "1.5px solid var(--line)",
                   borderRadius: 2,
                   padding: "18px 20px",
                   marginBottom: 20,
                 }}
               >
                 {cart.length === 0 ? (
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#888", marginBottom: 6 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--text-subtle)", marginBottom: 6 }}>
                     <span>No boxes added yet</span>
                     <span>-</span>
                   </div>
                 ) : (
                   cart.map((item) => (
-                    <div key={item.packSize} style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#444", marginBottom: 6 }}>
+                    <div key={item.packSize} style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--text-muted)", marginBottom: 6 }}>
                       <span>{item.qty} × {item.packSize} Pack</span>
-                      <span style={{ fontWeight: 600, color: "#0C0E58" }}>{fmt(priceFor(item.packSize) * item.qty)}</span>
+                      <span style={{ fontWeight: 600, color: "var(--ink)" }}>{fmt(priceFor(item.packSize) * item.qty)}</span>
                     </div>
                   ))
                 )}
                 {includeNote && (
-                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#444", marginBottom: 6 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--text-muted)", marginBottom: 6 }}>
                     <span>Printed personalised note</span>
-                    <span style={{ fontWeight: 600, color: "#0C0E58" }}>Free</span>
+                    <span style={{ fontWeight: 600, color: "var(--ink)" }}>Free</span>
                   </div>
                 )}
                 {/* NZ Post has not quoted this mix of boxes, so we cannot show a price. */}
@@ -795,16 +795,16 @@ export default function GiftBoxSection() {
                   <div
                     style={{
                       display: "flex", gap: 10, alignItems: "flex-start",
-                      fontFamily: "'Inter', sans-serif", fontSize: 13, lineHeight: 1.6,
-                      color: "#333", backgroundColor: "#FFF4F0",
-                      borderLeft: "3px solid #FB3D03", borderRadius: 2,
+                      fontFamily: "var(--font-sans)", fontSize: 13, lineHeight: 1.6,
+                      color: "var(--text)", backgroundColor: "var(--accent-tint)",
+                      borderLeft: "3px solid var(--accent)", borderRadius: 2,
                       padding: "12px 14px", marginBottom: 10,
                     }}
                   >
                     <span aria-hidden="true">📦</span>
                     <span>
                       We can&apos;t price courier for this mix of boxes online.{" "}
-                      <a href="/contact" style={{ color: "#0C0E58", fontWeight: 600 }}>
+                      <a href="/contact" style={{ color: "var(--ink)", fontWeight: 600 }}>
                         Get in touch
                       </a>{" "}
                       and we&apos;ll quote it for you, or choose pickup or Hutt Valley delivery
@@ -819,7 +819,7 @@ export default function GiftBoxSection() {
                     key={line.label}
                     style={{
                       display: "flex", justifyContent: "space-between", gap: 12,
-                      fontFamily: "'Inter', sans-serif", fontSize: 14, color: "#444",
+                      fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--text-muted)",
                       marginBottom: i === shipping.breakdown.length - 1 ? 10 : 6,
                     }}
                   >
@@ -827,28 +827,28 @@ export default function GiftBoxSection() {
                       {line.label}
                       {toCollectionPoint && i === 0 ? " (collection point)" : ""}
                     </span>
-                    <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                    <span style={{ fontWeight: 600, color: "var(--ink)" }}>
                       {line.price === 0 ? "Free" : fmt(line.price)}
                     </span>
                   </div>
                 ))}
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "'Inter', sans-serif", fontSize: 15, fontWeight: 700, color: "#0C0E58", borderTop: "1px solid #C8CCE0", paddingTop: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 700, color: "var(--ink)", borderTop: "1px solid var(--line)", paddingTop: 10 }}>
                   <span>Total</span>
-                  <span style={{ fontSize: 20, fontFamily: "'Nunito', sans-serif", fontWeight: 900 }}>
+                  <span style={{ fontSize: 20, fontFamily: "var(--font-serif)", fontWeight: 900 }}>
                     {comboUnpriced ? `${fmt(subtotal)} + courier` : fmt(total)}
                   </span>
                 </div>
               </div>
 
-              {error && <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, lineHeight: 1.5, color: "#FB3D03", fontWeight: 500, marginBottom: 12 }}>{error}</p>}
+              {error && <p style={{ fontFamily: "var(--font-sans)", fontSize: 14, lineHeight: 1.5, color: "var(--accent-text)", fontWeight: 500, marginBottom: 12 }}>{error}</p>}
 
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12.5, lineHeight: 1.6, color: "#888", textAlign: "center", marginBottom: 12 }}>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 12.5, lineHeight: 1.6, color: "var(--text-subtle)", textAlign: "center", marginBottom: 12 }}>
                 By placing this order, you agree to our{" "}
-                <a href="/terms#terms" style={{ color: "#0C0E58", fontWeight: 600, textDecoration: "underline" }}>
+                <a href="/terms#terms" style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline" }}>
                   Terms &amp; Conditions
                 </a>{" "}
                 and{" "}
-                <a href="/terms#privacy" style={{ color: "#0C0E58", fontWeight: 600, textDecoration: "underline" }}>
+                <a href="/terms#privacy" style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline" }}>
                   Privacy Policy
                 </a>
                 .

@@ -26,7 +26,7 @@ export default function OrderSection() {
   const [quantity, setQuantity] = useState<number | "">(24);
   const [flavour, setFlavour] = useState("Classic Vanilla");
   const [cookieShape, setCookieShape] = useState<"circle" | "rounded-square" | "custom">("circle");
-  const [colour, setColour] = useState("#ffffff");
+  const [colour, setColour] = useState("var(--surface)");
   const [companyName, setCompanyName] = useState("");
   const [logoName, setLogoName] = useState("");
   const [designBrief, setDesignBrief] = useState("");
@@ -118,10 +118,10 @@ export default function OrderSection() {
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           <h1
             style={{
-              fontFamily: "'Nunito', sans-serif",
+              fontFamily: "var(--font-serif)",
               fontWeight: 900,
               fontSize: "clamp(26px, 3.5vw, 38px)",
-              color: "#0C0E58",
+              color: "var(--ink)",
               marginBottom: 10,
             }}
           >
@@ -129,9 +129,9 @@ export default function OrderSection() {
           </h1>
           <p
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-sans)",
               fontSize: 14,
-              color: "#666",
+              color: "var(--text-muted)",
               marginBottom: 40,
             }}
           >
@@ -211,9 +211,9 @@ export default function OrderSection() {
                 />
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 12,
-                    color: "#888",
+                    color: "var(--text-subtle)",
                     marginTop: 5,
                   }}
                 >
@@ -250,17 +250,17 @@ export default function OrderSection() {
                     type="button"
                     onClick={() => setCookieShape(opt.value)}
                     style={{
-                      border: cookieShape === opt.value ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                      border: cookieShape === opt.value ? "2px solid var(--ink)" : "1.5px solid var(--line)",
                       borderRadius: 2,
                       padding: "14px 8px",
                       cursor: "pointer",
-                      backgroundColor: cookieShape === opt.value ? "#F4F5FB" : "#FAFAF8",
+                      backgroundColor: cookieShape === opt.value ? "var(--tint)" : "var(--bg)",
                       textAlign: "center",
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                     }}
                   >
-                    <div style={{ fontWeight: 600, fontSize: 14, color: "#0C0E58" }}>{opt.label}</div>
-                    <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>{opt.sub}</div>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: "var(--ink)" }}>{opt.label}</div>
+                    <div style={{ fontWeight: 400, fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>{opt.sub}</div>
                   </button>
                 ))}
               </div>
@@ -278,18 +278,18 @@ export default function OrderSection() {
                     width: 44,
                     height: 44,
                     padding: 2,
-                    border: "1.5px solid #D0CFCD",
+                    border: "1.5px solid var(--line)",
                     borderRadius: 2,
                     cursor: "pointer",
-                    backgroundColor: "#FAFAF8",
+                    backgroundColor: "var(--bg)",
                     flexShrink: 0,
                   }}
                 />
                 <span
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 13,
-                    color: "#666",
+                    color: "var(--text-muted)",
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
                   }}
@@ -299,9 +299,9 @@ export default function OrderSection() {
               </div>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 12,
-                  color: "#888",
+                  color: "var(--text-subtle)",
                   marginTop: 6,
                 }}
               >
@@ -315,7 +315,7 @@ export default function OrderSection() {
             <div>
               <label className="form-label">
                 Company Name{" "}
-                <span style={{ color: "#AAA", fontWeight: 400 }}>
+                <span style={{ color: "var(--text-subtle)", fontWeight: 400 }}>
                   (optional)
                 </span>
               </label>
@@ -332,26 +332,26 @@ export default function OrderSection() {
             <div>
               <label className="form-label">
                 Logo / Design File{" "}
-                <span style={{ color: "#AAA", fontWeight: 400 }}>
+                <span style={{ color: "var(--text-subtle)", fontWeight: 400 }}>
                   (optional)
                 </span>
               </label>
               <div
                 onClick={() => fileRef.current?.click()}
                 style={{
-                  border: "1.5px dashed #C0BFBD",
+                  border: "1.5px dashed var(--line)",
                   borderRadius: 2,
                   padding: "20px 16px",
                   cursor: "pointer",
                   textAlign: "center",
-                  backgroundColor: "#FAFAF8",
+                  backgroundColor: "var(--bg)",
                   transition: "border-color 0.15s",
                 }}
                 onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor = "#0C0E58")
+                  (e.currentTarget.style.borderColor = "var(--ink)")
                 }
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor = "#C0BFBD")
+                  (e.currentTarget.style.borderColor = "var(--line)")
                 }
               >
                 <input
@@ -367,9 +367,9 @@ export default function OrderSection() {
                 {logoName ? (
                   <p
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 14,
-                      color: "#0C0E58",
+                      color: "var(--ink)",
                       fontWeight: 500,
                     }}
                   >
@@ -379,18 +379,18 @@ export default function OrderSection() {
                   <>
                     <p
                       style={{
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "var(--font-sans)",
                         fontSize: 14,
-                        color: "#888",
+                        color: "var(--text-subtle)",
                       }}
                     >
                       Click to upload your logo or design file
                     </p>
                     <p
                       style={{
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "var(--font-sans)",
                         fontSize: 12,
-                        color: "#AAA",
+                        color: "var(--text-subtle)",
                         marginTop: 4,
                       }}
                     >
@@ -401,9 +401,9 @@ export default function OrderSection() {
               </div>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 12,
-                  color: "#888",
+                  color: "var(--text-subtle)",
                   marginTop: 6,
                 }}
               >
@@ -445,10 +445,10 @@ export default function OrderSection() {
                   <span
                     style={{
                       display: "block",
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontWeight: 600,
                       fontSize: 14,
-                      color: "#0C0E58",
+                      color: "var(--ink)",
                     }}
                   >
                     Use a Christmas template (10% off)
@@ -456,9 +456,9 @@ export default function OrderSection() {
                   <span
                     style={{
                       display: "block",
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 12,
-                      color: "#888",
+                      color: "var(--text-subtle)",
                       marginTop: 2,
                     }}
                   >
@@ -481,24 +481,24 @@ export default function OrderSection() {
                       type="button"
                       onClick={() => setPacking(value)}
                       style={{
-                        border: packing === value ? "2px solid #0C0E58" : "1.5px solid #D0CFCD",
+                        border: packing === value ? "2px solid var(--ink)" : "1.5px solid var(--line)",
                         borderRadius: 2,
                         padding: "14px 8px",
                         cursor: "pointer",
-                        backgroundColor: packing === value ? "#F4F5FB" : "#FAFAF8",
+                        backgroundColor: packing === value ? "var(--tint)" : "var(--bg)",
                         textAlign: "center",
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "var(--font-sans)",
                       }}
                     >
-                      <div style={{ fontWeight: 600, fontSize: 14, color: "#0C0E58" }}>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: "var(--ink)" }}>
                         {opt.label}
                       </div>
                       {validQty && (
-                        <div style={{ fontWeight: 400, fontSize: 12, color: "#444", marginTop: 4 }}>
+                        <div style={{ fontWeight: 400, fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
                           {packingSummary(qty, value)}
                         </div>
                       )}
-                      <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>
+                      <div style={{ fontWeight: 400, fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                         {opt.included ? "Included" : "Small fee"}
                       </div>
                     </button>
@@ -507,9 +507,9 @@ export default function OrderSection() {
               </div>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 12,
-                  color: "#888",
+                  color: "var(--text-subtle)",
                   marginTop: 8,
                 }}
               >
@@ -522,17 +522,17 @@ export default function OrderSection() {
             {overLimit && (
               <div
                 style={{
-                  borderLeft: "4px solid #FB3D03",
-                  backgroundColor: "#FFF8F6",
+                  borderLeft: "4px solid var(--accent)",
+                  backgroundColor: "var(--accent-tint)",
                   padding: "14px 16px",
                   borderRadius: 2,
                 }}
               >
                 <p
                   style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 14,
-                    color: "#333",
+                    color: "var(--text)",
                     lineHeight: 1.6,
                   }}
                 >
@@ -540,14 +540,14 @@ export default function OrderSection() {
                   price on{" "}
                   <a
                     href="tel:0211757181"
-                    style={{ color: "#0C0E58", fontWeight: 600 }}
+                    style={{ color: "var(--ink)", fontWeight: 600 }}
                   >
                     021 175 7181
                   </a>{" "}
                   or{" "}
                   <a
                     href="mailto:cookieandme.nz@gmail.com"
-                    style={{ color: "#0C0E58", fontWeight: 600 }}
+                    style={{ color: "var(--ink)", fontWeight: 600 }}
                   >
                     cookieandme.nz@gmail.com
                   </a>
@@ -559,8 +559,8 @@ export default function OrderSection() {
             {showSummary && pricing && (
               <div
                 style={{
-                  backgroundColor: "#F4F5FB",
-                  border: "1.5px solid #D4D9EE",
+                  backgroundColor: "var(--tint)",
+                  border: "1.5px solid var(--line)",
                   borderRadius: 2,
                   padding: "20px 24px",
                 }}
@@ -570,13 +570,13 @@ export default function OrderSection() {
                     display: "flex",
                     justifyContent: "space-between",
                     marginBottom: 8,
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 14,
-                    color: "#444",
+                    color: "var(--text-muted)",
                   }}
                 >
                   <span>{qty} cookies @ ${priceEach} each</span>
-                  <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                  <span style={{ fontWeight: 600, color: "var(--ink)" }}>
                     {fmt(qty * pricing.priceEach)}
                   </span>
                 </div>
@@ -586,9 +586,9 @@ export default function OrderSection() {
                       display: "flex",
                       justifyContent: "space-between",
                       marginBottom: 8,
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 14,
-                      color: "#0C7A3D",
+                      color: "var(--success)",
                     }}
                   >
                     <span>Christmas template discount (10%)</span>
@@ -603,13 +603,13 @@ export default function OrderSection() {
                       display: "flex",
                       justifyContent: "space-between",
                       marginBottom: 8,
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 14,
-                      color: "#444",
+                      color: "var(--text-muted)",
                     }}
                   >
                     <span>Packing ({packingSummary(qty, packing)})</span>
-                    <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                    <span style={{ fontWeight: 600, color: "var(--ink)" }}>
                       +{fmt(pricing.packingFee)}
                     </span>
                   </div>
@@ -618,17 +618,17 @@ export default function OrderSection() {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 14,
-                    color: "#444",
-                    borderTop: "1px solid #C8CCE0",
+                    color: "var(--text-muted)",
+                    borderTop: "1px solid var(--line)",
                     paddingTop: 10,
                     marginTop: 4,
                     marginBottom: 8,
                   }}
                 >
                   <span>Order total</span>
-                  <span style={{ fontWeight: 600, color: "#0C0E58" }}>
+                  <span style={{ fontWeight: 600, color: "var(--ink)" }}>
                     {fmt(pricing.total)}
                   </span>
                 </div>
@@ -636,10 +636,10 @@ export default function OrderSection() {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "var(--font-sans)",
                     fontSize: 14,
                     fontWeight: 600,
-                    color: "#0C0E58",
+                    color: "var(--ink)",
                   }}
                 >
                   <span>
@@ -650,7 +650,7 @@ export default function OrderSection() {
                   <span
                     style={{
                       fontSize: 20,
-                      fontFamily: "'Nunito', sans-serif",
+                      fontFamily: "var(--font-serif)",
                       fontWeight: 900,
                     }}
                   >
@@ -660,9 +660,9 @@ export default function OrderSection() {
                 {!isFullPayment && (
                   <p
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-sans)",
                       fontSize: 12,
-                      color: "#666",
+                      color: "var(--text-muted)",
                       marginTop: 8,
                     }}
                   >
@@ -679,11 +679,11 @@ export default function OrderSection() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 {(["pickup", "delivery"] as const).map((opt) => (
                   <button key={opt} type="button" onClick={() => setFulfillment(opt)}
-                    style={{ border: fulfillment === opt ? "2px solid #0C0E58" : "1.5px solid #D0CFCD", borderRadius: 2, padding: "14px 8px", cursor: "pointer", backgroundColor: fulfillment === opt ? "#F4F5FB" : "#FAFAF8", textAlign: "center", fontFamily: "'Inter', sans-serif" }}>
-                    <div style={{ fontWeight: 600, fontSize: 14, color: "#0C0E58" }}>
+                    style={{ border: fulfillment === opt ? "2px solid var(--ink)" : "1.5px solid var(--line)", borderRadius: 2, padding: "14px 8px", cursor: "pointer", backgroundColor: fulfillment === opt ? "var(--tint)" : "var(--bg)", textAlign: "center", fontFamily: "var(--font-sans)" }}>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: "var(--ink)" }}>
                       {opt === "pickup" ? "Free Pickup" : "Free Delivery"}
                     </div>
-                    <div style={{ fontWeight: 400, fontSize: 12, color: "#666", marginTop: 2 }}>
+                    <div style={{ fontWeight: 400, fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                       {opt === "pickup" ? "Lower Hutt" : "Wellington & Hutt Valley"}
                     </div>
                   </button>
@@ -694,9 +694,9 @@ export default function OrderSection() {
             {error && (
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-sans)",
                   fontSize: 14,
-                  color: "#FB3D03",
+                  color: "var(--accent-text)",
                   fontWeight: 500,
                 }}
               >
@@ -706,24 +706,24 @@ export default function OrderSection() {
 
             <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 12.5,
                 lineHeight: 1.6,
-                color: "#888",
+                color: "var(--text-subtle)",
                 textAlign: "center",
               }}
             >
               By placing this order, you agree to our{" "}
               <a
                 href="/terms#terms"
-                style={{ color: "#0C0E58", fontWeight: 600, textDecoration: "underline" }}
+                style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline" }}
               >
                 Terms &amp; Conditions
               </a>{" "}
               and{" "}
               <a
                 href="/terms#privacy"
-                style={{ color: "#0C0E58", fontWeight: 600, textDecoration: "underline" }}
+                style={{ color: "var(--ink)", fontWeight: 600, textDecoration: "underline" }}
               >
                 Privacy Policy
               </a>
@@ -751,9 +751,9 @@ export default function OrderSection() {
 
 <p
               style={{
-                fontFamily: "'Inter', sans-serif",
+                fontFamily: "var(--font-sans)",
                 fontSize: 13,
-                color: "#888",
+                color: "var(--text-subtle)",
                 textAlign: "center",
               }}
             >
@@ -761,7 +761,7 @@ export default function OrderSection() {
               <a
                 href="/contact"
                 style={{
-                  color: "#0C0E58",
+                  color: "var(--ink)",
                   fontWeight: 600,
                   textDecoration: "underline",
                 }}

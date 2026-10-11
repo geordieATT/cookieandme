@@ -5,7 +5,7 @@ export default function SuccessPage() {
     <main
       style={{
         minHeight: "100vh",
-        backgroundColor: "#FAFAF8",
+        backgroundColor: "var(--bg)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -17,7 +17,7 @@ export default function SuccessPage() {
           style={{
             width: 56,
             height: 56,
-            backgroundColor: "#0C0E58",
+            backgroundColor: "var(--ink)",
             borderRadius: 2,
             display: "flex",
             alignItems: "center",
@@ -34,7 +34,7 @@ export default function SuccessPage() {
           >
             <path
               d="M5 12L10 17L19 7"
-              stroke="#FAFAF8"
+              stroke="var(--on-dark)"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -43,10 +43,10 @@ export default function SuccessPage() {
         </div>
         <h1
           style={{
-            fontFamily: "'Nunito', sans-serif",
+            fontFamily: "var(--font-serif)",
             fontWeight: 900,
             fontSize: 32,
-            color: "#0C0E58",
+            color: "var(--ink)",
             marginBottom: 12,
           }}
         >
@@ -54,9 +54,9 @@ export default function SuccessPage() {
         </h1>
         <p
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-sans)",
             fontSize: 15,
-            color: "#555",
+            color: "var(--text-muted)",
             lineHeight: 1.7,
             marginBottom: 36,
           }}
@@ -67,12 +67,12 @@ export default function SuccessPage() {
         <Link
           href="/"
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-sans)",
             fontWeight: 600,
             fontSize: 14,
             letterSpacing: "0.02em",
-            color: "#FAFAF8",
-            backgroundColor: "#0C0E58",
+            color: "var(--on-dark)",
+            backgroundColor: "var(--ink)",
             padding: "13px 32px",
             borderRadius: 2,
             display: "inline-block",
