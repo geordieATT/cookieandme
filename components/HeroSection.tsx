@@ -1,100 +1,71 @@
 import Image from "next/image";
+import Link from "next/link";
+import { CHRISTMAS_PROMO, christmasPromoActive } from "@/lib/season";
+
+// Split hero: text on the left, video on the right (stacked on phones, video
+// first). No overlay, so the cookies show in their real colours.
+//
+// The still is the first frame of the video, so nothing visibly changes when
+// playback starts. It is also what visitors see if they have reduced motion
+// turned on, or while the video loads.
+// TODO(Geordie): if you supply a sharper original still, replace
+// /images/home-hero-poster.jpg (keep it portrait, ideally 1440px wide or more).
+const HERO_STILL = "/images/home-hero-poster.jpg";
 
 export default function HeroSection() {
+  const christmas = christmasPromoActive();
+  const secondary = christmas
+    ? { label: "Christmas orders", href: CHRISTMAS_PROMO.href }
+    : { label: "Order or get a quote", href: "/order" };
+
   return (
-    <section
-      style={{
-        position: "relative",
-        minHeight: "90vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-      }}
-    >
-      <Image
-        src="/images/wedding-samuel-georgia-cookies-closeup-packaged.jpg"
-        alt="Beautifully packaged custom cookies"
-        fill
-        priority
-        style={{ objectFit: "cover", objectPosition: "center 40%" }}
-        sizes="100vw"
-      />
-      {/* Plays over the photo once it has frames; the photo stays as the
-          fallback while loading, when autoplay is blocked, or for reduced motion. */}
-      <video
-        className="hero-video"
-        src="/videos/home-hero-2.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(8, 15, 42, 0.56)",
-        }}
-      />
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          textAlign: "center",
-          maxWidth: 700,
-          padding: "0 24px",
-          paddingTop: 80,
-        }}
-      >
-        <h1
-          style={{
-            color: "var(--on-dark)",
-            marginBottom: 20,
-          }}
-        >
-          Designed With Good Taste
+    <section className="hero">
+      <div className="hero-text">
+        <h1 style={{ marginBottom: 20 }}>
+          Custom stamped cookies, made in Lower Hutt
         </h1>
         <p
           style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "clamp(15px, 2vw, 18px)",
-            color: "var(--on-dark-muted)",
-            maxWidth: 540,
-            margin: "0 auto 40px",
-            lineHeight: 1.65,
+            fontSize: "clamp(17px, 1.6vw, 19px)",
+            color: "var(--text)",
+            marginBottom: 32,
+            maxWidth: "46ch",
           }}
         >
-          Custom-designed, handcrafted cookies for businesses, events, and every
-          occasion worth celebrating.
+          Your logo or artwork pressed into every cookie, by a mother and son.
+          For weddings, birthdays, events and businesses.
         </p>
-        <div
-          style={{
-            display: "flex",
-            gap: 14,
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <a href="/order" className="btn-red hero-cta">
-            Order Now
-          </a>
-          <a href="/end-of-year" className="btn-white hero-cta">
-            Christmas Orders
-          </a>
-          <a href="/gallery" className="btn-outline-white hero-cta">
-            See Our Work
-          </a>
+        <div className="hero-actions">
+          <Link href="/gallery" className="btn-red hero-cta">
+            See our work
+          </Link>
+          <Link href={secondary.href} className="text-link">
+            {secondary.label}
+          </Link>
         </div>
+      </div>
+
+      <div className="hero-media">
+        <Image
+          src={HERO_STILL}
+          alt="Rows of red, yellow and purple cookies stamped with star designs"
+          fill
+          priority
+          quality={85}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          style={{ objectFit: "cover" }}
+        />
+        <video
+          className="hero-video"
+          src="/videos/home-hero-2.mp4"
+          poster={HERO_STILL}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
       </div>
     </section>
   );

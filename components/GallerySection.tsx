@@ -77,7 +77,6 @@ export default function GallerySection() {
         >
           A Little Taste of What We Do
         </h1>
-        <div style={{ width: 48, height: 3, backgroundColor: "var(--accent)", margin: "0 auto 32px" }} />
 
         <div className="gallery-grid">
           {images.map((img) => (

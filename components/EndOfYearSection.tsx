@@ -120,17 +120,9 @@ export default function EndOfYearSection() {
       {/* Ways to order */}
       <section style={{ padding: "96px 0", backgroundColor: "var(--tint)" }}>
         <div className="section-container">
-          <h2 style={{ ...sectionHeading, textAlign: "center" }}>
+          <h2 style={{ ...sectionHeading, textAlign: "center", marginBottom: 40 }}>
             How you can order
           </h2>
-          <div
-            style={{
-              width: 48,
-              height: 3,
-              backgroundColor: "var(--accent)",
-              margin: "0 auto 40px",
-            }}
-          />
 
           <div className="three-col">
             {ways.map((way) => (

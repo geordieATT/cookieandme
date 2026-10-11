@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,15 +14,8 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <header
@@ -34,8 +27,6 @@ export default function Navbar() {
         zIndex: 1000,
         backgroundColor: "var(--bg)",
         borderBottom: "1px solid var(--line)",
-        boxShadow: scrolled ? "0 2px 12px rgba(20,22,74,0.08)" : "none",
-        transition: "box-shadow 0.3s ease",
       }}
     >
       <div
@@ -65,7 +56,7 @@ export default function Navbar() {
         {/* Desktop nav */}
         <nav
           className="nav-links"
-          style={{ gap: 36, alignItems: "center", flexShrink: 0 }}
+          style={{ gap: 32, alignItems: "center", flexShrink: 0 }}
           aria-label="Main navigation"
         >
           {navLinks.map((link) => {
@@ -75,18 +66,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 aria-current={active ? "page" : undefined}
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 14,
-                  fontWeight: active ? 600 : 500,
-                  color: active ? "var(--accent-text)" : "var(--ink)",
-                  letterSpacing: "0.015em",
-                  transition: "color 0.15s",
-                  borderBottom: active ? "2px solid var(--accent)" : "2px solid transparent",
-                  paddingBottom: 2,
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = active ? "var(--accent)" : "var(--ink)")}
+                className="nav-link"
               >
                 {link.label}
               </Link>
@@ -102,10 +82,15 @@ export default function Navbar() {
           aria-expanded={menuOpen}
           style={{
             flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             gap: 5,
+            width: 44,
+            height: 44,
+            marginRight: -10,
             background: "none",
             border: "none",
-            padding: 4,
+            padding: 0,
             cursor: "pointer",
           }}
         >
@@ -161,15 +146,7 @@ export default function Navbar() {
                 href={link.href}
                 aria-current={active ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
-                style={{
-                  display: "block",
-                  padding: "14px 24px",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 15,
-                  fontWeight: active ? 600 : 500,
-                  color: active ? "var(--accent-text)" : "var(--ink)",
-                  borderBottom: "1px solid var(--tint)",
-                }}
+                className="nav-mobile-link"
               >
                 {link.label}
               </Link>

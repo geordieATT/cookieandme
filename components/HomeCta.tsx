@@ -2,42 +2,25 @@ import Link from "next/link";
 
 export default function HomeCta() {
   return (
-    <section style={{ padding: "80px 0", backgroundColor: "var(--ink)" }}>
+    <section style={{ padding: "88px 0", backgroundColor: "var(--tint)" }}>
       <div className="section-container" style={{ textAlign: "center" }}>
-        <h2
-          style={{
-            color: "var(--on-dark)",
-            marginBottom: 12,
-          }}
-        >
-          Got something in mind?
-        </h2>
+        <h2 style={{ marginBottom: 12 }}>Got an idea?</h2>
         <p
           style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 17,
-            lineHeight: 1.65,
-            color: "var(--on-dark-muted)",
+            color: "var(--text)",
             maxWidth: 480,
-            margin: "0 auto 28px",
+            margin: "0 auto 32px",
           }}
         >
-          Whether you have a finished design or just a rough idea, we would love to
-          hear about it.
+          Send us a logo, a sketch or just a rough thought and we&apos;ll tell
+          you what&apos;s possible.
         </p>
-        <div
-          style={{
-            display: "flex",
-            gap: 14,
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <Link href="/order" className="btn-red hero-cta">
-            Place an Order
+        <div className="hero-actions" style={{ justifyContent: "center" }}>
+          <Link href="/contact" className="btn-red hero-cta">
+            Get in touch
           </Link>
-          <Link href="/contact" className="btn-outline-white hero-cta">
-            Get in Touch
+          <Link href="/order" className="text-link">
+            Place an order
           </Link>
         </div>
       </div>
