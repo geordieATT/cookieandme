@@ -33,7 +33,7 @@ export default function OurStorySection() {
               produce real logos, custom text, and detailed artwork, rather than
               relying on letter blocks and hand-iced icons like most bakeries.
             </p>
-            <p>We have baked over 4,000 cookies so far.</p>
+            <p>We have baked over 5,000 cookies so far.</p>
           </div>
         </div>
       </div>
