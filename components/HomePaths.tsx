@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  CHRISTMAS_DEAL,
+  christmasDiscountAvailable,
+} from "@/lib/customOrderPricing";
 
-const paths = [
+// Built per render (the home page regenerates hourly) so the deal wording
+// drops off on its own once the discount window closes.
+const getPaths = () => [
   {
     href: "/end-of-year",
     src: "/images/christmas-templates-meri-kirihimete.jpg",
@@ -9,7 +15,9 @@ const paths = [
     eyebrow: "Christmas 2026",
     title: "Christmas & End-of-Year",
     copy:
-      "Christmas templates with your logo, 10% off until 30 October. Perfect for staff parties, client gifts and awards nights.",
+      christmasDiscountAvailable()
+        ? `Black Friday Christmas cookie deal: templates with your logo, 10% off until ${CHRISTMAS_DEAL.endsShort}.`
+        : "Christmas templates with your logo. Perfect for staff parties, client gifts and awards nights.",
     cta: "See Christmas options",
   },
   {
@@ -53,7 +61,7 @@ export default function HomePaths() {
         <div style={{ width: 48, height: 3, backgroundColor: "#FB3D03", margin: "0 auto 40px" }} />
 
         <div className="home-paths-grid">
-          {paths.map((path) => (
+          {getPaths().map((path) => (
             <Link key={path.href} href={path.href} className="home-path">
               <div style={{ position: "relative", aspectRatio: "4/3", overflow: "hidden", backgroundColor: "#E0DFDD" }}>
                 <Image

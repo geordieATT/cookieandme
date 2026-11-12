@@ -1,5 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  CHRISTMAS_DEAL,
+  christmasDiscountAvailable,
+} from "@/lib/customOrderPricing";
 
 const eyebrow: React.CSSProperties = {
   fontFamily: "'Inter', sans-serif",
@@ -25,9 +29,11 @@ const sectionHeading: React.CSSProperties = {
   marginBottom: 16,
 };
 
-const ways = [
+const ways = (discountOpen: boolean) => [
   {
-    eyebrow: "10% off until 30 October",
+    eyebrow: discountOpen
+      ? `Black Friday deal: 10% off until ${CHRISTMAS_DEAL.endsShort}`
+      : "Ready-made designs",
     title: "Christmas Templates",
     copy:
       "Pick one of our ready-made Christmas designs and we add your logo. The quickest way to get festive cookies sorted for the whole team.",
@@ -68,6 +74,9 @@ function PackIcon({ type }: { type: "box" | "bag" }) {
 }
 
 export default function EndOfYearSection() {
+  // Same cutoff checkout uses; the page regenerates hourly, so the 10%
+  // wording disappears on its own once the deal ends.
+  const discountOpen = christmasDiscountAvailable();
   return (
     <>
       {/* Intro */}
@@ -94,11 +103,15 @@ export default function EndOfYearSection() {
                 bookings now so we can fit everyone in.
               </p>
 
-              <p style={{ ...body, marginBottom: 32, maxWidth: 520 }}>
-                Choose one of our Christmas templates and confirm your order by
-                30 October to get{" "}
-                <strong style={{ color: "#FB3D03" }}>10% off</strong>.
-              </p>
+              {discountOpen && (
+                <p style={{ ...body, marginBottom: 16, maxWidth: 520 }}>
+                  Our {CHRISTMAS_DEAL.name} is on now. Choose one of our
+                  Christmas templates and confirm your order by{" "}
+                  {CHRISTMAS_DEAL.endsLabel} to get{" "}
+                  <strong style={{ color: "#FB3D03" }}>10% off</strong>.
+                </p>
+              )}
+              <div style={{ height: 16 }} />
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
                 <Link href="/order" className="btn-red hero-cta">
@@ -140,7 +153,7 @@ export default function EndOfYearSection() {
           />
 
           <div className="three-col">
-            {ways.map((way) => (
+            {ways(discountOpen).map((way) => (
               <div
                 key={way.title}
                 style={{

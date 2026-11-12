@@ -361,7 +361,7 @@ button, input, textarea, select { font-family: 'Inter', sans-serif; }
   background-color: var(--dot-color, #D0CFCD);
 }
 
-/* --- Father's Day countdown banner --- */
+/* --- Countdown banners (Christmas deal, Father's Day) --- */
 .countdown-inner {
   display: flex;
   align-items: center;

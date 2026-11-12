@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import EndOfYearSection from "@/components/EndOfYearSection";
 
+// Regenerated at most hourly so the 10% wording drops off on its own after
+// the discount cutoff in lib/customOrderPricing.ts.
+export const revalidate = 3600;
+
 const title = "Christmas and End-of-Year Events";
 const description =
   "Christmas templates for corporate end-of-year events, awards nights and staff parties. Add your logo, pick a flavour, and we handle the rest.";

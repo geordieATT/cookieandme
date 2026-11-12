@@ -34,12 +34,22 @@ export function packingSummary(quantity: number, packing: PackingOption): string
   return extra > 0 ? `${base}, plus ${extra} extra in the last ${unit}` : base;
 }
 
-// The Christmas template discount applies to orders confirmed by the end of
-// 30 October 2026, NZ time (midnight NZDT = 11:00 UTC on 30 October). After
-// it, the option stays available on the form, it just stops applying a
-// discount — checked against the server's own clock, never the visitor's.
-// Written in UTC because Vercel's servers run on UTC, not NZ time.
-export const CHRISTMAS_DISCOUNT_CUTOFF = new Date(Date.UTC(2026, 9, 30, 11, 0, 0));
+// The Christmas template discount (marketed as the Black Friday Christmas
+// cookie deal) applies to orders confirmed by midnight at the end of Sunday
+// 22 November 2026, NZ time (00:00 NZDT on 23 November = 11:00 UTC on 22
+// November). After it, the option stays available on the form, it just stops
+// applying a discount — checked against the server's own clock, never the
+// visitor's. Written in UTC because Vercel's servers run on UTC, not NZ time.
+export const CHRISTMAS_DISCOUNT_CUTOFF = new Date(Date.UTC(2026, 10, 22, 11, 0, 0));
+
+// Customer-facing name and deadline wording for the deal. Every page, the
+// home banner, checkout and the order email read these, so the deal is
+// described the same way everywhere. Keep in step with the cutoff above.
+export const CHRISTMAS_DEAL = {
+  name: "Black Friday Christmas cookie deal",
+  endsLabel: "midnight Sunday 22 November",
+  endsShort: "22 November",
+} as const;
 
 export function christmasDiscountAvailable(now: Date = new Date()): boolean {
   return now.getTime() < CHRISTMAS_DISCOUNT_CUTOFF.getTime();
