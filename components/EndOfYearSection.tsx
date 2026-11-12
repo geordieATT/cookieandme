@@ -108,7 +108,8 @@ export default function EndOfYearSection() {
                   Our {CHRISTMAS_DEAL.name} is on now. Choose one of our
                   Christmas templates and confirm your order by{" "}
                   {CHRISTMAS_DEAL.endsLabel} to get{" "}
-                  <strong style={{ color: "#FB3D03" }}>10% off</strong>.
+                  <strong style={{ color: "#FB3D03" }}>10% off</strong>. Just
+                  use code <strong>{CHRISTMAS_DEAL.code}</strong> when you order.
                 </p>
               )}
               <div style={{ height: 16 }} />

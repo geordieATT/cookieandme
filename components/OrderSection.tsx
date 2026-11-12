@@ -8,6 +8,7 @@ import {
   calculateCustomOrderPrice,
   CHRISTMAS_DEAL,
   christmasDiscountAvailable,
+  isDealCode,
   cookiePriceEach,
 } from "@/lib/customOrderPricing";
 
@@ -33,6 +34,8 @@ export default function OrderSection() {
   const [designBrief, setDesignBrief] = useState("");
   const [fulfillment, setFulfillment] = useState<"pickup" | "delivery">("pickup");
   const [christmasTemplate, setChristmasTemplate] = useState(false);
+  const [discountCode, setDiscountCode] = useState("");
+  const [codeTouched, setCodeTouched] = useState(false);
   const [packing, setPacking] = useState<PackingOption>("box24");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -88,6 +91,7 @@ export default function OrderSection() {
           quantity: qty,
           priceEach,
           christmasTemplate,
+          discountCode,
           packing,
           flavour,
           cookieShape,
@@ -424,6 +428,51 @@ export default function OrderSection() {
                 placeholder="Describe your design: colours, theme, logo details, text, packaging preferences, event details..."
                 style={{ resize: "vertical" }}
               />
+            </div>
+
+            {/* Discount code: a valid deal code ticks the Christmas template box */}
+            <div>
+              <label className="form-label" htmlFor="order-code">Discount Code</label>
+              <input id="order-code"
+                className="form-field"
+                type="text"
+                value={discountCode}
+                autoCapitalize="characters"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="Optional"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setDiscountCode(value);
+                  if (isDealCode(value) && offerLooksActive) setChristmasTemplate(true);
+                }}
+                onBlur={() => setCodeTouched(true)}
+                style={{ maxWidth: 280, textTransform: "uppercase" }}
+              />
+              {(() => {
+                const trimmed = discountCode.trim();
+                if (!trimmed) return null;
+                const valid = isDealCode(trimmed);
+                let text = "";
+                let color = "#888";
+                if (valid && !offerLooksActive) {
+                  text = `This code expired at ${CHRISTMAS_DEAL.endsLabel}.`;
+                  color = "#C62828";
+                } else if (valid && christmasTemplate) {
+                  text = "Code applied: Christmas template selected, 10% off.";
+                  color = "#2E7D32";
+                } else if (valid) {
+                  text = "This code is for Christmas templates. Tick the box below to use it.";
+                } else if (codeTouched) {
+                  text = "That code isn't valid.";
+                  color = "#C62828";
+                }
+                return text ? (
+                  <p role="status" style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color, marginTop: 6 }}>
+                    {text}
+                  </p>
+                ) : null;
+              })()}
             </div>
 
             {/* Christmas template */}

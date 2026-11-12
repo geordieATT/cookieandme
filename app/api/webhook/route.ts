@@ -83,6 +83,7 @@ export async function POST(req: Request) {
           <p><strong>Quantity:</strong> ${esc(meta.quantity)}</p>
           <p><strong>Price each:</strong> ${esc(meta.priceEach)}</p>
           <p><strong>Christmas template:</strong> ${meta.christmasTemplate === "true" ? "Yes (Black Friday Christmas deal, 10% off applied)" : "No"}</p>
+          ${meta.discountCode ? `<p><strong>Discount code:</strong> ${esc(meta.discountCode)}</p>` : ""}
           <p><strong>Packing:</strong> ${esc(meta.packing)}${Number(meta.packingFee) > 0 ? ` (+$${esc(meta.packingFee)})` : " (included)"}</p>
           <p><strong>Cookie shape:</strong> ${esc(meta.cookieShape)}</p>
           <p><strong>Colour:</strong> ${esc(meta.colour)}</p>

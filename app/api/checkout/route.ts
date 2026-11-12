@@ -10,6 +10,8 @@ import {
   isPackingOption,
   packingSummary,
   calculateCustomOrderPrice,
+  CHRISTMAS_DEAL,
+  isDealCode,
 } from "@/lib/customOrderPricing";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
@@ -47,6 +49,7 @@ export async function POST(req: NextRequest) {
       designBrief,
       latestNeededDate,
       companyName,
+      discountCode,
     } = body;
 
     // Falls back to pickup rather than trusting an unknown value.
@@ -92,6 +95,7 @@ export async function POST(req: NextRequest) {
     let finalDescription = String(description || "");
     let finalPriceEach = "";
     let christmasTemplateApplied = false;
+    let discountCodeApplied = "";
     let packingLabel = "";
     let packingFeeAmount = 0;
     let cookieSubtotalAmount = 0;
@@ -151,13 +155,19 @@ export async function POST(req: NextRequest) {
       // whether the Christmas discount window is still open.
       const pricing = calculateCustomOrderPrice({
         quantity: qty,
-        christmasTemplate: Boolean(christmasTemplate),
+        // The deal code is a shortcut to the template option, so a valid code
+        // counts as choosing a template. The discount itself still depends on
+        // the server clock inside calculateCustomOrderPrice.
+        christmasTemplate: Boolean(christmasTemplate) || isDealCode(discountCode),
         packing: packingChoice,
       });
 
       subtotalNumber = pricing.amountDueToday;
       finalPriceEach = pricing.priceEach.toFixed(2);
       christmasTemplateApplied = pricing.discountApplied;
+      if (pricing.discountApplied && isDealCode(discountCode)) {
+        discountCodeApplied = CHRISTMAS_DEAL.code;
+      }
       packingLabel = packingSummary(qty, packingChoice);
       packingFeeAmount = pricing.packingFee;
       cookieSubtotalAmount = pricing.cookieSubtotal;
@@ -277,6 +287,7 @@ export async function POST(req: NextRequest) {
         quantity: String(quantity || ""),
         priceEach: finalPriceEach,
         christmasTemplate: String(christmasTemplateApplied),
+        discountCode: discountCodeApplied,
         packing: packingLabel,
         packingFee: packingFeeAmount.toFixed(2),
         cookieSubtotal: cookieSubtotalAmount ? cookieSubtotalAmount.toFixed(2) : "",
