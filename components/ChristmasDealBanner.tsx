@@ -74,7 +74,8 @@ export default function ChristmasDealBanner() {
                 margin: "4px 0 0",
               }}
             >
-              Christmas templates with your logo. Order by{" "}
+              Christmas templates with your logo. Use code{" "}
+              <strong style={{ color: "var(--on-dark)" }}>{CHRISTMAS_DEAL.code}</strong> by{" "}
               {CHRISTMAS_DEAL.endsLabel}.
             </p>
           </div>

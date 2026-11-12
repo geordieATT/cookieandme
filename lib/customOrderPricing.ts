@@ -49,7 +49,18 @@ export const CHRISTMAS_DEAL = {
   name: "Black Friday Christmas cookie deal",
   endsLabel: "midnight Sunday 22 November",
   endsShort: "22 November",
+  // Optional discount code. Entering it on the order form ticks the Christmas
+  // template box; ticking the box without it gets the same 10% off.
+  code: "BLACKFRIDAY26",
 } as const;
+
+// True if the text is the deal's discount code. Case and spaces don't matter.
+export function isDealCode(input: unknown): boolean {
+  return (
+    typeof input === "string" &&
+    input.replace(/\s+/g, "").toUpperCase() === CHRISTMAS_DEAL.code
+  );
+}
 
 export function christmasDiscountAvailable(now: Date = new Date()): boolean {
   return now.getTime() < CHRISTMAS_DISCOUNT_CUTOFF.getTime();
