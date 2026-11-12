@@ -167,7 +167,7 @@ export async function POST(req: NextRequest) {
         ? `Full Payment: $${pricing.total.toFixed(2)} NZD`
         : `50% Deposit: $${pricing.amountDueToday.toFixed(2)} NZD`;
       finalDescription = `Cookie & Me – ${qty} Custom Cookies${
-        pricing.discountApplied ? " (Christmas template, 10% off)" : ""
+        pricing.discountApplied ? " (Black Friday Christmas deal, 10% off)" : ""
       } (${paymentLabel})`;
     } else {
       return NextResponse.json({ error: "Unknown order type." }, { status: 400 });

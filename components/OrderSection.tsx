@@ -6,6 +6,7 @@ import {
   type PackingOption,
   packingSummary,
   calculateCustomOrderPrice,
+  CHRISTMAS_DEAL,
   christmasDiscountAvailable,
   cookiePriceEach,
 } from "@/lib/customOrderPricing";
@@ -460,8 +461,8 @@ export default function OrderSection() {
                     }}
                   >
                     {offerLooksActive
-                      ? "Valid for orders confirmed by 30 October 2026."
-                      : "The 30 October 2026 discount window has closed, but Christmas templates are still available at standard pricing."}
+                      ? `Our ${CHRISTMAS_DEAL.name}, valid for orders confirmed by ${CHRISTMAS_DEAL.endsLabel} 2026.`
+                      : `The ${CHRISTMAS_DEAL.name} has finished, but Christmas templates are still available at standard pricing.`}
                   </span>
                 </span>
               </label>
@@ -588,7 +589,7 @@ export default function OrderSection() {
                       color: "var(--success)",
                     }}
                   >
-                    <span>Christmas template discount (10%)</span>
+                    <span>Black Friday Christmas deal (10%)</span>
                     <span style={{ fontWeight: 600 }}>
                       -{fmt(qty * pricing.priceEach - pricing.cookieSubtotal)}
                     </span>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import HomePaths from "@/components/HomePaths";
+import ChristmasDealBanner from "@/components/ChristmasDealBanner";
 import HomeCta from "@/components/HomeCta";
 import { pageMetadata } from "@/lib/seo";
 
@@ -25,6 +26,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
+      <ChristmasDealBanner />
       <HomePaths />
       <HomeCta />
     </main>

@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { christmasDiscountAvailable } from "@/lib/customOrderPricing";
+import {
+  CHRISTMAS_DEAL,
+  christmasDiscountAvailable,
+} from "@/lib/customOrderPricing";
 
 // Small line above each "How you can order" card title.
 const cardNote: React.CSSProperties = {
@@ -24,7 +27,9 @@ const sectionHeading: React.CSSProperties = {
 
 const ways = (discountOpen: boolean) => [
   {
-    eyebrow: discountOpen ? "10% off until 30 October" : "Ready-made designs",
+    eyebrow: discountOpen
+      ? `Black Friday deal: 10% off until ${CHRISTMAS_DEAL.endsShort}`
+      : "Ready-made designs",
     title: "Christmas templates",
     copy:
       "Pick one of our ready-made Christmas designs and we add your logo. The quickest way to get festive cookies sorted for the whole team.",
@@ -86,8 +91,9 @@ export default function EndOfYearSection() {
 
               {discountOpen && (
                 <p style={{ ...body, marginBottom: 16, maxWidth: 520 }}>
-                  Choose one of our Christmas templates and confirm your order
-                  by 30 October to get{" "}
+                  Our {CHRISTMAS_DEAL.name} is on now. Choose one of our
+                  Christmas templates and confirm your order by{" "}
+                  {CHRISTMAS_DEAL.endsLabel} to get{" "}
                   <strong style={{ color: "var(--accent-text)" }}>10% off</strong>.
                 </p>
               )}

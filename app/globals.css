@@ -447,7 +447,7 @@ main p, .prose { max-width: 65ch; }
   background-color: var(--dot-color, var(--tint));
 }
 
-/* --- Father's Day countdown banner --- */
+/* --- Countdown banners (Christmas deal, Father's Day) --- */
 .countdown-inner {
   display: flex;
   align-items: center;

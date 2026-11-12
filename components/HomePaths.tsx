@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  CHRISTMAS_DEAL,
   christmasDiscountAvailable,
   cookiePriceEach,
 } from "@/lib/customOrderPricing";
@@ -30,7 +31,7 @@ function homePaths(): HomePath[] {
     alt: "Red, green and white Christmas template cookies stamped with Your Logo, Meri Kirihimete and Merry Christmas designs",
     title: "Christmas & end-of-year",
     copy: christmasDiscountAvailable()
-      ? "Christmas templates with your logo, 10% off until 30 October."
+      ? `Black Friday deal: Christmas templates with your logo, 10% off until ${CHRISTMAS_DEAL.endsShort}.`
       : "Christmas templates with your logo, for staff parties and client gifts.",
   };
   const ourStory: HomePath = {
